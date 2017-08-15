@@ -6,6 +6,7 @@ import autoprefixer from 'autoprefixer'
 
 export default function () {
   return {
+    sourceMap: true,
     plugins: [
       rucksack(),
       autoprefixer({

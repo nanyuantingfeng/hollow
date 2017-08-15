@@ -93,8 +93,10 @@ export default function (args) {
             return /\.lazy\.jsx?$/.test(filePath)
           },
           exclude: /node_modules/,
-          use: [{loader: 'babel-loader', options: babelOptions},
-            {loader: 'bundle-loader?lazy'}]
+          use: [
+            {loader: 'babel-loader', options: babelOptions},
+            {loader: 'bundle-loader', options: {lazy: true}}
+          ]
         },
         {
           test: /\.js$/,
@@ -108,8 +110,10 @@ export default function (args) {
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
-          use: [{loader: 'babel-loader', options: babelOptions},
-            {loader: 'ts-loader', options: tsOptions}]
+          use: [
+            {loader: 'babel-loader', options: babelOptions},
+            {loader: 'ts-loader', options: tsOptions}
+          ]
         },
         {
           test (filePath) {
@@ -118,7 +122,13 @@ export default function (args) {
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              {loader: 'css-loader?sourceMap&-restructuring&-autoprefixer',},
+              {
+                loader: 'css-loader', options: {
+                sourceMap: true,
+                '-autoprefixer': true,
+                '-restructuring': true,
+              }
+              },
               {loader: 'postcss-loader', options: postcssOptions},
             ]
           }),
@@ -128,7 +138,15 @@ export default function (args) {
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              {loader: 'css-loader?sourceMap&-restructuring&modules&localIdentName=[local]___[hash:base64:5]&-autoprefixer'},
+              {
+                loader: 'css-loader', options: {
+                sourceMap: true,
+                modules: true,
+                localIdentName: '[local]___[hash:base64:5]',
+                '-autoprefixer': true,
+                '-restructuring': true,
+              }
+              },
               {loader: 'postcss-loader', options: postcssOptions},
             ]
           }),
@@ -140,9 +158,14 @@ export default function (args) {
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              `css-loader?sourceMap&-autoprefixer`,
+              {
+                loader: 'css-loader', options: {
+                sourceMap: true,
+                '-autoprefixer': true,
+              }
+              },
               {loader: 'postcss-loader', options: postcssOptions},
-              `less-loader?{"sourceMap":true,"modifyVars":${JSON.stringify(theme)}}`,
+              {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
             ]
           }),
         },
@@ -151,39 +174,46 @@ export default function (args) {
           use: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              `css-loader?sourceMap&modules&localIdentName=[local]___[hash:base64:5]&-autoprefixer`,
+              {
+                loader: 'css-loader', options: {
+                sourceMap: true,
+                modules: true,
+                localIdentName: '[local]___[hash:base64:5]',
+                '-autoprefixer': true,
+              }
+              },
               {loader: 'postcss-loader', options: postcssOptions},
-              `less-loader?{"sourceMap":true,"modifyVars":${JSON.stringify(theme)}}`,
+              {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
             ]
           }),
         },
         {
           test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          use: [`url-loader?limit=${limit}&minetype=application/font-woff`]
+          use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
         },
         {
           test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          use: [`url-loader?limit=${limit}&minetype=application/font-woff`]
+          use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
         },
         {
           test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          use: [`url-loader?limit=${limit}&minetype=application/octet-stream`],
+          use: [{loader: 'url-loader', options: {limit, minetype: 'application/octet-stream'}}],
         },
         {
           test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          use: [`url-loader?limit=${limit}&minetype=application/vnd.ms-fontobject`],
+          use: [{loader: 'url-loader', options: {limit, minetype: 'application/vnd.ms-fontobject'}}],
         },
         {
           test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          use: [`url-loader?limit=${limit}&minetype=image/svg+xml`],
+          use: [{loader: 'url-loader', options: {limit, minetype: 'image/svg+xml'}}],
         },
         {
           test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
-          use: [`url-loader?limit=${limit}`],
+          use: [{loader: 'url-loader', options: {limit}}],
         },
         {
           test: /\.html?$/,
-          use: [`url-loader?name=[path][name].[ext]`],
+          use: [{loader: 'url-loader', options: {name: '[path][name].[ext]'}}],
         },
       ],
     },

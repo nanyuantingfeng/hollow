@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "es2015",
+    "react",
+    "stage-0"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-regenerator",
+    "transform-undefined-to-void",
+    "transform-decorators-legacy",
+    "external-helpers",
+    "add-module-exports"
+  ]
+}

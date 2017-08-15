@@ -17,11 +17,7 @@ console.log(_package2.default);
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = {
-	"entry": {
-		"index": "./index.js"
-	}
-};
+module.exports = {"entry":{"index":"./index.js"}}
 
 /***/ })
 ],[0]);
