@@ -19,9 +19,9 @@ program
 program.cwd = process.cwd()
 
 if (program.watch) {
-  require('../lib/build').default(program)
+  require('../lib/build')(program)
 } else {
-  require('../lib/build').default(program, () => {
+  require('../lib/build')(program, () => {
     process.exit(0)
   })
 }
