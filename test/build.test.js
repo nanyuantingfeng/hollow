@@ -30,82 +30,81 @@ function testCase (args, _case) {
 describe('test', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
 
-  it('should build normally', () => {
-    return testCase({hash: true}, 'build-normal')
+  it('should build normally', async () => {
+    await testCase({hash: true}, 'build-normal')
   })
-  it('should support class property', () => {
-    return testCase({}, 'build-class-property')
+  it('should support class property', async (done) => {
+    await testCase({}, 'build-class-property').then(done)
   })
-  it('should support less', () => {
-    return testCase({}, 'build-less')
+  it('should support less', async () => {
+    await testCase({}, 'build-less')
   })
-  it('should support css modules', () => {
-    return testCase({}, 'build-css-modules')
+  it('should support css modules', async () => {
+    await testCase({}, 'build-css-modules')
   })
-  it('should support add-module-exports', () => {
-    return testCase({}, 'build-add-module-exports')
+  it('should support add-module-exports', async () => {
+    await testCase({}, 'build-add-module-exports')
   })
-  it('should support js-lazy', () => {
-    return testCase({}, 'build-js-lazy')
+  it('should support js-lazy', async () => {
+    await testCase({}, 'build-js-lazy')
   })
-  it('should support jsx', () => {
-    return testCase({}, 'build-jsx')
+  it('should support jsx', async () => {
+    await testCase({}, 'build-jsx')
   })
-  it('should support json', () => {
-    return testCase({}, 'build-json')
+  it('should support json', async () => {
+    await testCase({}, 'build-json')
   })
-  it('should support node builtins', () => {
-    return testCase({}, 'build-node-builtins')
+  it('should support node builtins', async () => {
+    await testCase({}, 'build-node-builtins')
   })
-  it('should support mergeCustomConfig plugins', () => {
-    return testCase({hash: true}, 'build-mergeCustomConfig-plugins')
+  it('should support mergeCustomConfig plugins', async () => {
+    await testCase({hash: true}, 'build-mergeCustomConfig-plugins')
   })
-  it('should support mergeCustomConfig environment production', () => {
-    return testCase({compress: true}, 'build-mergeCustomConfig-environment-production')
+  it('should support mergeCustomConfig environment production', async () => {
+    await testCase({compress: true}, 'build-mergeCustomConfig-environment-production')
   })
-  it('should support mergeCustomConfig environment development', () => {
+  it('should support mergeCustomConfig environment development', async () => {
     process.env.NODE_ENV = 'development'
-    return testCase({}, 'build-mergeCustomConfig-environment-development')
+    await testCase({}, 'build-mergeCustomConfig-environment-development')
   })
-  it('should support config', () => {
-    return testCase({config: 'webpack.config.path.js'}, 'build-mergeCustomConfig-path')
+  it('should support config', async () => {
+    await testCase({config: 'webpack.config.path.js'}, 'build-mergeCustomConfig-path')
   })
-  it('should support hash map', () => {
-    return testCase({hash: true}, 'build-hash-map')
+  it('should support hash map', async () => {
+    await testCase({hash: true}, 'build-hash-map')
   })
-  it('should support i18n', () => {
-    return testCase({}, 'build-i18n')
+  it('should support i18n', async () => {
+    await testCase({}, 'build-i18n')
   })
-  it('should support decorator', () => {
-    return testCase({}, 'build-decorator')
+  it('should support decorator', async () => {
+    await testCase({}, 'build-decorator')
   })
-  it('should support es3', () => {
-    return testCase({}, 'build-es3')
+  it('should support es3', async () => {
+    await testCase({}, 'build-es3')
   })
-  it('should support typescript', () => {
-    return testCase({}, 'build-typescript')
+  it('should support typescript', async () => {
+    await testCase({}, 'build-typescript')
   })
-  it('should support theme', () => {
-    return testCase({}, 'build-theme')
+  it('should support theme', async () => {
+    await testCase({}, 'build-theme')
   })
-  it('should support font', () => {
-    return testCase({}, 'build-font')
+  it('should support font', async () => {
+    await testCase({}, 'build-font')
   })
-  it('should support autoprefix', () => {
-    return testCase({}, 'build-autoprefix')
+  it('should support autoprefix', async () => {
+    await testCase({}, 'build-autoprefix')
   })
-  it('should support common', () => {
-    return testCase({}, 'build-common')
+  it('should support common', async () => {
+    await testCase({}, 'build-common')
   })
-  it('should support svg', () => {
-    return testCase({}, 'build-svg')
+  it('should support svg', async () => {
+    await testCase({}, 'build-svg')
   })
-  it('should throw error', () => {
-    return testCase({}, 'build-no-entry')
+  it('should throw error', async () => {
+    await testCase({}, 'build-no-entry')
       .catch((e) => {
         expect(e.name).toEqual('NoEntry')
         expect(e.message).toEqual('no webpack entry found')
       })
   })
-
 })

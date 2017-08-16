@@ -12,6 +12,7 @@ import mwBabelOptions from './mwBabelOptions'
 import mwPostCSSOptions from './mwPostCSSOptions'
 import mwTSOptions from './mwTSOptions'
 import mwWebpackConfig from './mwWebpackConfig'
+import PromiseDefer from './PromiseDefer'
 
 function build (webpackConfig, args) {
 
@@ -38,7 +39,9 @@ function build (webpackConfig, args) {
     )
   })
 
-  function doneHandler (err, stats) {
+  let defer = PromiseDefer()
+
+  function compileDoneHandler (err, stats) {
     if (args.json) {
       const filename = typeof args.json === 'boolean' ? 'build-bundle.json' : args.json
       const jsonPath = path.join(fileOutputPath, filename)
@@ -47,6 +50,7 @@ function build (webpackConfig, args) {
     }
 
     const {errors} = stats.toJson()
+
     if (errors && errors.length) {
       process.on('exit', () => {
         process.exit(1)
@@ -65,6 +69,7 @@ function build (webpackConfig, args) {
         hash: !!args.verbose,
         version: !!args.verbose,
       })
+
       if (stats.hasErrors()) {
         console.error(buildInfo)
       } else {
@@ -80,12 +85,11 @@ function build (webpackConfig, args) {
     }
 
     if (err) {
-      process.on('exit', () => {
-        process.exit(1)
-      })
-      throw err
+      defer.reject(err)
+      process.on('exit', () => {process.exit(1)})
     }
 
+    defer.resolve()
   }
 
   // Run compiler.
@@ -103,10 +107,12 @@ function build (webpackConfig, args) {
   }
 
   if (args.watch) {
-    compiler.watch(args.watch || 200, doneHandler)
+    compiler.watch(args.watch || 200, compileDoneHandler)
   } else {
-    compiler.run(doneHandler)
+    compiler.run(compileDoneHandler)
   }
+
+  return defer.promise
 }
 
 export default function (args) {
@@ -114,6 +120,10 @@ export default function (args) {
 
   if (typeof args.config === 'function') {
     mwConfig = args.config
+  }
+
+  if (!args.cwd) {
+    args.cwd = process.chdir(process.cwd())
   }
 
   let mws = [

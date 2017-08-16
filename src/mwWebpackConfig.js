@@ -19,10 +19,10 @@ export default async function (context, next) {
   let {babelOptions, postcssOptions, tsOptions, args} = context
 
   let {cwd, hash, devtool, limit} = args
-
+ 
   let pkgPath = path.join(cwd, 'package.json')
   let pkg = fs.existsSync(pkgPath) ? require(pkgPath) : {}
-
+ 
   let jsFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
   let cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
   let commonName = hash ? 'common-[chunkhash].js' : 'common.js'
@@ -40,7 +40,6 @@ export default async function (context, next) {
 
     let getThemeConfig = require(cfgPath)
     theme = getThemeConfig()
-
   }
 
   else if (pkg.theme && typeof pkg.theme === 'object') {
