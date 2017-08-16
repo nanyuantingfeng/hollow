@@ -115,16 +115,20 @@ function build (webpackConfig, args) {
   return defer.promise
 }
 
-export default function (args) {
-  let mwConfig = async () => {}
-
-  if (typeof args.config === 'function') {
-    mwConfig = args.config
+function getCustomConfig (customConfigPath) {
+  if (!fs.existsSync(customConfigPath)) {
+    return async () => {}
   }
+  return require(customConfigPath)
+}
+
+export default function (args) {
 
   if (!args.cwd) {
     args.cwd = process.cwd()
   }
+
+  let mwConfig = getCustomConfig(path.join(args.cwd, args.config || 'webpack.config.js'))
 
   let mws = [
     mwBuild,

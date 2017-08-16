@@ -1,4 +1,3 @@
-module.exports = function(webpackConfig, environment) {
-  webpackConfig.plugins = [];
-  return webpackConfig;
+module.exports = async function(context) {
+  console.log("77");
 }
