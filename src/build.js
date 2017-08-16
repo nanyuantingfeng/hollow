@@ -125,7 +125,9 @@ export default function (args) {
     mwConfig,
   ]
 
-  return compose(mws)({args}).then(webpackConfig => {
+  let context = {args, cache: {}}
+
+  return compose(mws)(context).then(webpackConfig => {
     return build(webpackConfig, args)
   })
 }
