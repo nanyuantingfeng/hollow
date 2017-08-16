@@ -1,8 +1,8 @@
 /**************************************************
- * Created by nanyuantingfeng on 11/06/2017 04:11.
+ * Created by nanyuantingfeng on 16/08/2017 13:01.
  **************************************************/
-import { join, resolve } from 'path'
-import { existsSync } from 'fs'
+import path from 'path'
+import fs from 'fs'
 
 import {
   CaseSensitivePathsPlugin,
@@ -12,14 +12,16 @@ import {
 } from './webpackPlugins'
 
 import { notifier } from './util'
-import fnGetBabelOptions from './fnGetBabelOptions'
-import fnGetPostcssOptions from './fnGetPostcssOptions'
-import fnGetTSOptions from './fnGetTSOptions'
 
-export default function (args) {
+export default async function (context, next) {
+  next()
+
+  let {babelOptions, postcssOptions, tsOptions, args} = context
+
   let {cwd, hash, devtool, limit} = args
-  let pkgPath = join(cwd, 'package.json')
-  let pkg = existsSync(pkgPath) ? require(pkgPath) : {}
+
+  let pkgPath = path.join(cwd, 'package.json')
+  let pkg = fs.existsSync(pkgPath) ? require(pkgPath) : {}
 
   let jsFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
   let cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
@@ -27,17 +29,13 @@ export default function (args) {
 
   limit = limit || 10000
 
-  let babelOptions = fnGetBabelOptions()
-  let postcssOptions = fnGetPostcssOptions()
-  let tsOptions = fnGetTSOptions()
-
   let theme = {}
 
   if (pkg.theme && typeof pkg.theme === 'string') {
     let cfgPath = pkg.theme
     // relative path
     if (cfgPath.charAt(0) === '.') {
-      cfgPath = resolve(args.cwd, cfgPath)
+      cfgPath = path.resolve(args.cwd, cfgPath)
     }
 
     let getThemeConfig = require(cfgPath)
@@ -63,7 +61,7 @@ export default function (args) {
     return obj
   }, {})
 
-  return {
+  context.webpackConfig = {
     cache: true,
 
     devtool,
@@ -73,13 +71,13 @@ export default function (args) {
     entry: pkg.entry,
 
     output: {
-      path: join(process.cwd(), './dist/'),
+      path: path.join(process.cwd(), './dist/'),
       filename: jsFileName,
       chunkFilename: jsFileName,
     },
 
     resolve: {
-      modules: ['node_modules', join(__dirname, '../node_modules')],
+      modules: ['node_modules', path.join(__dirname, '../node_modules')],
       extensions: [
         '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
         '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'],
@@ -241,7 +239,7 @@ export default function (args) {
             notifier.notify({
               title: 'hollow cli',
               message: 'warn',
-              contentImage: join(__dirname, '../assets/warn.png'),
+              contentImage: path.join(__dirname, '../assets/warn.png'),
               sound: 'Glass',
             })
             return
@@ -253,7 +251,7 @@ export default function (args) {
             title: 'hollow cli',
             message: `${severity} : ${error.name}`,
             subtitle: error.file || '',
-            contentImage: join(__dirname, '../assets/fail.png'),
+            contentImage: path.join(__dirname, '../assets/fail.png'),
             sound: 'Glass',
           })
         },

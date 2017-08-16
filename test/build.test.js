@@ -19,25 +19,19 @@ function assert (actualDir, _expect) {
 }
 
 function testBuild (args, fixture) {
-  return new Promise(resolve => {
-    const cwd = path.join(__dirname, 'fixtures', fixture)
-    const outputPath = path.join(cwd, 'dist')
-    process.chdir(cwd)
+  const cwd = path.join(__dirname, 'fixtures', fixture)
+  const outputPath = path.join(cwd, 'dist')
+  process.chdir(cwd)
 
-    const defaultConfig = {
-      cwd,
-      compress: false,
-    }
-
-    build({...defaultConfig, ...args}, err => {
-      if (err) throw new Error(err)
+  return build({cwd, compress: false, ...args})
+    .then(() => {
       assert(outputPath, fixture)
-      resolve()
     })
-  })
+    .catch(e => {throw e})
 }
 
 describe('test', () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
 
   it('should build normally', () => {
     return testBuild({hash: true}, 'build-normal')
@@ -111,9 +105,9 @@ describe('test', () => {
   })
   it('should throw error', () => {
     return testBuild({}, 'build-no-entry')
-      .catch((err) => {
-        expect(err.name).toEqual('NoEntry')
-        expect(err.message).toEqual('no webpack entry found')
+      .catch((e) => {
+        expect(e.name).toEqual('NoEntry')
+        expect(e.message).toEqual('no webpack entry found')
       })
   })
 

@@ -1,11 +1,10 @@
 /**************************************************
- * Created by nanyuantingfeng on 11/06/2017 04:25.
+ * Created by nanyuantingfeng on 16/08/2017 12:59.
  **************************************************/
-export default function () {
+export default async function (context, next) {
 
-  return {
+  context.tsOptions = {
     transpileOnly: true,
-
     compilerOptions: {
       target: 'es2016',
       module: 'es2015',
@@ -24,4 +23,6 @@ export default function () {
       skipLibCheck: true
     }
   }
+
+  next()
 }

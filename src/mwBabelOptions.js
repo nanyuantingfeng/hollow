@@ -1,21 +1,17 @@
 /**************************************************
- * Created by nanyuantingfeng on 11/06/2017 04:19.
+ * Created by nanyuantingfeng on 16/08/2017 13:03.
  **************************************************/
 import { tmpdir } from 'os'
 
-export default function () {
-
-  return {
+export default async function (context, next) {
+  context.babelOptions = {
     cacheDirectory: tmpdir(),
-
     presets: [
       [require.resolve('babel-preset-env'), {modules: false}],
-
       require.resolve('babel-preset-es2015'),
       require.resolve('babel-preset-react'),
       require.resolve('babel-preset-stage-0'),
     ],
-
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
       require.resolve('babel-plugin-external-helpers'),
@@ -27,4 +23,5 @@ export default function () {
     ],
   }
 
+  next()
 }
