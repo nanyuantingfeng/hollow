@@ -2,16 +2,36 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path'
+import fs from 'fs'
 
 import {
-  DefinePlugin,
-  NoEmitOnErrorsPlugin,
-  mapJSONWebpackPlugin,
-  UglifyJsPlugin,
+  DefinePlugin, NoEmitOnErrorsPlugin,
+  mapJSONWebpackPlugin, UglifyJsPlugin,
 } from './webpackPlugins'
 
-import fnMergeCustomConfig from './fnMergeCustomConfig'
-import fnCheckWebpackConfig from './fnCheckWebpackConfig'
+function fnCheckWebpackConfig (webpackConfig) {
+  const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
+  const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0)
+  if (hasEmptyEntry) {
+    const err = new Error('no webpack entry found')
+    err.name = 'NoEntry'
+    throw err
+  }
+}
+
+function fnMergeCustomConfig (webpackConfig, customConfigPath) {
+  if (!fs.existsSync(customConfigPath)) {
+    return webpackConfig
+  }
+
+  let customConfig = require(customConfigPath)
+
+  if (typeof customConfig === 'function') {
+    return customConfig(webpackConfig, ...[...arguments].slice(2))
+  }
+
+  throw new Error(`Return of ${customConfigPath} must be a function.`)
+}
 
 export default async function (context, next) {
   next()
@@ -83,3 +103,4 @@ export default async function (context, next) {
 
   return webpackConfig
 }
+

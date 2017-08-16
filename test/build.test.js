@@ -18,7 +18,7 @@ function assert (actualDir, _reference) {
   })
 }
 
-function fnTestCase (args, _case) {
+function testCase (args, _case) {
   const cwd = path.join(__dirname, 'cases', _case)
   const outputPath = path.join(cwd, 'dist')
   process.chdir(cwd)
@@ -32,77 +32,77 @@ describe('test', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
 
   it('should build normally', () => {
-    return fnTestCase({hash: true}, 'build-normal')
+    return testCase({hash: true}, 'build-normal')
   })
   it('should support class property', () => {
-    return fnTestCase({}, 'build-class-property')
+    return testCase({}, 'build-class-property')
   })
   it('should support less', () => {
-    return fnTestCase({}, 'build-less')
+    return testCase({}, 'build-less')
   })
   it('should support css modules', () => {
-    return fnTestCase({}, 'build-css-modules')
+    return testCase({}, 'build-css-modules')
   })
   it('should support add-module-exports', () => {
-    return fnTestCase({}, 'build-add-module-exports')
+    return testCase({}, 'build-add-module-exports')
   })
   it('should support js-lazy', () => {
-    return fnTestCase({}, 'build-js-lazy')
+    return testCase({}, 'build-js-lazy')
   })
   it('should support jsx', () => {
-    return fnTestCase({}, 'build-jsx')
+    return testCase({}, 'build-jsx')
   })
   it('should support json', () => {
-    return fnTestCase({}, 'build-json')
+    return testCase({}, 'build-json')
   })
   it('should support node builtins', () => {
-    return fnTestCase({}, 'build-node-builtins')
+    return testCase({}, 'build-node-builtins')
   })
   it('should support mergeCustomConfig plugins', () => {
-    return fnTestCase({hash: true}, 'build-mergeCustomConfig-plugins')
+    return testCase({hash: true}, 'build-mergeCustomConfig-plugins')
   })
   it('should support mergeCustomConfig environment production', () => {
-    return fnTestCase({compress: true}, 'build-mergeCustomConfig-environment-production')
+    return testCase({compress: true}, 'build-mergeCustomConfig-environment-production')
   })
   it('should support mergeCustomConfig environment development', () => {
     process.env.NODE_ENV = 'development'
-    return fnTestCase({}, 'build-mergeCustomConfig-environment-development')
+    return testCase({}, 'build-mergeCustomConfig-environment-development')
   })
   it('should support config', () => {
-    return fnTestCase({config: 'webpack.config.path.js'}, 'build-mergeCustomConfig-path')
+    return testCase({config: 'webpack.config.path.js'}, 'build-mergeCustomConfig-path')
   })
   it('should support hash map', () => {
-    return fnTestCase({hash: true}, 'build-hash-map')
+    return testCase({hash: true}, 'build-hash-map')
   })
   it('should support i18n', () => {
-    return fnTestCase({}, 'build-i18n')
+    return testCase({}, 'build-i18n')
   })
   it('should support decorator', () => {
-    return fnTestCase({}, 'build-decorator')
+    return testCase({}, 'build-decorator')
   })
   it('should support es3', () => {
-    return fnTestCase({}, 'build-es3')
+    return testCase({}, 'build-es3')
   })
   it('should support typescript', () => {
-    return fnTestCase({}, 'build-typescript')
+    return testCase({}, 'build-typescript')
   })
   it('should support theme', () => {
-    return fnTestCase({}, 'build-theme')
+    return testCase({}, 'build-theme')
   })
   it('should support font', () => {
-    return fnTestCase({}, 'build-font')
+    return testCase({}, 'build-font')
   })
   it('should support autoprefix', () => {
-    return fnTestCase({}, 'build-autoprefix')
+    return testCase({}, 'build-autoprefix')
   })
   it('should support common', () => {
-    return fnTestCase({}, 'build-common')
+    return testCase({}, 'build-common')
   })
   it('should support svg', () => {
-    return fnTestCase({}, 'build-svg')
+    return testCase({}, 'build-svg')
   })
   it('should throw error', () => {
-    return fnTestCase({}, 'build-no-entry')
+    return testCase({}, 'build-no-entry')
       .catch((e) => {
         expect(e.name).toEqual('NoEntry')
         expect(e.message).toEqual('no webpack entry found')
