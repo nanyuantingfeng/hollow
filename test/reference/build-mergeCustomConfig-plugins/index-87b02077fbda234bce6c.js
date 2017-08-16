@@ -5,7 +5,7 @@ webpackJsonp([0],[
 "use strict";
 
 
-console.log(900000);
+console.log(9999);
 
 /***/ })
 ],[0]);

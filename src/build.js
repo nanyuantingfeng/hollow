@@ -123,7 +123,7 @@ export default function (args) {
   }
 
   if (!args.cwd) {
-    args.cwd = process.chdir(process.cwd())
+    args.cwd = process.cwd()
   }
 
   let mws = [

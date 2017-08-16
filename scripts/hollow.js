@@ -18,10 +18,11 @@ program
 
 program.cwd = process.cwd()
 
+var build = require('../lib/build')
+var exit = () => {process.exit(0)}
+
 if (program.watch) {
-  require('../lib/build')(program)
+  build(program)
 } else {
-  require('../lib/build')(program, () => {
-    process.exit(0)
-  })
+  build(program).then(exit).catch(exit)
 }

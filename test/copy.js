@@ -6,7 +6,7 @@ let fs = require('fs')
 let glob = require('glob')
 let copyDir = require('copy-dir')
 
-glob('./fixtures/*', function (er, files) {
+glob('./cases/*', function (er, files) {
 
   files.forEach(file => {
 
@@ -16,9 +16,9 @@ glob('./fixtures/*', function (er, files) {
       return false
     }
 
-    let to = file.replace('./fixtures/', '')
+    let to = file.replace('./cases/', '')
 
-    copyDir(path.join(file, 'dist'), path.join('expect', to), () => true)
+    copyDir(path.join(file, 'dist'), path.join('reference', to), () => true)
 
   })
 })
