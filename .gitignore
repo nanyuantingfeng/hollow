@@ -59,6 +59,5 @@ typings/
 .idea
 node_modules/
 lib/
-dist/
 build/
 demo/
