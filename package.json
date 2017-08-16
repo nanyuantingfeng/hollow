@@ -1,17 +1,16 @@
 {
   "name": "hollow-cli",
   "version": "1.0.0",
-  "description": "Hollow",
+  "description": "Hollow CLI",
   "main": "index.js",
-  "author": "",
+  "author": "nanyuantingfeng",
   "license": "MIT",
   "bin": {
     "hollow": "./bin/hollow"
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
-    "test": "jest",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "test": "jest"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -25,7 +24,6 @@
     "eslint": "^4.4.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
-    "expect": "^1.20.2",
     "glob": "^7.1.2",
     "i18n-webpack-plugin": "^1.0.0",
     "jest": "^20.0.4",
@@ -64,11 +62,9 @@
     "node-notifier": "^5.1.2",
     "postcss": "^6.0.9",
     "postcss-loader": "^2.0.6",
-    "postcss-pxtorem": "^4.0.1",
     "rucksack-css": "^1.0.2",
     "style-loader": "^0.18.2",
     "ts-loader": "^2.3.2",
-    "typescript": "^2.4.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.4"
   }
