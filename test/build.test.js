@@ -5,7 +5,6 @@ import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
 import build from '../src/build'
-import expect from 'expect'
 
 function assert (actualDir, _reference) {
   const expectDir = path.join(__dirname, 'reference', _reference)
