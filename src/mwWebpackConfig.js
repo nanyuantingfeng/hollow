@@ -14,15 +14,12 @@ import {
 import { notifier } from './util'
 
 export default async function (context, next) {
-  next()
-
-  let {babelOptions, postcssOptions, tsOptions, args} = context
-
+  let {args} = context
   let {cwd, hash, devtool, limit} = args
- 
+
   let pkgPath = path.join(cwd, 'package.json')
   let pkg = fs.existsSync(pkgPath) ? require(pkgPath) : {}
- 
+
   let jsFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
   let cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
   let commonName = hash ? 'common-[chunkhash].js' : 'common.js'
@@ -62,26 +59,70 @@ export default async function (context, next) {
 
   context.webpackConfig = {
     cache: true,
-
     devtool,
-
     node,
-
     entry: pkg.entry,
-
     output: {
       path: path.join(process.cwd(), './dist/'),
       filename: jsFileName,
       chunkFilename: jsFileName,
     },
-
     resolve: {
       modules: ['node_modules', path.join(__dirname, '../node_modules')],
       extensions: [
         '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
         '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'],
     },
+    plugins: [
 
+      new CommonsChunkPlugin({name: 'common', filename: commonName}),
+
+      new ExtractTextPlugin({
+        filename: cssFileName,
+        disable: false,
+        allChunks: true
+      }),
+
+      new CaseSensitivePathsPlugin(),
+
+      /*new HtmlWebpackPlugin({
+       template: './src/index.html',
+       filename: 'index.html'
+       }),*/
+
+      new FriendlyErrorsWebpackPlugin({
+        onErrors: (severity, errors) => {
+          if (severity !== 'error') {
+            notifier.notify({
+              title: 'hollow cli',
+              message: 'warn',
+              contentImage: path.join(__dirname, '../assets/warn.png'),
+              sound: 'Glass',
+            })
+            return
+          }
+
+          const error = errors[0]
+
+          notifier.notify({
+            title: 'hollow cli',
+            message: `${severity} : ${error.name}`,
+            subtitle: error.file || '',
+            contentImage: path.join(__dirname, '../assets/fail.png'),
+            sound: 'Glass',
+          })
+        },
+      }),
+
+    ]
+  }
+
+  next()
+
+  let {babelOptions, postcssOptions, tsOptions, webpackConfig} = context
+
+  context.webpackConfig = {
+    ...webpackConfig,
     module: {
       noParse: [/moment.js/],
       rules: [
@@ -214,49 +255,6 @@ export default async function (context, next) {
         },
       ],
     },
-
-    plugins: [
-
-      new CommonsChunkPlugin({name: 'common', filename: commonName}),
-
-      new ExtractTextPlugin({
-        filename: cssFileName,
-        disable: false,
-        allChunks: true
-      }),
-
-      new CaseSensitivePathsPlugin(),
-
-      /*new HtmlWebpackPlugin({
-       template: './src/index.html',
-       filename: 'index.html'
-       }),*/
-
-      new FriendlyErrorsWebpackPlugin({
-        onErrors: (severity, errors) => {
-          if (severity !== 'error') {
-            notifier.notify({
-              title: 'hollow cli',
-              message: 'warn',
-              contentImage: path.join(__dirname, '../assets/warn.png'),
-              sound: 'Glass',
-            })
-            return
-          }
-
-          const error = errors[0]
-
-          notifier.notify({
-            title: 'hollow cli',
-            message: `${severity} : ${error.name}`,
-            subtitle: error.file || '',
-            contentImage: path.join(__dirname, '../assets/fail.png'),
-            sound: 'Glass',
-          })
-        },
-      }),
-
-    ]
   }
 
 }
