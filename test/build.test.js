@@ -21,14 +21,13 @@ function testCase (args, _case) {
   const cwd = path.join(__dirname, 'cases', _case)
   const outputPath = path.join(cwd, 'dist')
   process.chdir(cwd)
-
   return build({cwd, compress: false, ...args})
     .then(() => {assert(outputPath, _case)})
     .catch(e => {throw e})
 }
 
 describe('test', () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
   it('should build normally', async () => {
     await testCase({hash: true}, 'build-normal')

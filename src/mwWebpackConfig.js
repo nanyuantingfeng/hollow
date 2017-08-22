@@ -61,6 +61,7 @@ export default async function (context, next) {
     cache: true,
     devtool,
     node,
+    context: args.context || cwd,
     entry: pkg.entry,
     output: {
       path: path.join(process.cwd(), './dist/'),
@@ -114,147 +115,147 @@ export default async function (context, next) {
         },
       }),
 
-    ]
+    ],
   }
 
   next()
 
   let {babelOptions, postcssOptions, tsOptions, webpackConfig} = context
 
-  context.webpackConfig = {
-    ...webpackConfig,
-    module: {
-      noParse: [/moment.js/],
-      rules: [
-        {
-          test (filePath) {
-            return /\.lazy\.jsx?$/.test(filePath)
-          },
-          exclude: /node_modules/,
+  context.webpackConfig.module = {
+
+    noParse: [/moment.js/],
+
+    rules: [
+      {
+        test (filePath) {
+          return /\.lazy\.jsx?$/.test(filePath)
+        },
+        exclude: /node_modules/,
+        use: [
+          {loader: 'babel-loader', options: babelOptions},
+          {loader: 'bundle-loader', options: {lazy: true}}
+        ]
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [{loader: 'babel-loader', options: babelOptions}],
+      },
+      {
+        test: /\.jsx$/,
+        use: [{loader: 'babel-loader', options: babelOptions}],
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {loader: 'babel-loader', options: babelOptions},
+          {loader: 'ts-loader', options: tsOptions}
+        ]
+      },
+      {
+        test (filePath) {
+          return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
+        },
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
           use: [
-            {loader: 'babel-loader', options: babelOptions},
-            {loader: 'bundle-loader', options: {lazy: true}}
+            {
+              loader: 'css-loader', options: {
+              sourceMap: true,
+              '-autoprefixer': true,
+              '-restructuring': true,
+            }
+            },
+            {loader: 'postcss-loader', options: postcssOptions},
           ]
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: [{loader: 'babel-loader', options: babelOptions}],
-        },
-        {
-          test: /\.jsx$/,
-          use: [{loader: 'babel-loader', options: babelOptions}],
-        },
-        {
-          test: /\.tsx?$/,
-          exclude: /node_modules/,
+        }),
+      },
+      {
+        test: /\.module\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
           use: [
-            {loader: 'babel-loader', options: babelOptions},
-            {loader: 'ts-loader', options: tsOptions}
+            {
+              loader: 'css-loader', options: {
+              sourceMap: true,
+              modules: true,
+              localIdentName: '[local]___[hash:base64:5]',
+              '-autoprefixer': true,
+              '-restructuring': true,
+            }
+            },
+            {loader: 'postcss-loader', options: postcssOptions},
           ]
+        }),
+      },
+      {
+        test (filePath) {
+          return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
         },
-        {
-          test (filePath) {
-            return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
-          },
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader', options: {
-                sourceMap: true,
-                '-autoprefixer': true,
-                '-restructuring': true,
-              }
-              },
-              {loader: 'postcss-loader', options: postcssOptions},
-            ]
-          }),
-        },
-        {
-          test: /\.module\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader', options: {
-                sourceMap: true,
-                modules: true,
-                localIdentName: '[local]___[hash:base64:5]',
-                '-autoprefixer': true,
-                '-restructuring': true,
-              }
-              },
-              {loader: 'postcss-loader', options: postcssOptions},
-            ]
-          }),
-        },
-        {
-          test (filePath) {
-            return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
-          },
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader', options: {
-                sourceMap: true,
-                '-autoprefixer': true,
-              }
-              },
-              {loader: 'postcss-loader', options: postcssOptions},
-              {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-            ]
-          }),
-        },
-        {
-          test: /\.module\.less$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader', options: {
-                sourceMap: true,
-                modules: true,
-                localIdentName: '[local]___[hash:base64:5]',
-                '-autoprefixer': true,
-              }
-              },
-              {loader: 'postcss-loader', options: postcssOptions},
-              {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-            ]
-          }),
-        },
-        {
-          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
-        },
-        {
-          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
-        },
-        {
-          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{loader: 'url-loader', options: {limit, minetype: 'application/octet-stream'}}],
-        },
-        {
-          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{loader: 'url-loader', options: {limit, minetype: 'application/vnd.ms-fontobject'}}],
-        },
-        {
-          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{loader: 'url-loader', options: {limit, minetype: 'image/svg+xml'}}],
-        },
-        {
-          test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
-          use: [{loader: 'url-loader', options: {limit}}],
-        },
-        {
-          test: /\.html?$/,
-          use: [{loader: 'url-loader', options: {name: '[path][name].[ext]'}}],
-        },
-      ],
-    },
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader', options: {
+              sourceMap: true,
+              '-autoprefixer': true,
+            }
+            },
+            {loader: 'postcss-loader', options: postcssOptions},
+            {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
+          ]
+        }),
+      },
+      {
+        test: /\.module\.less$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader', options: {
+              sourceMap: true,
+              modules: true,
+              localIdentName: '[local]___[hash:base64:5]',
+              '-autoprefixer': true,
+            }
+            },
+            {loader: 'postcss-loader', options: postcssOptions},
+            {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
+          ]
+        }),
+      },
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
+      },
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{loader: 'url-loader', options: {limit, minetype: 'application/octet-stream'}}],
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{loader: 'url-loader', options: {limit, minetype: 'application/vnd.ms-fontobject'}}],
+      },
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        use: [{loader: 'url-loader', options: {limit, minetype: 'image/svg+xml'}}],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
+        use: [{loader: 'url-loader', options: {limit}}],
+      },
+      {
+        test: /\.html?$/,
+        use: [{loader: 'url-loader', options: {name: '[path][name].[ext]'}}],
+      },
+    ],
+
   }
 
 }
