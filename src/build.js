@@ -7,11 +7,8 @@ import compose from 'koa-compose'
 import { ProgressPlugin, webpack } from './webpackPlugins'
 import { chalk, notifier } from './util'
 
-import mwBuild from './mwBuild'
-import mwBabelOptions from './mwBabelOptions'
-import mwPostCSSOptions from './mwPostCSSOptions'
-import mwTSOptions from './mwTSOptions'
-import mwWebpackConfig from './mwWebpackConfig'
+import mws from './mws'
+
 import PromiseDefer from './PromiseDefer'
 
 function build (webpackConfig, args) {
@@ -130,18 +127,7 @@ export default function (args) {
 
   let mwConfig = getCustomConfig(path.join(args.cwd, args.config || 'webpack.config.js'))
 
-  let mws = [
-    mwBuild,
-    mwWebpackConfig,
-    mwBabelOptions,
-    mwPostCSSOptions,
-    mwTSOptions,
-    mwConfig,
-  ]
-
-  let context = {args, cache: {}}
-
-  return compose(mws)(context).then(webpackConfig => {
+  return compose(mws(mwConfig))({args, cache: {}}).then(webpackConfig => {
     return build(webpackConfig, args)
   })
 }
