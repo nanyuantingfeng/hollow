@@ -32,8 +32,8 @@ describe('test', () => {
   it('should build normally', async () => {
     await testCase({hash: true}, 'build-normal')
   })
-  it('should support class property', async (done) => {
-    await testCase({}, 'build-class-property').then(done)
+  it('should support class property', async () => {
+    await testCase({}, 'build-class-property')
   })
   it('should support less', async () => {
     await testCase({}, 'build-less')
