@@ -16,6 +16,7 @@ exports.builder = function (yargs) {
     .option('watch', {
       type: 'boolean',
       description: 'watch files change',
+      default: true
     })
     .option('devtool', {
       type: 'string',

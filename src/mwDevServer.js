@@ -5,7 +5,7 @@ import path from 'path'
 import {
   HtmlWebpackPlugin,
   HotModuleReplacementPlugin,
-  NamedModulesPlugin
+  NamedModulesPlugin,
 } from './webpackPlugins'
 
 export default async function (context, next) {
@@ -20,13 +20,11 @@ export default async function (context, next) {
     noInfo: true,
     quiet: false,
     host: '127.0.0.1',
-    port: 9981,
+    port: 8080,
     historyApiFallback: true
   }
 
-  let {plugins} = webpackConfig
-
-  plugins = plugins || []
+  let {plugins = []} = webpackConfig
 
   plugins.push(...[
     new HtmlWebpackPlugin({

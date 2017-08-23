@@ -2,12 +2,16 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path'
-import fs from 'fs'
 
 import {
-  DefinePlugin, NoEmitOnErrorsPlugin,
-  mapJSONWebpackPlugin, UglifyJsPlugin,
+  DefinePlugin,
+  NoEmitOnErrorsPlugin,
+  mapJSONWebpackPlugin,
+  UglifyJsPlugin,
+  ProgressPlugin,
 } from './webpackPlugins'
+
+import { progressHandler } from './util'
 
 function fnCheckWebpackConfig (webpackConfig) {
   const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
@@ -24,9 +28,8 @@ export default async function (context, next) {
 
   let {webpackConfig, args, cache} = context
 
-  webpackConfig.plugins = webpackConfig.plugins || []
+  let {plugins = []} = webpackConfig
 
-  // Config outputPath.
   if (args.outputPath) {
     webpackConfig.output.path = args.outputPath
   }
@@ -37,48 +40,39 @@ export default async function (context, next) {
 
   // Watch mode should not use UglifyJsPlugin
   if (args.compress && !args.watch) {
-    let UglifyJsPluginConfig = {
-      output: {
-        ascii_only: true,
-      },
-      compress: {
-        warnings: false,
-      },
-    }
-    webpackConfig.plugins = [
-      ...webpackConfig.plugins,
-      new UglifyJsPlugin(UglifyJsPluginConfig),
+
+    plugins.push(... [
+      new UglifyJsPlugin({
+        output: {ascii_only: true,},
+        compress: {warnings: false,},
+      }),
+
       new DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
       }),
-    ]
+    ])
   } else {
-    webpackConfig.plugins = [
-      ...webpackConfig.plugins,
+    plugins.push(...[
       new DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      }),
-    ]
+      })
+    ])
   }
 
-  webpackConfig.plugins = [
-    ...webpackConfig.plugins,
+  plugins.push(... [
+    new ProgressPlugin(progressHandler),
     new NoEmitOnErrorsPlugin(),
-  ]
+  ])
 
   // Output map.json if hash.
   if (args.hash) {
     const pkg = require(path.join(args.cwd, 'package.json'))
     webpackConfig.output.filename = '[name]-[chunkhash].js'
     webpackConfig.output.chunkFilename = '[name]-[chunkhash].js'
-    webpackConfig.plugins = [
-      ...webpackConfig.plugins,
-      mapJSONWebpackPlugin({
-        assetsPath: pkg.name,
-        cache,
-      }),
-    ]
+    plugins.push(...[mapJSONWebpackPlugin({assetsPath: pkg.name, cache,})])
   }
+
+  webpackConfig.plugins = plugins
 
   fnCheckWebpackConfig(webpackConfig)
 

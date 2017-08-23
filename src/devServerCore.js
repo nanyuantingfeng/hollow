@@ -1,15 +1,13 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
-const path = require('path')
-const open = require('opn')
-const fs = require('fs')
-const net = require('net')
-const addDevServerEntrypoints = require('webpack-dev-server/lib/util/addDevServerEntrypoints')
-const createDomain = require('webpack-dev-server/lib/util/createDomain')
-
-const Server = require('webpack-dev-server/lib/Server')
-const webpack = require('webpack')
+import net from 'net'
+import fs from 'fs'
+import open from 'opn'
+import addDevServerEntrypoints from 'webpack-dev-server/lib/util/addDevServerEntrypoints'
+import { webpack } from './webpackPlugins'
+import Server from 'webpack-dev-server/lib/Server'
+import createDomain from 'webpack-dev-server/lib/util/createDomain'
 
 function colorInfo (useColor, msg) {
   if (useColor)
@@ -93,10 +91,6 @@ function startDevServer (wpOpt, options) {
       process.exit(1) // eslint-disable-line
     }
     throw e
-  }
-
-  if (argv['progress']) {
-    compiler.apply(new webpack.ProgressPlugin())
   }
 
   const uri = createDomain(options) + (options.inline !== false || options.lazy === true ? '/' : '/webpack-dev-server/')

@@ -3,9 +3,8 @@
  **************************************************/
 import path from 'path'
 import fs from 'fs'
-import { ProgressPlugin, webpack } from './webpackPlugins'
-import { chalk, notifier } from './util'
-
+import { webpack } from './webpackPlugins'
+import { notifier } from './util'
 import PromiseDefer from './PromiseDefer'
 
 export default function (webpackConfig, args) {
@@ -16,21 +15,6 @@ export default function (webpackConfig, args) {
 
   webpackConfig.forEach((config) => {
     fileOutputPath = config.output.path
-  })
-
-  webpackConfig.forEach((config) => {
-    config.plugins.push(
-      new ProgressPlugin((percentage, msg) => {
-        const stream = process.stderr
-        if (stream.isTTY && percentage < 1) {
-          stream.cursorTo(0)
-          stream.write(`📦  ${chalk.magenta(msg)}`)
-          stream.clearLine(1)
-        } else if (percentage >= 1) {
-          console.log(chalk.green('\nwebpack: bundle build is now finished.'))
-        }
-      }),
-    )
   })
 
   let defer = PromiseDefer()
@@ -86,7 +70,6 @@ export default function (webpackConfig, args) {
     defer.resolve()
   }
 
-  // Run compiler.
   let compiler = webpack(webpackConfig)
 
   // Hack: remove extract-text-webpack-plugin log
