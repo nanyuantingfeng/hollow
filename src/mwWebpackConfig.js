@@ -80,7 +80,6 @@ export default async function (context, next) {
       new CommonsChunkPlugin({
         name: 'common',
         filename: commonName,
-        children: true,
       }),
 
       new ExtractTextPlugin({
