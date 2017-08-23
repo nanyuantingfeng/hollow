@@ -32,7 +32,7 @@ export default async function (context, next) {
     let cfgPath = pkg.theme
     // relative path
     if (cfgPath.charAt(0) === '.') {
-      cfgPath = path.resolve(args.cwd, cfgPath)
+      cfgPath = path.resolve(cwd, cfgPath)
     }
 
     let getThemeConfig = require(cfgPath)
@@ -64,7 +64,7 @@ export default async function (context, next) {
     context: args.context || cwd,
     entry: pkg.entry,
     output: {
-      path: path.join(process.cwd(), './dist/'),
+      path: path.join(cwd, './dist/'),
       filename: jsFileName,
       chunkFilename: jsFileName,
     },
@@ -74,9 +74,14 @@ export default async function (context, next) {
         '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
         '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'],
     },
+
     plugins: [
 
-      new CommonsChunkPlugin({name: 'common', filename: commonName}),
+      new CommonsChunkPlugin({
+        name: 'common',
+        filename: commonName,
+        children: true,
+      }),
 
       new ExtractTextPlugin({
         filename: cssFileName,
@@ -254,6 +259,9 @@ export default async function (context, next) {
         test: /\.html?$/,
         use: [{loader: 'url-loader', options: {name: '[path][name].[ext]'}}],
       },
+      {
+        test: /\.hbs?$/, use: [{loader: 'mustache-loader'}]
+      }
     ],
 
   }
