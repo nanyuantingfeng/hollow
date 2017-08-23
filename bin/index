@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+var yargs = require('yargs')
+
+yargs.commandDir('hollow')
+  .version(require('../package').version, '-v, --version')
+  .demand(1)
+  .help()
+  .locale('en')
+  .showHelpOnFail(true, 'Specify --help for available options')
+  .argv
+ 

@@ -16,4 +16,5 @@ export default function (args) {
   return compose(mwsBuild(args))({args, cache: {}}).then(webpackConfig => {
     return buildCore(webpackConfig, args)
   })
+
 }
