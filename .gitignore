@@ -56,7 +56,7 @@ typings/
 
 # dotenv environment variables file
 .env
-.idea
+.idea/
 node_modules/
 lib/
 build/
