@@ -47,8 +47,6 @@ export function startDevServer (webpackConfig, args) {
     defer.reject(e)
   }
 
-  const uri = createDomain(options) + (options.inline !== false || options.lazy === true ? '/' : '/webpack-dev-server/')
-
   let server
 
   try {
@@ -72,7 +70,7 @@ export function startDevServer (webpackConfig, args) {
   server.listen(options.port, options.host, function (err) {
     if (err) throw err
     defer.resolve(server)
-    console.info(`\nService is running at ${colorInfo(uri)}`)
+    console.info(`\nService is running at ${colorInfo(createDomain(options))}`)
   })
 
   return defer.promise

@@ -7,6 +7,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import mapJSONWebpackPlugin from 'map-json-webpack-plugin'
+import BrowserSyncPlugin from 'browser-sync-webpack-plugin'
 
 const {
   optimize,
@@ -38,5 +39,6 @@ export {
   FriendlyErrorsWebpackPlugin,
   mapJSONWebpackPlugin,
   BannerPlugin,
-  WebpackOptionsValidationError
+  BrowserSyncPlugin,
+  WebpackOptionsValidationError,
 }
