@@ -7,7 +7,7 @@ import { webpack } from './webpackPlugins'
 import { notifier } from './util'
 import PromiseDefer from './PromiseDefer'
 
-export default function (webpackConfig, args) {
+export function startBuild (webpackConfig, args) {
 
   webpackConfig = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
 
@@ -35,9 +35,8 @@ export default function (webpackConfig, args) {
       })
     }
 
-    // if watch enabled only stats.hasErrors would log info
-    // otherwise  would always log info
     if (!args.watch || stats.hasErrors()) {
+
       const buildInfo = stats.toString({
         colors: true,
         children: true,
@@ -72,7 +71,6 @@ export default function (webpackConfig, args) {
 
   let compiler = webpack(webpackConfig)
 
-  // Hack: remove extract-text-webpack-plugin log
   if (!args.verbose) {
     compiler.plugin('done', (stats) => {
       stats.stats.forEach((stat) => {

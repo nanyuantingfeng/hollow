@@ -7,31 +7,19 @@ import createDomain from 'webpack-dev-server/lib/util/createDomain'
 import Server from 'webpack-dev-server'
 import PromiseDefer from './PromiseDefer'
 
-function colorInfo (useColor, msg) {
-  if (useColor)
-    return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`
-  return msg
+function colorInfo (msg) {
+  return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`
 }
 
-function colorError (useColor, msg) {
-  if (useColor)
-    return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
-  return msg
+function colorError (msg) {
+  return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
 }
 
-export function processOptions (wpOpt) {
+export function startDevServer (webpackConfig, args) {
 
-  if (typeof wpOpt.then === 'function') {
-    wpOpt.then(processOptions).catch(function (err) {
-      console.error(err.stack || err)
-      process.exit()
-    })
-    return
-  }
+  const firstWpOpt = Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig
 
-  const firstWpOpt = Array.isArray(wpOpt) ? wpOpt[0] : wpOpt
-
-  const options = wpOpt.devServer || firstWpOpt.devServer || {}
+  const options = webpackConfig.devServer || firstWpOpt.devServer || {}
 
   if (!options.stats) {
     options.stats = {
@@ -41,21 +29,19 @@ export function processOptions (wpOpt) {
     }
   }
 
-  return startDevServer(wpOpt, options)
-}
+  addDevServerEntrypoints(webpackConfig, options)
 
-function startDevServer (wpOpt, options) {
-  addDevServerEntrypoints(wpOpt, options)
+  console.log(webpackConfig)
 
   let defer = PromiseDefer()
 
   let compiler
 
   try {
-    compiler = webpack(wpOpt)
+    compiler = webpack(webpackConfig)
   } catch (e) {
     if (e instanceof WebpackOptionsValidationError) {
-      console.error(colorError(options.stats.colors, e.message))
+      console.error(colorError(e.message))
       process.exit(1)
     }
     defer.reject(e)
@@ -70,7 +56,7 @@ function startDevServer (wpOpt, options) {
   } catch (e) {
     const OptionsValidationError = require('webpack-dev-server/lib/OptionsValidationError')
     if (e instanceof OptionsValidationError) {
-      console.error(colorError(options.stats.colors, e.message))
+      console.error(colorError(e.message))
       process.exit(1)
     }
     defer.reject(e)
@@ -86,32 +72,8 @@ function startDevServer (wpOpt, options) {
   server.listen(options.port, options.host, function (err) {
     if (err) throw err
     defer.resolve(server)
-    reportReadiness(uri, options)
+    console.info(`\nService is running at ${colorInfo(uri)}`)
   })
 
   return defer.promise
-}
-
-function reportReadiness (uri, options) {
-  const useColor = true
-
-  const contentBase = Array.isArray(options.contentBase)
-    ? options.contentBase.join(', ') : options.contentBase
-
-  if (!options.quiet) {
-    console.info(`Project is running at ${
-      colorInfo(useColor, uri)}`)
-
-    console.info(`webpack output is served from ${
-      colorInfo(useColor, options.publicPath)}`)
-
-    if (contentBase)
-      console.info(`Content not from webpack is served from ${
-        colorInfo(useColor, contentBase)}`)
-
-    if (options.historyApiFallback)
-      console.info(`404s will fallback to ${
-        colorInfo(useColor, options.historyApiFallback.index || '/index.html')}`)
-  }
-
 }

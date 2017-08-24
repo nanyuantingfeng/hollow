@@ -4,7 +4,7 @@
 import compose from 'koa-compose'
 
 import { mwsDevServer } from './mws'
-import { processOptions } from './devServerCore'
+import { startDevServer } from './devServerCore'
 
 export default function (args) {
 
@@ -13,6 +13,6 @@ export default function (args) {
   }
 
   return compose(mwsDevServer(args))({args, cache: {}}).then(webpackConfig => {
-    return processOptions(webpackConfig, args)
+    return startDevServer(webpackConfig, args)
   })
 }

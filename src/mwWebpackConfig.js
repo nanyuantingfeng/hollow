@@ -7,6 +7,7 @@ import fs from 'fs'
 import {
   CaseSensitivePathsPlugin,
   CommonsChunkPlugin,
+  HtmlWebpackPlugin,
   ExtractTextPlugin,
   FriendlyErrorsWebpackPlugin
 } from './webpackPlugins'
@@ -15,10 +16,20 @@ import { notifier } from './util'
 
 export default async function (context, next) {
   let {args} = context
-  let {cwd, hash, devtool, limit} = args
+  let {cwd, hash, devtool, limit, default_node_env} = args
 
-  let pkgPath = path.join(cwd, 'package.json')
-  let pkg = fs.existsSync(pkgPath) ? require(pkgPath) : {}
+  let env = process.env.NODE_ENV || default_node_env || 'development'
+
+  let packagePath = path.join(cwd, 'package.json')
+
+  let packageMap
+
+  if (!fs.existsSync(packagePath)) {
+    console.warn('current path did`t found package.json')
+    packageMap = {}
+  } else {
+    packageMap = require(packagePath)
+  }
 
   let jsFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
   let cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
@@ -28,8 +39,8 @@ export default async function (context, next) {
 
   let theme = {}
 
-  if (pkg.theme && typeof pkg.theme === 'string') {
-    let cfgPath = pkg.theme
+  if (packageMap.theme && typeof packageMap.theme === 'string') {
+    let cfgPath = packageMap.theme
     // relative path
     if (cfgPath.charAt(0) === '.') {
       cfgPath = path.resolve(cwd, cfgPath)
@@ -39,8 +50,8 @@ export default async function (context, next) {
     theme = getThemeConfig()
   }
 
-  else if (pkg.theme && typeof pkg.theme === 'object') {
-    theme = pkg.theme
+  else if (packageMap.theme && typeof packageMap.theme === 'object') {
+    theme = packageMap.theme
   }
 
   let emptyBuildIns = [
@@ -48,7 +59,7 @@ export default async function (context, next) {
     'module', 'net', 'readline', 'repl', 'tls',
   ]
 
-  let browser = pkg.browser || {}
+  let browser = packageMap.browser || {}
 
   let node = emptyBuildIns.reduce((obj, name) => {
     if (!(name in browser)) {
@@ -62,7 +73,7 @@ export default async function (context, next) {
     devtool,
     node,
     context: args.context || cwd,
-    entry: pkg.entry,
+    entry: packageMap.entry,
     output: {
       path: path.join(cwd, './dist/'),
       filename: jsFileName,
@@ -74,22 +85,13 @@ export default async function (context, next) {
         '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
         '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'],
     },
-
     plugins: [
-
       new CommonsChunkPlugin({
         name: 'common',
         filename: commonName,
+        minChunks: Infinity,
       }),
-
-      new ExtractTextPlugin({
-        filename: cssFileName,
-        disable: false,
-        allChunks: true
-      }),
-
       new CaseSensitivePathsPlugin(),
-
       new FriendlyErrorsWebpackPlugin({
         onErrors: (severity, errors) => {
           if (severity !== 'error') {
@@ -101,9 +103,7 @@ export default async function (context, next) {
             })
             return
           }
-
           const error = errors[0]
-
           notifier.notify({
             title: 'hollow cli',
             message: `${severity} : ${error.name}`,
@@ -113,18 +113,33 @@ export default async function (context, next) {
           })
         },
       }),
-
     ],
+  }
+
+  if (env === 'production') {
+    context.webpackConfig.plugins.push(
+      new ExtractTextPlugin({
+        filename: cssFileName,
+        disable: false,
+        allChunks: true
+      }))
   }
 
   next()
 
-  let {babelOptions, postcssOptions, tsOptions, webpackConfig} = context
+  let {
+    babelOptions, postcssOptions, tsOptions,
+    webpackConfig, htmlWebpackPluginOptions
+  } = context
+
+  webpackConfig.plugins.push(new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: path.join(__dirname, '../index.hbs'),
+    ...htmlWebpackPluginOptions,
+  }))
 
   webpackConfig.module = {
-
     noParse: [/moment.js/],
-
     rules: [
       {
         test (filePath) {
@@ -166,7 +181,7 @@ export default async function (context, next) {
           }
           },
           {loader: 'postcss-loader', options: postcssOptions},
-        ])
+        ], env)
       },
       {
         test: /\.module\.css$/,
@@ -181,7 +196,7 @@ export default async function (context, next) {
           }
           },
           {loader: 'postcss-loader', options: postcssOptions},
-        ])
+        ], env)
       },
       {
         test (filePath) {
@@ -196,7 +211,7 @@ export default async function (context, next) {
           },
           {loader: 'postcss-loader', options: postcssOptions},
           {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-        ])
+        ], env)
       },
       {
         test: /\.module\.less$/,
@@ -211,7 +226,7 @@ export default async function (context, next) {
           },
           {loader: 'postcss-loader', options: postcssOptions},
           {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-        ])
+        ], env)
       },
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -239,23 +254,28 @@ export default async function (context, next) {
       },
       {
         test: /\.html?$/,
-        use: [{loader: 'html-loader', options: {name: '[path][name].[ext]'}}],
+        use: [{
+          loader: 'html-loader', options: {
+            options: {
+              removeComments: false,
+              collapseWhitespace: false,
+              minimize: true
+            }
+          }
+        }],
       },
       {
         test: /\.hbs?$/, use: [{loader: 'mustache-loader'}]
       },
     ],
-
   }
 
 }
 
-function fixStyleLoaders4Production (rules) {
-  const styleLoader = 'style-loader'
-
-  if (process.env.NODE_ENV !== 'production') {
-    return [{loader: styleLoader}, ...rules]
+function fixStyleLoaders4Production (rules, env) {
+  let styleLoader = 'style-loader'
+  if (env === 'production') {
+    return ExtractTextPlugin.extract({fallback: styleLoader, use: rules})
   }
-
-  return ExtractTextPlugin.extract({fallback: styleLoader, use: rules})
+  return [{loader: styleLoader}, ...rules]
 }

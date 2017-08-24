@@ -17,12 +17,10 @@ const {
   NoEmitOnErrorsPlugin,
   ProgressPlugin,
   WebpackOptionsValidationError,
+  BannerPlugin,
 } = webpack
 
-const {
-  CommonsChunkPlugin,
-  UglifyJsPlugin,
-} = optimize
+const {CommonsChunkPlugin, UglifyJsPlugin} = optimize
 
 export {
   webpack,
@@ -39,5 +37,6 @@ export {
   CaseSensitivePathsPlugin,
   FriendlyErrorsWebpackPlugin,
   mapJSONWebpackPlugin,
+  BannerPlugin,
   WebpackOptionsValidationError
 }

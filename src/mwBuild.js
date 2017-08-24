@@ -30,33 +30,31 @@ export default async function (context, next) {
 
   let {plugins = []} = webpackConfig
 
-  if (args.outputPath) {
-    webpackConfig.output.path = args.outputPath
+  let {default_node_env, outputPath, publicPath, compress, cwd} = args
+
+  if (outputPath) {
+    webpackConfig.output.path = outputPath
   }
 
-  if (args.publicPath) {
-    webpackConfig.output.publicPath = args.publicPath
+  if (publicPath) {
+    webpackConfig.output.publicPath = publicPath
   }
 
-  // Watch mode should not use UglifyJsPlugin
-  if (args.compress && !args.watch) {
+  let env = process.env.NODE_ENV || default_node_env || 'development'
 
-    plugins.push(... [
-      new UglifyJsPlugin({
-        output: {ascii_only: true,},
-        compress: {warnings: false,},
-      }),
+  plugins.push(new DefinePlugin({
+    ['process.env.NODE_ENV']: JSON.stringify(env),
+  }))
 
-      new DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-      }),
-    ])
-  } else {
-    plugins.push(...[
-      new DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      })
-    ])
+  if (env === 'production') {
+    compress = true
+  }
+
+  if (compress === true) {
+    plugins.push(new UglifyJsPlugin({
+      output: {ascii_only: true,},
+      compress: {warnings: false,},
+    }))
   }
 
   plugins.push(... [
@@ -64,12 +62,11 @@ export default async function (context, next) {
     new NoEmitOnErrorsPlugin(),
   ])
 
-  // Output map.json if hash.
   if (args.hash) {
-    const pkg = require(path.join(args.cwd, 'package.json'))
+    const packageMap = require(path.join(cwd, 'package.json'))
     webpackConfig.output.filename = '[name]-[chunkhash].js'
     webpackConfig.output.chunkFilename = '[name]-[chunkhash].js'
-    plugins.push(...[mapJSONWebpackPlugin({assetsPath: pkg.name, cache,})])
+    plugins.push(mapJSONWebpackPlugin({assetsPath: packageMap.name, cache,}))
   }
 
   webpackConfig.plugins = plugins

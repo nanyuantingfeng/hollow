@@ -1,11 +1,10 @@
 /**************************************************
  * Created by nanyuantingfeng on 11/06/2017 05:43.
  **************************************************/
-
 import compose from 'koa-compose'
 
 import { mwsBuild } from './mws'
-import buildCore from './buildCore'
+import { startBuild } from './buildCore'
 
 export default function (args) {
 
@@ -14,7 +13,7 @@ export default function (args) {
   }
 
   return compose(mwsBuild(args))({args, cache: {}}).then(webpackConfig => {
-    return buildCore(webpackConfig, args)
+    return startBuild(webpackConfig, args)
   })
 
 }
