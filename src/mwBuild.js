@@ -25,7 +25,7 @@ function fnCheckWebpackConfig (webpackConfig) {
 
 export default async function (context, next) {
   let {cwd} = context.args
-  
+
   let packagePath = path.join(cwd, 'package.json')
 
   let packageMap
@@ -53,12 +53,6 @@ export default async function (context, next) {
 
   if (publicPath) {
     webpackConfig.output.publicPath = publicPath
-  }
-
-  let env = process.env.NODE_ENV || default_node_env || 'development'
-
-  if (env === 'production') {
-    //compress = true
   }
 
   if (compress === true) {
