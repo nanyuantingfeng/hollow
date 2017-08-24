@@ -13,6 +13,10 @@ exports.builder = function (yargs) {
       type: 'boolean',
       description: 'build files with hash name',
     })
+    .option('compress', {
+      type: 'boolean',
+      description: 'build files with compress',
+    })
     .option('watch', {
       type: 'boolean',
       description: 'watch files change',
