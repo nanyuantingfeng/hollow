@@ -237,12 +237,8 @@ export default async function (context, next) {
       {
         test: /\.html?$/,
         use: [{
-          loader: 'html-loader', options: {
-            options: {
-              removeComments: false,
-              collapseWhitespace: false,
-              minimize: true
-            }
+          loader: 'file-loader', options: {
+            name: '[path][name].[ext]',
           }
         }],
       },
