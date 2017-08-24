@@ -9,6 +9,7 @@ import mwPostCSSOptions from './mwPostCSSOptions'
 import mwTSOptions from './mwTSOptions'
 import mwWebpackConfig from './mwWebpackConfig'
 import mwDevServer from './mwDevServer'
+import mwMultiEntryHTML from './mwMultiEntryHTML'
 
 function getCustomConfig (customConfigPath) {
   if (!fs.existsSync(customConfigPath)) {
@@ -24,6 +25,7 @@ export function mwsBuild (args) {
   return [
     mwBuild,
     mwWebpackConfig,
+    mwMultiEntryHTML,
     mwBabelOptions,
     mwPostCSSOptions,
     mwTSOptions,
@@ -37,6 +39,7 @@ export function mwsDevServer (args) {
   return [
     mwBuild,
     mwWebpackConfig,
+    mwMultiEntryHTML,
     mwDevServer,
     mwBabelOptions,
     mwPostCSSOptions,

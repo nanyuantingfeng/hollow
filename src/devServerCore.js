@@ -2,7 +2,7 @@
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
 import addDevServerEntrypoints from 'webpack-dev-server/lib/util/addDevServerEntrypoints'
-import { webpack, WebpackOptionsValidationError } from './webpackPlugins'
+import { webpack, WebpackOptionsValidationError } from './plugins'
 import createDomain from 'webpack-dev-server/lib/util/createDomain'
 import Server from 'webpack-dev-server'
 import PromiseDefer from './PromiseDefer'

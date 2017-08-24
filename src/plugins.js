@@ -4,10 +4,11 @@
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
+import HTMLWebpackPlugin from 'html-webpack-plugin'
 import webpack from 'webpack'
 import mapJSONWebpackPlugin from 'map-json-webpack-plugin'
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 const {
   optimize,
@@ -34,11 +35,12 @@ export {
   NamedModulesPlugin,
   HotModuleReplacementPlugin,
   ExtractTextPlugin,
-  HtmlWebpackPlugin,
+  HTMLWebpackPlugin,
   CaseSensitivePathsPlugin,
   FriendlyErrorsWebpackPlugin,
   mapJSONWebpackPlugin,
   BannerPlugin,
   BrowserSyncPlugin,
+  CopyWebpackPlugin,
   WebpackOptionsValidationError,
 }

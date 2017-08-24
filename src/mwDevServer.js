@@ -5,7 +5,7 @@ import {
   HotModuleReplacementPlugin,
   NamedModulesPlugin,
   BrowserSyncPlugin,
-} from './webpackPlugins'
+} from './plugins'
 
 import createDomain from 'webpack-dev-server/lib/util/createDomain'
 

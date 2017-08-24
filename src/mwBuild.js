@@ -2,14 +2,14 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path'
+import fs from 'fs'
 
 import {
-  DefinePlugin,
   NoEmitOnErrorsPlugin,
   mapJSONWebpackPlugin,
   UglifyJsPlugin,
   ProgressPlugin,
-} from './webpackPlugins'
+} from './plugins'
 
 import { progressHandler } from './util'
 
@@ -24,13 +24,28 @@ function fnCheckWebpackConfig (webpackConfig) {
 }
 
 export default async function (context, next) {
+  let {cwd} = context.args
+  
+  let packagePath = path.join(cwd, 'package.json')
+
+  let packageMap
+
+  if (!fs.existsSync(packagePath)) {
+    console.warn('current path did`t found package.json')
+    packageMap = {}
+  } else {
+    packageMap = require(packagePath)
+  }
+
+  context.packageMap = packageMap
+
   next()
 
   let {webpackConfig, args, cache} = context
 
   let {plugins = []} = webpackConfig
 
-  let {default_node_env, outputPath, publicPath, compress, cwd} = args
+  let {default_node_env, outputPath, publicPath, compress} = args
 
   if (outputPath) {
     webpackConfig.output.path = outputPath
@@ -42,12 +57,8 @@ export default async function (context, next) {
 
   let env = process.env.NODE_ENV || default_node_env || 'development'
 
-  plugins.push(new DefinePlugin({
-    ['process.env.NODE_ENV']: JSON.stringify(env),
-  }))
-
   if (env === 'production') {
-    compress = true
+    //compress = true
   }
 
   if (compress === true) {

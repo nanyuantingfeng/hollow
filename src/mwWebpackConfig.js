@@ -7,29 +7,17 @@ import fs from 'fs'
 import {
   CaseSensitivePathsPlugin,
   CommonsChunkPlugin,
-  HtmlWebpackPlugin,
   ExtractTextPlugin,
   FriendlyErrorsWebpackPlugin
-} from './webpackPlugins'
+} from './plugins'
 
 import { notifier } from './util'
 
 export default async function (context, next) {
-  let {args} = context
+  let {args, packageMap} = context
   let {cwd, hash, devtool, limit, default_node_env} = args
 
   let env = process.env.NODE_ENV || default_node_env || 'development'
-
-  let packagePath = path.join(cwd, 'package.json')
-
-  let packageMap
-
-  if (!fs.existsSync(packagePath)) {
-    console.warn('current path did`t found package.json')
-    packageMap = {}
-  } else {
-    packageMap = require(packagePath)
-  }
 
   let jsFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
   let cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
@@ -73,7 +61,7 @@ export default async function (context, next) {
     devtool,
     node,
     context: args.context || cwd,
-    entry: packageMap.entry,
+    entry: args.entry || packageMap.entry,
     output: {
       path: path.join(cwd, './dist/'),
       filename: jsFileName,
@@ -129,14 +117,8 @@ export default async function (context, next) {
 
   let {
     babelOptions, postcssOptions, tsOptions,
-    webpackConfig, htmlWebpackPluginOptions
+    webpackConfig
   } = context
-
-  webpackConfig.plugins.push(new HtmlWebpackPlugin({
-    filename: 'index.html',
-    template: path.join(__dirname, '../index.hbs'),
-    ...htmlWebpackPluginOptions,
-  }))
 
   webpackConfig.module = {
     noParse: [/moment.js/],

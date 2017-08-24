@@ -12,6 +12,10 @@ export default function (args) {
     args.cwd = process.cwd()
   }
 
+  if (!args.default_node_env) {
+    args.default_node_env = 'production'
+  }
+
   return compose(mwsBuild(args))({args, cache: {}}).then(webpackConfig => {
     return startBuild(webpackConfig, args)
   })

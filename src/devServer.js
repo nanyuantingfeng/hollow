@@ -12,6 +12,10 @@ export default function (args) {
     args.cwd = process.cwd()
   }
 
+  if (!args.default_node_env) {
+    args.default_node_env = 'development'
+  }
+
   return compose(mwsDevServer(args))({args, cache: {}}).then(webpackConfig => {
     return startDevServer(webpackConfig, args)
   })

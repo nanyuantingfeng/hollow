@@ -3,7 +3,7 @@
  **************************************************/
 import path from 'path'
 import fs from 'fs'
-import { webpack } from './webpackPlugins'
+import { webpack } from './plugins'
 import { notifier } from './util'
 import PromiseDefer from './PromiseDefer'
 
