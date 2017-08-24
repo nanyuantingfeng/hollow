@@ -1,13 +1,11 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
-import net from 'net'
-import fs from 'fs'
-import open from 'opn'
 import addDevServerEntrypoints from 'webpack-dev-server/lib/util/addDevServerEntrypoints'
 import { webpack, WebpackOptionsValidationError } from './webpackPlugins'
-import Server from 'webpack-dev-server/lib/Server'
 import createDomain from 'webpack-dev-server/lib/util/createDomain'
+import Server from 'webpack-dev-server'
+import PromiseDefer from './PromiseDefer'
 
 function colorInfo (useColor, msg) {
   if (useColor)
@@ -20,8 +18,6 @@ function colorError (useColor, msg) {
     return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
   return msg
 }
-
-const argv = {progress: true, stats: true}
 
 export function processOptions (wpOpt) {
 
@@ -39,15 +35,19 @@ export function processOptions (wpOpt) {
 
   if (!options.stats) {
     options.stats = {
+      colors: true,
       cached: false,
       cachedAssets: false
     }
   }
-  startDevServer(wpOpt, options)
+
+  return startDevServer(wpOpt, options)
 }
 
 function startDevServer (wpOpt, options) {
   addDevServerEntrypoints(wpOpt, options)
+
+  let defer = PromiseDefer()
 
   let compiler
 
@@ -58,7 +58,7 @@ function startDevServer (wpOpt, options) {
       console.error(colorError(options.stats.colors, e.message))
       process.exit(1)
     }
-    throw e
+    defer.reject(e)
   }
 
   const uri = createDomain(options) + (options.inline !== false || options.lazy === true ? '/' : '/webpack-dev-server/')
@@ -73,7 +73,7 @@ function startDevServer (wpOpt, options) {
       console.error(colorError(options.stats.colors, e.message))
       process.exit(1)
     }
-    throw e
+    defer.reject(e)
   }
 
   ['SIGINT', 'SIGTERM'].forEach(function (sig) {
@@ -85,34 +85,33 @@ function startDevServer (wpOpt, options) {
 
   server.listen(options.port, options.host, function (err) {
     if (err) throw err
+    defer.resolve(server)
     reportReadiness(uri, options)
   })
 
+  return defer.promise
 }
 
 function reportReadiness (uri, options) {
-  const useColor = argv.color
-  const contentBase = Array.isArray(options.contentBase) ? options.contentBase.join(', ') : options.contentBase
+  const useColor = true
+
+  const contentBase = Array.isArray(options.contentBase)
+    ? options.contentBase.join(', ') : options.contentBase
 
   if (!options.quiet) {
-    let startSentence = `Project is running at ${colorInfo(useColor, uri)}`
-    if (options.socket) {
-      startSentence = `Listening to socket at ${colorInfo(useColor, options.socket)}`
-    }
-    console.info((argv['progress'] ? '\n' : '') + startSentence)
+    console.info(`Project is running at ${
+      colorInfo(useColor, uri)}`)
 
-    console.info(`webpack output is served from ${colorInfo(useColor, options.publicPath)}`)
+    console.info(`webpack output is served from ${
+      colorInfo(useColor, options.publicPath)}`)
 
     if (contentBase)
-      console.info(`Content not from webpack is served from ${colorInfo(useColor, contentBase)}`)
+      console.info(`Content not from webpack is served from ${
+        colorInfo(useColor, contentBase)}`)
 
     if (options.historyApiFallback)
-      console.info(`404s will fallback to ${colorInfo(useColor, options.historyApiFallback.index || '/index.html')}`)
+      console.info(`404s will fallback to ${
+        colorInfo(useColor, options.historyApiFallback.index || '/index.html')}`)
+  }
 
-  }
-  if (options.open) {
-    open(uri + options.openPage).catch(function () {
-      console.log('Unable to open browser. If you are running in a headless environment, please do not use the open flag.')
-    })
-  }
 }

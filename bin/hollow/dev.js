@@ -37,9 +37,5 @@ exports.handler = function (argv) {
 
   var exit = () => {process.exit(0)}
 
-  if (argv.watch) {
-    devServer(argv)
-  } else {
-    devServer(argv).then(exit).catch(exit)
-  }
+  devServer(argv).catch(exit)
 }

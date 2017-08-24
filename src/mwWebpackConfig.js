@@ -90,11 +90,6 @@ export default async function (context, next) {
 
       new CaseSensitivePathsPlugin(),
 
-      /*new HtmlWebpackPlugin({
-       template: './src/index.html',
-       filename: 'index.html'
-       }),*/
-
       new FriendlyErrorsWebpackPlugin({
         onErrors: (severity, errors) => {
           if (severity !== 'error') {
@@ -126,7 +121,7 @@ export default async function (context, next) {
 
   let {babelOptions, postcssOptions, tsOptions, webpackConfig} = context
 
-  context.webpackConfig.module = {
+  webpackConfig.module = {
 
     noParse: [/moment.js/],
 
@@ -162,73 +157,61 @@ export default async function (context, next) {
         test (filePath) {
           return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
         },
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader', options: {
-              sourceMap: true,
-              '-autoprefixer': true,
-              '-restructuring': true,
-            }
-            },
-            {loader: 'postcss-loader', options: postcssOptions},
-          ]
-        }),
+        use: fixStyleLoaders4Production([
+          {
+            loader: 'css-loader', options: {
+            sourceMap: true,
+            '-autoprefixer': true,
+            '-restructuring': true,
+          }
+          },
+          {loader: 'postcss-loader', options: postcssOptions},
+        ])
       },
       {
         test: /\.module\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader', options: {
-              sourceMap: true,
-              modules: true,
-              localIdentName: '[local]___[hash:base64:5]',
-              '-autoprefixer': true,
-              '-restructuring': true,
-            }
-            },
-            {loader: 'postcss-loader', options: postcssOptions},
-          ]
-        }),
+        use: fixStyleLoaders4Production([
+          {
+            loader: 'css-loader', options: {
+            sourceMap: true,
+            modules: true,
+            localIdentName: '[local]___[hash:base64:5]',
+            '-autoprefixer': true,
+            '-restructuring': true,
+          }
+          },
+          {loader: 'postcss-loader', options: postcssOptions},
+        ])
       },
       {
         test (filePath) {
           return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
         },
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader', options: {
-              sourceMap: true,
-              '-autoprefixer': true,
-            }
-            },
-            {loader: 'postcss-loader', options: postcssOptions},
-            {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-          ]
-        }),
+        use: fixStyleLoaders4Production([
+          {
+            loader: 'css-loader', options: {
+            sourceMap: true,
+            '-autoprefixer': true,
+          }
+          },
+          {loader: 'postcss-loader', options: postcssOptions},
+          {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
+        ])
       },
       {
         test: /\.module\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader', options: {
-              sourceMap: true,
-              modules: true,
-              localIdentName: '[local]___[hash:base64:5]',
-              '-autoprefixer': true,
-            }
-            },
-            {loader: 'postcss-loader', options: postcssOptions},
-            {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-          ]
-        }),
+        use: fixStyleLoaders4Production([
+          {
+            loader: 'css-loader', options: {
+            sourceMap: true,
+            modules: true,
+            localIdentName: '[local]___[hash:base64:5]',
+            '-autoprefixer': true,
+          }
+          },
+          {loader: 'postcss-loader', options: postcssOptions},
+          {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
+        ])
       },
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -256,13 +239,23 @@ export default async function (context, next) {
       },
       {
         test: /\.html?$/,
-        use: [{loader: 'url-loader', options: {name: '[path][name].[ext]'}}],
+        use: [{loader: 'html-loader', options: {name: '[path][name].[ext]'}}],
       },
       {
         test: /\.hbs?$/, use: [{loader: 'mustache-loader'}]
-      }
+      },
     ],
 
   }
 
+}
+
+function fixStyleLoaders4Production (rules) {
+  const styleLoader = 'style-loader'
+
+  if (process.env.NODE_ENV !== 'production') {
+    return [{loader: styleLoader}, ...rules]
+  }
+
+  return ExtractTextPlugin.extract({fallback: styleLoader, use: rules})
 }

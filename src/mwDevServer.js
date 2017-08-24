@@ -15,19 +15,18 @@ export default async function (context, next) {
     contentBase: false,
     clientLogLevel: 'none',
     hot: true,
-    hotOnly: true,
-    inline: true,
-    noInfo: true,
+    noInfo: false,
     quiet: false,
     host: '127.0.0.1',
     port: 8080,
-    historyApiFallback: true
   }
   next()
+
   let {htmlWebpackPluginOptions} = context
   let {plugins = []} = webpackConfig
 
   plugins.push(...[
+
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.join(__dirname, '../index.hbs'),

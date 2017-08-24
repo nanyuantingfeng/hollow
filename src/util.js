@@ -19,3 +19,5 @@ export function progressHandler (percent, msg1, msg2) {
     console.log(chalk.green('\nwebpack: bundle build is now finished'))
   }
 }
+
+ 
