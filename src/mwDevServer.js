@@ -23,13 +23,15 @@ export default async function (context, next) {
     port: 8080,
     historyApiFallback: true
   }
-
+  next()
+  let {htmlWebpackPluginOptions} = context
   let {plugins = []} = webpackConfig
 
   plugins.push(...[
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.join(__dirname, '../index.hbs'),
+      ...htmlWebpackPluginOptions,
     }),
     new HotModuleReplacementPlugin(),
     new NamedModulesPlugin()
@@ -37,5 +39,4 @@ export default async function (context, next) {
 
   webpackConfig.plugins = plugins
 
-  next()
 }

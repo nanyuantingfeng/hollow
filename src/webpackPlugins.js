@@ -16,6 +16,7 @@ const {
   HotModuleReplacementPlugin,
   NoEmitOnErrorsPlugin,
   ProgressPlugin,
+  WebpackOptionsValidationError,
 } = webpack
 
 const {
@@ -38,4 +39,5 @@ export {
   CaseSensitivePathsPlugin,
   FriendlyErrorsWebpackPlugin,
   mapJSONWebpackPlugin,
+  WebpackOptionsValidationError
 }
