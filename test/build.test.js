@@ -29,6 +29,10 @@ function testCase (args, _case) {
 describe('test', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
+  beforeEach(() => {
+    process.env.NODE_ENV = 'production'
+  })
+
   it('support normally', async () => {
     await testCase({hash: true}, 'build-normal')
   })
