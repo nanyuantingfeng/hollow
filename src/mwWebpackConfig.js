@@ -87,7 +87,7 @@ export default async function (context, next) {
 
   next()
 
-  let {babelOptions, postcssOptions, tsOptions} = context
+  let {babelOptions, postcssOptions, tsOptions, rules} = context
 
   context.webpackConfig.module = {
     noParse: [/moment.js/],
@@ -214,6 +214,7 @@ export default async function (context, next) {
       {
         test: /\.hbs?$/, use: [{loader: 'mustache-loader'}]
       },
+      ...rules,
     ],
   }
 
