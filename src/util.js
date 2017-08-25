@@ -37,9 +37,15 @@ export function fnBuildCopyFiles (files) {
   if (Array.isArray(files)) {
     return files.map(from => ({from}))
   }
-  return Object.keys(files).filter(key => !!files[key].path).map(key => {
-    let val = files[key]
-    return {from: val.path, to: val.to}
+  return Object.keys(files).filter(key => {
+    let file = files[key]
+    return typeof file === 'string' || !!files[key].path
+  }).map(key => {
+    let file = files[key]
+    if (typeof file === 'string') {
+      return {from: file}
+    }
+    return {from: file.path, to: file.to}
   })
 }
 
@@ -92,13 +98,18 @@ export function fnBuildHTMLData (filesMap, env) {
   }
 }
 
-export function fnBuildHTML (context) {
-  let {entry, externals, sdks, env, htmlWebpackPluginOptions} = context
+export function fnBuildHTML (context, env) {
+  const {externals = {}, sdks = {}, htmlWebpackPluginOptions} = context
+
+  let entry = context.entry || context.packageMap.entry
+
+  if (!entry) {
+    throw new Error('entry is an invalid value')
+  }
 
   if (typeof entry === 'string') {
     entry = {index: entry}
   }
-
   let paths = fnBuildHTMLData(externals, env)
   let entryNames = Object.keys(entry)
 
@@ -107,7 +118,7 @@ export function fnBuildHTML (context) {
     favicon: path.join(__dirname, '../favicon.ico'),
     ...htmlWebpackPluginOptions
   }
-
+  
   return entryNames.map(name => {
     let excludes = entryNames.filter(line => line === name)
     let sdk = sdks[name]

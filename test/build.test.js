@@ -55,6 +55,9 @@ describe('support test', () => {
   it('support jsx', async () => {
     await testCase({}, 'build-jsx')
   })
+  it('support jsx-multi', async () => {
+    await testCase({}, 'build-jsx-multi')
+  })
   it('support json', async () => {
     await testCase({}, 'build-json')
   })

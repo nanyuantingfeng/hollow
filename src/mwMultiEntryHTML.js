@@ -16,13 +16,14 @@ import {
 export default async function (context, next) {
   next()
 
-  let {webpackConfig, packageMap, default_node_env, htmlWebpackPluginOptions} = context
+  let {webpackConfig, packageMap, default_node_env} = context
 
   let env = process.env.NODE_ENV || default_node_env || 'development'
 
   let isProdENV = env === 'production'
   let isDevENV = env === 'development'
   let isBetaENV = env === 'beta'
+
   /******************
    *#source-map 编译过慢
    * production 环境不需要
@@ -34,6 +35,7 @@ export default async function (context, next) {
         : isDevENV ? '#inline-module-eval-source-map'
           : false
   }
+
   let {plugins = []} = webpackConfig
 
   /***********************
@@ -54,14 +56,12 @@ export default async function (context, next) {
 
   let versionTail = isBetaENV ? '-beta' : isDevENV ? '-dev' : ''
 
-  plugins.push(
-    new DefinePlugin({
-      ['process.env.NODE_ENV']: JSON.stringify(env),
-      VERSION: JSON.stringify(version),
-      APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
-      ...context.defines
-    })
-  )
+  plugins.push(new DefinePlugin({
+    ['process.env.NODE_ENV']: JSON.stringify(env),
+    VERSION: JSON.stringify(version),
+    APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
+    ...context.defines
+  }))
 
   if (context.provides) {
     plugins.push(new ProvidePlugin(context.provides))
@@ -70,10 +70,10 @@ export default async function (context, next) {
   /***********************
    * 多入口配置
    */
-  fnBuildHTML(context).forEach(line => {
+
+  fnBuildHTML(context, env).forEach(line => {
     plugins.push(new HTMLWebpackPlugin(line))
   })
 
   context.webpackConfig.plugins = plugins
-
 }
