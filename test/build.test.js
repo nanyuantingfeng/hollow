@@ -26,7 +26,7 @@ function testCase (args, _case) {
     .catch(e => {throw e})
 }
 
-describe('test', () => {
+describe('support test', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
   beforeEach(() => {
@@ -61,15 +61,15 @@ describe('test', () => {
   it('support node builtins', async () => {
     await testCase({}, 'build-node-builtins')
   })
-  it('support mergeCustomConfig plugins', async () => {
-    await testCase({hash: true}, 'build-mergeCustomConfig-plugins')
+  it('support custom plugins', async () => {
+    await testCase({hash: true}, 'build-custom-plugins')
   })
-  it('support mergeCustomConfig environment production', async () => {
-    await testCase({compress: true}, 'build-mergeCustomConfig-environment-production')
+  it('support environment production', async () => {
+    await testCase({compress: true}, 'build-env-production')
   })
-  it('support mergeCustomConfig environment development', async () => {
+  it('support environment development', async () => {
     process.env.NODE_ENV = 'development'
-    await testCase({}, 'build-mergeCustomConfig-environment-development')
+    await testCase({}, 'build-env-development')
   })
   it('support config', async () => {
     await testCase({config: 'webpack.config.path.js'}, 'build-mergeCustomConfig-path')
