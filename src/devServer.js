@@ -15,8 +15,6 @@ export default function (args) {
   }
 
   let {cwd, config} = context
-  
-  return compose(mwsDevServer(cwd, config))(context).then(webpackConfig => {
-    return startDevServer(webpackConfig, context)
-  })
+
+  return compose(mwsDevServer(cwd, config))(context).then(startDevServer)
 }

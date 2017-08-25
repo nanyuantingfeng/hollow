@@ -61,6 +61,6 @@ export default async function (context, next) {
 
   fnCheckWebpackConfig(webpackConfig)
 
-  return webpackConfig
+  return context
 }
 

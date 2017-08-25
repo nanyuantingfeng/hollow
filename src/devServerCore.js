@@ -15,7 +15,9 @@ function colorError (msg) {
   return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
 }
 
-export function startDevServer (webpackConfig, args) {
+export function startDevServer (context) {
+
+  const {webpackConfig} = context
 
   const firstWpOpt = Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig
 

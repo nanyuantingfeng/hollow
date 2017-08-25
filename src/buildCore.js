@@ -7,7 +7,9 @@ import { webpack } from './plugins'
 import { notifier } from './util'
 import PromiseDefer from './PromiseDefer'
 
-export function startBuild (webpackConfig, args) {
+export function startBuild (context) {
+
+  let {webpackConfig} = context
 
   webpackConfig = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
 
@@ -20,8 +22,8 @@ export function startBuild (webpackConfig, args) {
   let defer = PromiseDefer()
 
   function compileDoneHandler (err, stats) {
-    if (args.json) {
-      const filename = typeof args.json === 'boolean' ? 'build-bundle.json' : args.json
+    if (context.json) {
+      const filename = typeof context.json === 'boolean' ? 'build-bundle.json' : context.json
       const jsonPath = path.join(fileOutputPath, filename)
       fs.writeFileSync(jsonPath, JSON.stringify(stats.toJson()), 'utf-8')
       console.log(`Generate JSON File: ${jsonPath}`)
@@ -35,16 +37,16 @@ export function startBuild (webpackConfig, args) {
       })
     }
 
-    if (!args.watch || stats.hasErrors()) {
+    if (!context.watch || stats.hasErrors()) {
 
       const buildInfo = stats.toString({
         colors: true,
         children: true,
-        chunks: !!args.verbose,
-        modules: !!args.verbose,
-        chunkModules: !!args.verbose,
-        hash: !!args.verbose,
-        version: !!args.verbose,
+        chunks: !!context.verbose,
+        modules: !!context.verbose,
+        chunkModules: !!context.verbose,
+        hash: !!context.verbose,
+        version: !!context.verbose,
       })
 
       if (stats.hasErrors()) {
@@ -71,7 +73,7 @@ export function startBuild (webpackConfig, args) {
 
   let compiler = webpack(webpackConfig)
 
-  if (!args.verbose) {
+  if (!context.verbose) {
     compiler.plugin('done', (stats) => {
       stats.stats.forEach((stat) => {
         stat.compilation.children = stat.compilation.children.filter((child) => {
@@ -81,8 +83,8 @@ export function startBuild (webpackConfig, args) {
     })
   }
 
-  if (args.watch) {
-    compiler.watch(args.watch || 200, compileDoneHandler)
+  if (context.watch) {
+    compiler.watch(context.watch || 200, compileDoneHandler)
   } else {
     compiler.run(compileDoneHandler)
   }

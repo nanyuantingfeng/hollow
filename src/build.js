@@ -16,8 +16,6 @@ export default function (args) {
 
   let {cwd, config} = context
 
-  return compose(mwsBuild(cwd, config))(context).then(webpackConfig => {
-    return startBuild(webpackConfig, context)
-  })
+  return compose(mwsBuild(cwd, config))(context).then(startBuild)
 
 }
