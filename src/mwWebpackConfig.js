@@ -50,7 +50,7 @@ export default async function (context, next) {
     new CommonsChunkPlugin({
       name: 'common',
       filename: commonName,
-      minChunks: Infinity,
+      minChunks: 3,
     }),
     new CaseSensitivePathsPlugin(),
     new FriendlyErrorsWebpackPlugin({
