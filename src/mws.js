@@ -44,9 +44,7 @@ export function mwsDevServer (cwd, config) {
     mwBuild,
     mwWebpackConfig,
     mwMultiEntryHTML,
-
     mwDevServer,
-
     mwBabelOptions,
     mwPostCSSOptions,
     mwTSOptions,

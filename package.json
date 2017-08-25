@@ -2,11 +2,10 @@
   "name": "hollow-cli",
   "version": "0.0.6",
   "description": "Hollow CLI",
-  "main": "index.js",
+  "main": "lib/index.js",
   "author": "nanyuantingfeng",
   "license": "MIT",
   "email": "nanyuantingfeng@aliyun.com",
-  "man": "./lib/index.js",
   "bin": {
     "hollow": "./bin/index"
   },

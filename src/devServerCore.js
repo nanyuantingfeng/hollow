@@ -32,9 +32,7 @@ export function startDevServer (context) {
   }
 
   addDevServerEntrypoints(webpackConfig, options)
-
-  console.log(webpackConfig)
-
+  
   let defer = PromiseDefer()
 
   let compiler
