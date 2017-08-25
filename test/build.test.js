@@ -72,7 +72,7 @@ describe('support test', () => {
     await testCase({}, 'build-env-development')
   })
   it('support config', async () => {
-    await testCase({config: 'webpack.config.path.js'}, 'build-mergeCustomConfig-path')
+    await testCase({config: 'webpack.config.path.js'}, 'build-custom-path')
   })
   it('support hash map', async () => {
     await testCase({hash: true}, 'build-hash-map')

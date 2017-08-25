@@ -1,3 +1,3 @@
-module.exports = async function(context) {
-  console.log("77");
+module.exports = async function (context) {
+  console.log('77')
 }
