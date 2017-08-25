@@ -67,6 +67,9 @@ describe('support test', () => {
   it('support custom plugins', async () => {
     await testCase({hash: true}, 'build-custom-plugins')
   })
+  it('support custom rules', async () => {
+    await testCase({hash: false}, 'build-custom-rules')
+  })
   it('support environment production', async () => {
     await testCase({compress: true}, 'build-env-production')
   })
