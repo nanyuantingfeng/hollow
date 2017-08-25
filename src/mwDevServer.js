@@ -17,12 +17,15 @@ const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
 
 export default async function (context, next) {
+  context.devServer = {}
+
   next()
 
   let {devServer, webpackConfig} = context
+
   let {plugins = []} = webpackConfig
 
-  webpackConfig.devServer = devServer = {
+  let {host, port} = webpackConfig.devServer = {
     hot: true,
     hotOnly: true,
     contentBase: false,
@@ -30,11 +33,8 @@ export default async function (context, next) {
     noInfo: false,
     host: DEFAULT_HOST,
     port: context.port || DEFAULT_PORT,
-
     ...devServer,
   }
-
-  let {host, port} = devServer
 
   port = port === DEFAULT_PORT
     ? defaultTo(context.port, port)
@@ -43,7 +43,7 @@ export default async function (context, next) {
   let port0 = port
   let port1 = port + 1
 
-  devServer.port = port0
+  webpackConfig.devServer.port = port0
 
   let uri = createDomain({port: port0, host})
 
@@ -55,7 +55,7 @@ export default async function (context, next) {
       port: port1,
       proxy: uri
     }, {reload: true}),
-    
+
     ...plugins,
   ]
 
