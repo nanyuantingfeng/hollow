@@ -13,13 +13,13 @@ import {
 import {
   fnProgressHandler,
   fnCheckWebpackConfig,
-  getValueByPath,
+  fnGetValueByPath,
 } from './util'
 
 export default async function (context, next) {
   let {cwd} = context
 
-  context.packageMap = getValueByPath(path.join(cwd, 'package.json'))
+  context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'))
 
   next()
 

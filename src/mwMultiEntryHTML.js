@@ -1,114 +1,17 @@
 /**************************************************
  * Created by nanyuantingfeng on 24/08/2017 18:42.
  **************************************************/
-import path from 'path'
 import {
   CopyWebpackPlugin,
   DefinePlugin,
   HTMLWebpackPlugin,
 } from './plugins'
 
-function buildCopyFiles (files) {
-  if (Array.isArray(files)) {
-    return files
-  }
-  return Object.keys(files).filter(key => !!files[key].path).map(key => {
-    let val = files[key]
-    return {from: val.path, to: val.to}
-  })
-}
-
-function buildExternals (files) {
-  let ret = {}
-  Object.keys(files).filter(key => !!files[key].name).forEach(key => {
-    ret[key] = files[key].name
-  })
-  return ret
-}
-
-function build4DevelopmentENV (filesMap) {
-  let ret = []
-  Object.keys(filesMap).forEach(key => {
-    let line = filesMap[key]
-    let path = line.path
-    if (line.name && path) {
-      ret.push(path)
-    }
-  })
-  return ret
-}
-
-function build4ProductionENV (filesMap) {
-  let ret = []
-  Object.keys(filesMap).forEach(key => {
-    let line = filesMap[key]
-    let path = line.path
-    if (line.name && path) {
-      let paths = path.split('/')
-      path = paths[paths.length - 1]
-      ret.push(path)
-    }
-  })
-  return ret
-}
-
-function buildHTMLData (filesMap, env) {
-  switch (env) {
-    case 'production' :
-    case 'beta' :
-      return build4ProductionENV(filesMap)
-    default:
-      return build4DevelopmentENV(filesMap)
-  }
-}
-
-function buildHTML ({entry, externals, sdks, env}, entry2, htmlWebpackPluginOptions) {
-
-  entry = entry || entry2
-
-  if (typeof entry === 'string') {
-    entry = {index: entry}
-  }
-
-  let oo = []
-  let paths = buildHTMLData(externals, env)
-  let entryNames = Object.keys(entry)
-
-  let tmp = {
-    template: path.join(__dirname, '../index.hbs'),
-    favicon: path.join(__dirname, '../favicon.ico'),
-    ...htmlWebpackPluginOptions
-  }
-
-  entryNames.forEach(name => {
-    let excludes = []
-
-    entryNames.forEach(line => {
-      if (line !== name) {
-        excludes.push(line)
-      }
-    })
-
-    let sdk = sdks[name]
-    let cPaths = paths.slice(0)
-
-    if (typeof sdk === 'string') {
-      sdk = [sdk]
-    }
-
-    Array.prototype.unshift.apply(cPaths, sdk)
-
-    oo.push({
-      PATHS: cPaths,
-      filename: name + '.html',
-      excludeChunks: excludes,
-      ...tmp
-    })
-
-  })
-
-  return oo
-}
+import {
+  fnBuildCopyFiles,
+  fnBuildExternals,
+  fnBuildHTML,
+} from './util'
 
 export default async function (context, next) {
   next()
@@ -137,14 +40,14 @@ export default async function (context, next) {
    * copy文件到输出目录
    */
   if (context.files) {
-    plugins.push(new CopyWebpackPlugin(buildCopyFiles(context.files)))
+    plugins.push(new CopyWebpackPlugin(fnBuildCopyFiles(context.files)))
   }
 
   /***********************
    * 配置忽略依赖
    */
   if (context.externals) {
-    webpackConfig.externals = buildExternals(context.externals)
+    webpackConfig.externals = fnBuildExternals(context.externals)
   }
 
   let version = context.version || packageMap.version || '0.0.0'
@@ -164,14 +67,12 @@ export default async function (context, next) {
     plugins.push(new ProvidePlugin(context.provides))
   }
 
-  /* //TODO
-    /!***********************
-     * 多入口配置
-     *!/
-    buildHTML(args, packageMap.entry, htmlWebpackPluginOptions).forEach(line => {
-      plugins.push(new HTMLWebpackPlugin(line))
-    })
-  */
+  /***********************
+   * 多入口配置
+   */
+  fnBuildHTML(context).forEach(line => {
+    plugins.push(new HTMLWebpackPlugin(line))
+  })
 
   context.webpackConfig.plugins = plugins
 
