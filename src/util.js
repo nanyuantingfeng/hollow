@@ -120,7 +120,7 @@ export function fnBuildHTML (context, env) {
   }
   
   return entryNames.map(name => {
-    let excludes = entryNames.filter(line => line === name)
+    let excludes = entryNames.filter(line => line !== name)
     let sdk = sdks[name]
 
     if (typeof sdk === 'string') {
