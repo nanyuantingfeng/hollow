@@ -113,8 +113,7 @@ function buildHTML ({entry, externals, sdks, env}, entry2, htmlWebpackPluginOpti
 export default async function (context, next) {
   next()
 
-  let {webpackConfig, packageMap, args} = context
-  let {default_node_env} = args
+  let {webpackConfig, packageMap, default_node_env, htmlWebpackPluginOptions} = context
 
   let env = process.env.NODE_ENV || default_node_env || 'development'
 
@@ -132,23 +131,24 @@ export default async function (context, next) {
         : isDevENV ? '#inline-module-eval-source-map'
           : false
   }
-  let {plugins = [], htmlWebpackPluginOptions} = webpackConfig
+  let {plugins = []} = webpackConfig
 
   /***********************
    * copy文件到输出目录
    */
-  if (args.files) {
-    plugins.push(new CopyWebpackPlugin(buildCopyFiles(args.files)))
+  if (context.files) {
+    plugins.push(new CopyWebpackPlugin(buildCopyFiles(context.files)))
   }
 
   /***********************
    * 配置忽略依赖
    */
-  if (args.externals) {
-    webpackConfig.externals = buildExternals(args.externals)
+  if (context.externals) {
+    webpackConfig.externals = buildExternals(context.externals)
   }
 
-  let version = args.version || packageMap.version || '0.0.0'
+  let version = context.version || packageMap.version || '0.0.0'
+
   let versionTail = isBetaENV ? '-beta' : isDevENV ? '-dev' : ''
 
   plugins.push(
@@ -156,12 +156,12 @@ export default async function (context, next) {
       ['process.env.NODE_ENV']: JSON.stringify(env),
       VERSION: JSON.stringify(version),
       APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
-      ...args.defines
+      ...context.defines
     })
   )
 
-  if (args.provides) {
-    plugins.push(new ProvidePlugin(args.provides))
+  if (context.provides) {
+    plugins.push(new ProvidePlugin(context.provides))
   }
 
   /* //TODO

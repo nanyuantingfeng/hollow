@@ -17,7 +17,7 @@ const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
 
 export default async function (context, next) {
-  let {webpackConfig, args} = context
+  let {webpackConfig} = context
 
   webpackConfig.devServer = {
     hot: true,
@@ -35,8 +35,8 @@ export default async function (context, next) {
   let {host, port} = devServer
 
   port = port === DEFAULT_PORT
-    ? defaultTo(args.port, port)
-    : defaultTo(port, args.port)
+    ? defaultTo(context.port, port)
+    : defaultTo(port, context.port)
 
   let port0 = port
   let port1 = port + 1

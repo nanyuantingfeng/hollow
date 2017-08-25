@@ -7,16 +7,16 @@ import { mwsDevServer } from './mws'
 import { startDevServer } from './devServerCore'
 
 export default function (args) {
-
-  if (!args.cwd) {
-    args.cwd = process.cwd()
+  let context = {
+    cwd: process.cwd(),
+    default_node_env: 'development',
+    cache: {},
+    ...args,
   }
 
-  if (!args.default_node_env) {
-    args.default_node_env = 'development'
-  }
-
-  return compose(mwsDevServer(args))({args, cache: {}}).then(webpackConfig => {
-    return startDevServer(webpackConfig, args)
+  let {cwd, config} = context
+  
+  return compose(mwsDevServer(cwd, config))(context).then(webpackConfig => {
+    return startDevServer(webpackConfig, context)
   })
 }

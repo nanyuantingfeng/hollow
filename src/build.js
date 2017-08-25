@@ -7,17 +7,17 @@ import { mwsBuild } from './mws'
 import { startBuild } from './buildCore'
 
 export default function (args) {
-
-  if (!args.cwd) {
-    args.cwd = process.cwd()
+  let context = {
+    cwd: process.cwd(),
+    default_node_env: 'production',
+    cache: {},
+    ...args,
   }
 
-  if (!args.default_node_env) {
-    args.default_node_env = 'production'
-  }
+  let {cwd, config} = context
 
-  return compose(mwsBuild(args))({args, cache: {}}).then(webpackConfig => {
-    return startBuild(webpackConfig, args)
+  return compose(mwsBuild(cwd, config))(context).then(webpackConfig => {
+    return startBuild(webpackConfig, context)
   })
 
 }

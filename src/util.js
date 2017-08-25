@@ -3,13 +3,14 @@
  **************************************************/
 import notifier from 'node-notifier'
 import chalk from 'chalk'
+import fs from 'fs'
 
 export {
   notifier,
   chalk,
 }
 
-export function progressHandler (percent, msg1, msg2) {
+export function fnProgressHandler (percent, msg1, msg2) {
   let stream = process.stdout
   if (stream.isTTY && percent < .70) {
     stream.cursorTo(0)
@@ -20,4 +21,17 @@ export function progressHandler (percent, msg1, msg2) {
   }
 }
 
- 
+
+export function fnCheckWebpackConfig (webpackConfig) {
+  const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
+  const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0)
+  if (hasEmptyEntry) {
+    let e = new Error('no webpack entry found')
+    e.name = 'NoEntry'
+    throw e
+  }
+}
+
+export function getValueByPath (path) {
+  return !fs.existsSync(path) ? {} : require(path)
+}

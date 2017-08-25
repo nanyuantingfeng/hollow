@@ -11,16 +11,20 @@ import mwWebpackConfig from './mwWebpackConfig'
 import mwDevServer from './mwDevServer'
 import mwMultiEntryHTML from './mwMultiEntryHTML'
 
-function getCustomConfig (customConfigPath) {
-  if (!fs.existsSync(customConfigPath)) {
+function getCustomConfig (path) {
+  if (!fs.existsSync(path)) {
     return async () => {}
   }
-  return require(customConfigPath)
+  return require(path)
 }
 
-export function mwsBuild (args) {
+function getCustomConfigValue (cwd, config) {
+  return getCustomConfig(path.join(cwd, config || 'webpack.config.js'))
+}
 
-  let mwConfig = getCustomConfig(path.join(args.cwd, args.config || 'webpack.config.js'))
+export function mwsBuild (cwd, config) {
+
+  let mwConfig = getCustomConfigValue(cwd, config)
 
   return [
     mwBuild,
@@ -33,14 +37,16 @@ export function mwsBuild (args) {
   ]
 }
 
-export function mwsDevServer (args) {
-  let mwConfig = getCustomConfig(path.join(args.cwd, args.config || 'webpack.config.js'))
+export function mwsDevServer (cwd, config) {
+  let mwConfig = getCustomConfigValue(cwd, config)
 
   return [
     mwBuild,
     mwWebpackConfig,
     mwMultiEntryHTML,
+
     mwDevServer,
+
     mwBabelOptions,
     mwPostCSSOptions,
     mwTSOptions,

@@ -14,8 +14,7 @@ import {
 import { notifier } from './util'
 
 export default async function (context, next) {
-  let {args, packageMap} = context
-  let {cwd, hash, devtool, limit, default_node_env} = args
+  let {cwd, hash, devtool, limit, default_node_env, packageMap} = context
 
   let env = process.env.NODE_ENV || default_node_env || 'development'
 
@@ -32,8 +31,7 @@ export default async function (context, next) {
     cache: true,
     devtool,
     node,
-    context: args.context || cwd,
-    entry: args.entry || packageMap.entry,
+    context: context.context || cwd,
     output: {
       path: path.join(cwd, './dist/'),
       filename: jsFileName,

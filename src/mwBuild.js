@@ -2,7 +2,6 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path'
-import fs from 'fs'
 
 import {
   NoEmitOnErrorsPlugin,
@@ -11,41 +10,26 @@ import {
   ProgressPlugin,
 } from './plugins'
 
-import { progressHandler } from './util'
-
-function fnCheckWebpackConfig (webpackConfig) {
-  const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
-  const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0)
-  if (hasEmptyEntry) {
-    let e = new Error('no webpack entry found')
-    e.name = 'NoEntry'
-    throw e
-  }
-}
+import {
+  fnProgressHandler,
+  fnCheckWebpackConfig,
+  getValueByPath,
+} from './util'
 
 export default async function (context, next) {
-  let {cwd} = context.args
+  let {cwd} = context
 
-  let packagePath = path.join(cwd, 'package.json')
-
-  let packageMap
-
-  if (!fs.existsSync(packagePath)) {
-    console.warn('current path did`t found package.json')
-    packageMap = {}
-  } else {
-    packageMap = require(packagePath)
-  }
-
-  context.packageMap = packageMap
+  context.packageMap = getValueByPath(path.join(cwd, 'package.json'))
 
   next()
 
-  let {webpackConfig, args, cache} = context
+  let {webpackConfig, cache, packageMap} = context
 
   let {plugins = []} = webpackConfig
 
-  let {default_node_env, outputPath, publicPath, compress} = args
+  webpackConfig.entry = context.entry || packageMap.entry
+
+  let {outputPath, publicPath, compress, hash} = context
 
   if (outputPath) {
     webpackConfig.output.path = outputPath
@@ -63,12 +47,11 @@ export default async function (context, next) {
   }
 
   plugins.push(... [
-    new ProgressPlugin(progressHandler),
+    new ProgressPlugin(fnProgressHandler),
     new NoEmitOnErrorsPlugin(),
   ])
 
-  if (args.hash) {
-    const packageMap = require(path.join(cwd, 'package.json'))
+  if (hash) {
     webpackConfig.output.filename = '[name]-[chunkhash].js'
     webpackConfig.output.chunkFilename = '[name]-[chunkhash].js'
     plugins.push(mapJSONWebpackPlugin({assetsPath: packageMap.name, cache,}))
