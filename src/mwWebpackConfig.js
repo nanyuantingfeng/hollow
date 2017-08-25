@@ -25,36 +25,8 @@ export default async function (context, next) {
 
   limit = limit || 10000
 
-  let theme = {}
-
-  if (packageMap.theme && typeof packageMap.theme === 'string') {
-    let cfgPath = packageMap.theme
-    // relative path
-    if (cfgPath.charAt(0) === '.') {
-      cfgPath = path.resolve(cwd, cfgPath)
-    }
-
-    let getThemeConfig = require(cfgPath)
-    theme = getThemeConfig()
-  }
-
-  else if (packageMap.theme && typeof packageMap.theme === 'object') {
-    theme = packageMap.theme
-  }
-
-  let emptyBuildIns = [
-    'child_process', 'cluster', 'dgram', 'dns', 'fs',
-    'module', 'net', 'readline', 'repl', 'tls',
-  ]
-
-  let browser = packageMap.browser || {}
-
-  let node = emptyBuildIns.reduce((obj, name) => {
-    if (!(name in browser)) {
-      return {...obj, ...{[name]: 'empty'}}
-    }
-    return obj
-  }, {})
+  let theme = getTheme(packageMap, cwd)
+  let node = getNode(packageMap)
 
   context.webpackConfig = {
     cache: true,
@@ -255,4 +227,43 @@ function fixStyleLoaders4Production (rules, env) {
     return ExtractTextPlugin.extract({fallback: styleLoader, use: rules})
   }
   return [{loader: styleLoader}, ...rules]
+}
+
+function getNode (packageMap) {
+
+  let emptyBuildIns = [
+    'child_process', 'cluster', 'dgram', 'dns', 'fs',
+    'module', 'net', 'readline', 'repl', 'tls',
+  ]
+
+  let browser = packageMap.browser || {}
+
+  return emptyBuildIns.reduce((obj, name) => {
+    if (!(name in browser)) {
+      return {...obj, ...{[name]: 'empty'}}
+    }
+    return obj
+  }, {})
+
+}
+
+function getTheme (packageMap, cwd) {
+  let theme = {}
+
+  if (packageMap.theme && typeof packageMap.theme === 'string') {
+
+    let pp = packageMap.theme
+    if (pp.charAt(0) === '.') {
+      pp = path.resolve(cwd, pp)
+    }
+
+    let getThemeConfig = require(pp)
+    theme = getThemeConfig()
+  }
+
+  else if (packageMap.theme && typeof packageMap.theme === 'object') {
+    theme = packageMap.theme
+  }
+
+  return theme
 }
