@@ -1,16 +1,18 @@
 {
   "name": "hollow-cli",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Hollow CLI",
   "main": "index.js",
   "author": "nanyuantingfeng",
   "license": "MIT",
   "email": "nanyuantingfeng@aliyun.com",
+  "man": "./lib/index.js",
   "bin": {
     "hollow": "./bin/index"
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
+    "publish2npm": "npm run build && npm publish",
     "test": "jest"
   },
   "devDependencies": {
