@@ -147,4 +147,29 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 /******/ })
 /************************************************************************/
-/******/ ([]);
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function DX(props) {
+
+  console.log(UPLOAD_INVOICE_FILE_URL);
+
+  return React.createElement(
+    "div",
+    null,
+    VERSION
+  );
+}
+
+ReactDOM.render(React.createElement(
+  "div",
+  null,
+  React.createElement(DX, null)
+));
+
+/***/ })
+/******/ ]);

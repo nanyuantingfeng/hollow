@@ -21,7 +21,7 @@ export default async function (context, next) {
 
   context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'))
   context.rules = []
-  
+
   next()
 
   let {webpackConfig, cache, packageMap} = context
@@ -33,7 +33,7 @@ export default async function (context, next) {
   let {outputPath, publicPath, compress, hash} = context
 
   if (outputPath) {
-    webpackConfig.output.path = outputPath
+    webpackConfig.output.path = path.join(cwd, outputPath)
   }
 
   if (publicPath) {

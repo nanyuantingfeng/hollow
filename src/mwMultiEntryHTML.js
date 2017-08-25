@@ -16,25 +16,7 @@ import {
 export default async function (context, next) {
   next()
 
-  let {webpackConfig, packageMap, default_node_env} = context
-
-  let env = process.env.NODE_ENV || default_node_env || 'development'
-
-  let isProdENV = env === 'production'
-  let isDevENV = env === 'development'
-  let isBetaENV = env === 'beta'
-
-  /******************
-   *#source-map 编译过慢
-   * production 环境不需要
-   * beta 环境需要
-   */
-  if (webpackConfig.devtool === true) {
-    webpackConfig.devtool = isProdENV ? false
-      : isBetaENV ? '#source-map'
-        : isDevENV ? '#inline-module-eval-source-map'
-          : false
-  }
+  let {webpackConfig, packageMap} = context
 
   let {plugins = []} = webpackConfig
 

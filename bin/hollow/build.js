@@ -13,6 +13,15 @@ exports.builder = function (yargs) {
       type: 'boolean',
       description: 'build files with hash name',
     })
+    .option('output-path', {
+      type: 'string',
+      alias: 'o',
+      description: 'build files with hash name',
+    })
+    .option('public-path', {
+      type: 'string',
+      description: 'build files with hash name',
+    })
     .option('compress', {
       type: 'boolean',
       description: 'build files with compress',
