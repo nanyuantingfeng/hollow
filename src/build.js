@@ -9,6 +9,11 @@ import { startBuild } from './buildCore'
 export default function (args) {
   let context = {
     cwd: process.cwd(),
+    files: {},
+    externals: {},
+    sdks: {},
+    provides: {},
+    defines: {},
     outputPath: 'dist',
     default_node_env: 'production',
     cache: {},

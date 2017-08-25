@@ -33,7 +33,7 @@ module.exports = async function (context, next) {
 
   }
 
-  let defines = {UPLOAD_INVOICE_FILE_URL: '"http://127.0.0.1:9999"'}
+  let defines = {UPLOAD_INVOICE_FILE_URL: '"http://127.0.0.1:7367364"'}
 
   context.externals = externals
   context.files = files

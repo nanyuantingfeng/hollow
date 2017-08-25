@@ -9,6 +9,11 @@ import { startDevServer } from './devServerCore'
 export default function (args) {
   let context = {
     cwd: process.cwd(),
+    files: {},
+    externals: {},
+    sdks: {},
+    provides: {},
+    defines: {},
     default_node_env: 'development',
     cache: {},
     ...args,

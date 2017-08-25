@@ -1,2 +1,2 @@
 import './index.less';
-import './index.html';
+import './index22.html';

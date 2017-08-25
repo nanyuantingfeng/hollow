@@ -23,16 +23,14 @@ export default async function (context, next) {
   /***********************
    * copy文件到输出目录
    */
-  if (context.files) {
-    plugins.push(new CopyWebpackPlugin(fnBuildCopyFiles(context.files)))
-  }
+
+  plugins.push(new CopyWebpackPlugin(fnBuildCopyFiles(context.files)))
 
   /***********************
    * 配置忽略依赖
    */
-  if (context.externals) {
-    webpackConfig.externals = fnBuildExternals(context.externals)
-  }
+
+  webpackConfig.externals = fnBuildExternals(context.externals)
 
   let env = process.env.NODE_ENV || default_node_env || 'development'
 
@@ -40,7 +38,6 @@ export default async function (context, next) {
   let isBetaENV = env === 'beta'
 
   let version = context.version || packageMap.version || '0.0.0'
-
   let versionTail = isBetaENV ? '-beta' : isDevENV ? '-dev' : ''
 
   plugins.push(new DefinePlugin({
@@ -50,10 +47,7 @@ export default async function (context, next) {
     ...context.defines
   }))
 
-  if (context.provides) {
-    plugins.push(new ProvidePlugin(context.provides))
-  }
-
+  plugins.push(new ProvidePlugin(context.provides))
   /***********************
    * 多入口配置
    */
@@ -61,5 +55,7 @@ export default async function (context, next) {
   fnBuildHTML(context, env).forEach(line => {
     plugins.push(new HTMLWebpackPlugin(line))
   })
+
+  webpackConfig.plugins = plugins
 
 }
