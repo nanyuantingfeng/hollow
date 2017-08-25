@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.0.1",
+  "version": "0.0.1-beta.0",
   "description": "Hollow CLI",
   "main": "index.js",
   "author": "nanyuantingfeng",
@@ -22,7 +22,7 @@
   "dependencies": {
     "autoprefixer": "^7.1.2",
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.24.1",
+    "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
