@@ -20,6 +20,7 @@ const {
   ProgressPlugin,
   WebpackOptionsValidationError,
   BannerPlugin,
+  ProvidePlugin,
 } = webpack
 
 const {CommonsChunkPlugin, UglifyJsPlugin} = optimize
@@ -28,6 +29,7 @@ export {
   webpack,
   DefinePlugin,
   ProgressPlugin,
+  ProvidePlugin,
   UglifyJsPlugin,
   CommonsChunkPlugin,
   LoaderOptionsPlugin,

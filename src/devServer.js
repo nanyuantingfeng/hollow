@@ -21,5 +21,8 @@ export default function (args) {
 
   let {cwd, config} = context
 
-  return compose(mwsDevServer(cwd, config))(context).then(startDevServer)
+  return compose(mwsDevServer(cwd, config))(context)
+    .then(startDevServer).catch(e => {
+      console.error(e)
+    })
 }

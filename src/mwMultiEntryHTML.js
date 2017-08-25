@@ -4,6 +4,7 @@
 import {
   CopyWebpackPlugin,
   DefinePlugin,
+  ProvidePlugin,
   HTMLWebpackPlugin,
 } from './plugins'
 

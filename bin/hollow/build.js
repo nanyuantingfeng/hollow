@@ -16,11 +16,11 @@ exports.builder = function (yargs) {
     .option('output-path', {
       type: 'string',
       alias: 'o',
-      description: 'build files with hash name',
+      description: 'output path',
     })
     .option('public-path', {
       type: 'string',
-      description: 'build files with hash name',
+      description: 'public path',
     })
     .option('compress', {
       type: 'boolean',

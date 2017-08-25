@@ -15,6 +15,11 @@ exports.builder = function (yargs) {
     })
     .option('public-path', {
       type: 'string',
+      description: 'public path',
+    })
+    .option('port', {
+      type: 'number',
+      alias: 'p',
       description: 'build files with hash name',
     })
     .option('compress', {

@@ -29,7 +29,7 @@ export default async function (context, next) {
     inline: true,
     noInfo: false,
     host: DEFAULT_HOST,
-    port: DEFAULT_PORT,
+    port: context.port || DEFAULT_PORT,
 
     ...devServer,
   }
@@ -55,7 +55,7 @@ export default async function (context, next) {
       port: port1,
       proxy: uri
     }, {reload: true}),
-
+    
     ...plugins,
   ]
 
