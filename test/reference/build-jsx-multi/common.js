@@ -156,12 +156,12 @@
 
 function DX(props) {
 
-  console.log(UPLOAD_INVOICE_FILE_URL);
+  console.log("http://127.0.0.1:9999");
 
   return React.createElement(
     "div",
     null,
-    VERSION
+    "14.0.0"
   );
 }
 

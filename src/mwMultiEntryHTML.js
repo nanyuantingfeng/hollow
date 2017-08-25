@@ -16,7 +16,7 @@ import {
 export default async function (context, next) {
   next()
 
-  let {webpackConfig, packageMap} = context
+  let {webpackConfig, packageMap, default_node_env} = context
 
   let {plugins = []} = webpackConfig
 
@@ -33,6 +33,11 @@ export default async function (context, next) {
   if (context.externals) {
     webpackConfig.externals = fnBuildExternals(context.externals)
   }
+
+  let env = process.env.NODE_ENV || default_node_env || 'development'
+
+  let isDevENV = env === 'development'
+  let isBetaENV = env === 'beta'
 
   let version = context.version || packageMap.version || '0.0.0'
 
@@ -57,5 +62,4 @@ export default async function (context, next) {
     plugins.push(new HTMLWebpackPlugin(line))
   })
 
-  context.webpackConfig.plugins = plugins
 }

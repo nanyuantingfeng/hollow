@@ -118,7 +118,7 @@ export function fnBuildHTML (context, env) {
     favicon: path.join(__dirname, '../favicon.ico'),
     ...htmlWebpackPluginOptions
   }
-  
+
   return entryNames.map(name => {
     let excludes = entryNames.filter(line => line !== name)
     let sdk = sdks[name]

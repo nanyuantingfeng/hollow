@@ -159,11 +159,9 @@ export default async function (context, next) {
 
   next()
 
-  let {devtool, webpackConfig} = context
+  let {devtool, webpackConfig, babelOptions, postcssOptions, tsOptions, rules} = context
 
   webpackConfig.devtool = fnBuildSourceMap(devtool, env)
-
-  let {babelOptions, postcssOptions, tsOptions, rules} = context
 
   webpackConfig.module = {
     noParse: [/moment.js/],
@@ -293,6 +291,5 @@ export default async function (context, next) {
       ...rules,
     ],
   }
-
-  context.webpackConfig = webpackConfig
+  
 }

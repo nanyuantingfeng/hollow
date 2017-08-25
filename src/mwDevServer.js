@@ -17,9 +17,12 @@ const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
 
 export default async function (context, next) {
-  let {webpackConfig} = context
+  next()
 
-  webpackConfig.devServer = {
+  let {devServer, webpackConfig} = context
+  let {plugins = []} = webpackConfig
+
+  webpackConfig.devServer = devServer = {
     hot: true,
     hotOnly: true,
     contentBase: false,
@@ -27,11 +30,10 @@ export default async function (context, next) {
     noInfo: false,
     host: DEFAULT_HOST,
     port: DEFAULT_PORT,
+
+    ...devServer,
   }
 
-  next()
-
-  let {plugins = [], devServer} = webpackConfig
   let {host, port} = devServer
 
   port = port === DEFAULT_PORT
@@ -41,14 +43,20 @@ export default async function (context, next) {
   let port0 = port
   let port1 = port + 1
 
-  webpackConfig.devServer.port = port0
+  devServer.port = port0
 
   let uri = createDomain({port: port0, host})
 
   webpackConfig.plugins = [
     new HotModuleReplacementPlugin(),
     new NamedModulesPlugin(),
-    new BrowserSyncPlugin({host, port: port1, proxy: uri}, {reload: true}),
+    new BrowserSyncPlugin({
+      host,
+      port: port1,
+      proxy: uri
+    }, {reload: true}),
+
     ...plugins,
   ]
+
 }

@@ -20,6 +20,7 @@ export default async function (context, next) {
   let {cwd} = context
 
   context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'))
+
   context.rules = []
 
   next()
