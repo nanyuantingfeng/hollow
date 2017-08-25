@@ -3,7 +3,7 @@
  **************************************************/
 export default async function (context, next) {
 
-  context.tsOptions = {
+  context.typescriptOptions = context.tsOptions = {
     transpileOnly: true,
     compilerOptions: {
       target: 'es2016',
