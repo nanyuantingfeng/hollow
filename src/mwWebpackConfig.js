@@ -71,38 +71,40 @@ export default async function (context, next) {
       modules: ['node_modules', path.join(__dirname, '../node_modules')],
       extensions: [
         '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
-        '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'],
+        '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'
+      ],
     },
-    plugins: [
-      new CommonsChunkPlugin({
-        name: 'common',
-        filename: commonName,
-        minChunks: Infinity,
-      }),
-      new CaseSensitivePathsPlugin(),
-      new FriendlyErrorsWebpackPlugin({
-        onErrors: (severity, errors) => {
-          if (severity !== 'error') {
-            notifier.notify({
-              title: 'hollow cli',
-              message: 'warn',
-              contentImage: path.join(__dirname, '../assets/warn.png'),
-              sound: 'Glass',
-            })
-            return
-          }
-          const error = errors[0]
+  }
+
+  context.webpackConfig.plugins = [
+    new CommonsChunkPlugin({
+      name: 'common',
+      filename: commonName,
+      minChunks: Infinity,
+    }),
+    new CaseSensitivePathsPlugin(),
+    new FriendlyErrorsWebpackPlugin({
+      onErrors: (severity, errors) => {
+        if (severity !== 'error') {
           notifier.notify({
             title: 'hollow cli',
-            message: `${severity} : ${error.name}`,
-            subtitle: error.file || '',
-            contentImage: path.join(__dirname, '../assets/fail.png'),
+            message: 'warn',
+            contentImage: path.join(__dirname, '../assets/warn.png'),
             sound: 'Glass',
           })
-        },
-      }),
-    ],
-  }
+          return
+        }
+        const error = errors[0]
+        notifier.notify({
+          title: 'hollow cli',
+          message: `${severity} : ${error.name}`,
+          subtitle: error.file || '',
+          contentImage: path.join(__dirname, '../assets/fail.png'),
+          sound: 'Glass',
+        })
+      },
+    }),
+  ]
 
   if (env === 'production') {
     context.webpackConfig.plugins.push(
@@ -115,12 +117,9 @@ export default async function (context, next) {
 
   next()
 
-  let {
-    babelOptions, postcssOptions, tsOptions,
-    webpackConfig
-  } = context
+  let {babelOptions, postcssOptions, tsOptions} = context
 
-  webpackConfig.module = {
+  context.webpackConfig.module = {
     noParse: [/moment.js/],
     rules: [
       {

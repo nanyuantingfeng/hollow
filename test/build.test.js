@@ -30,6 +30,7 @@ describe('test', () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
 
   beforeEach(() => {
+    delete process.env.NODE_ENV
     process.env.NODE_ENV = 'production'
   })
 

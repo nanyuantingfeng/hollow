@@ -1,5 +1,4 @@
-module.exports = function(webpackConfig) {
-  webpackConfig.output.filename = "[name].js";
-  webpackConfig.plugins = [];
-  return webpackConfig;
+module.exports = async function (context, next) {
+  let {webpackConfig} = context
+  webpackConfig.output.filename = '[name].js'
 }

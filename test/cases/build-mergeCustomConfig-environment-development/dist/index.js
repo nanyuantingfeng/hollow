@@ -6,6 +6,8 @@ webpackJsonp([0],[
 
 
 console.log("development");
+console.log("v0.0.0-dev");
+console.log("0.0.0");
 
 /***/ })
 ],[0]);

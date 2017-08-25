@@ -63,6 +63,7 @@ function buildHTMLData (filesMap, env) {
 }
 
 function buildHTML ({entry, externals, sdks, env}, entry2, htmlWebpackPluginOptions) {
+
   entry = entry || entry2
 
   if (typeof entry === 'string') {
@@ -120,7 +121,6 @@ export default async function (context, next) {
   let isProdENV = env === 'production'
   let isDevENV = env === 'development'
   let isBetaENV = env === 'beta'
-
   /******************
    *#source-map 编译过慢
    * production 环境不需要
@@ -132,7 +132,6 @@ export default async function (context, next) {
         : isDevENV ? '#inline-module-eval-source-map'
           : false
   }
-
   let {plugins = [], htmlWebpackPluginOptions} = webpackConfig
 
   /***********************
@@ -143,35 +142,37 @@ export default async function (context, next) {
   }
 
   /***********************
-   * 多入口配置
-   */
-  buildHTML(args, packageMap.entry, htmlWebpackPluginOptions).forEach(line => {
-    plugins.push(new HTMLWebpackPlugin(line))
-  })
-
-  /***********************
    * 配置忽略依赖
    */
   if (args.externals) {
     webpackConfig.externals = buildExternals(args.externals)
   }
 
-  let version = args.version
-  version = isProdENV ? version
-    : isBetaENV ? version + '-beta'
-      : isDevENV ? version + '-dev'
-        : false
+  let version = args.version || packageMap.version || '0.0.0'
+  let versionTail = isBetaENV ? '-beta' : isDevENV ? '-dev' : ''
 
-  plugins.push(new DefinePlugin({
-    ['process.env.NODE_ENV']: JSON.stringify(env),
-    APPLICATION_VERSION: JSON.stringify('v' + version),
-    ...args.defines
-  }))
+  plugins.push(
+    new DefinePlugin({
+      ['process.env.NODE_ENV']: JSON.stringify(env),
+      VERSION: JSON.stringify(version),
+      APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
+      ...args.defines
+    })
+  )
 
   if (args.provides) {
     plugins.push(new ProvidePlugin(args.provides))
   }
 
-  webpackConfig.plugins = plugins
+  /* //TODO
+    /!***********************
+     * 多入口配置
+     *!/
+    buildHTML(args, packageMap.entry, htmlWebpackPluginOptions).forEach(line => {
+      plugins.push(new HTMLWebpackPlugin(line))
+    })
+  */
+
+  context.webpackConfig.plugins = plugins
 
 }
