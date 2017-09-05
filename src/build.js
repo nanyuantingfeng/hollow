@@ -26,5 +26,4 @@ export default function (args) {
     .then(startBuild).catch(e => {
       console.error(e)
     })
-
 }

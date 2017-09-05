@@ -291,5 +291,5 @@ export default async function (context, next) {
       ...rules,
     ],
   }
-  
+
 }

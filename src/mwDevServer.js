@@ -21,7 +21,7 @@ export default async function (context, next) {
 
   next()
 
-  let {devServer, webpackConfig} = context
+  let {devServer, webpackConfig, browserSyncOptions = {}} = context
 
   let {plugins = []} = webpackConfig
 
@@ -47,15 +47,18 @@ export default async function (context, next) {
 
   let uri = createDomain({port: port0, host})
 
-  webpackConfig.plugins = [
+  plugins.push(... [
     new HotModuleReplacementPlugin(),
     new NamedModulesPlugin(),
-    new BrowserSyncPlugin({
-      host,
-      port: port1,
-      proxy: uri
-    }, {reload: true}),
-    ...plugins,
-  ]
+  ])
 
+  if (browserSyncOptions !== false) {
+    plugins.push(new BrowserSyncPlugin({
+        host, port: port1, proxy: uri,
+        ...browserSyncOptions,
+      }, {reload: true}),
+    )
+  }
+
+  webpackConfig.plugins = plugins
 }
