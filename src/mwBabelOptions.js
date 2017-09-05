@@ -7,19 +7,19 @@ export default async function (context, next) {
   context.babelOptions = {
     cacheDirectory: tmpdir(),
     presets: [
-      [require.resolve('babel-preset-env'), {modules: false}],
-      require.resolve('babel-preset-es2015'),
-      require.resolve('babel-preset-react'),
-      require.resolve('babel-preset-stage-0'),
+      ['babel-preset-env', {modules: false}],
+      'babel-preset-es2015',
+      'babel-preset-react',
+      'babel-preset-stage-0',
     ],
     plugins: [
-      require.resolve('babel-plugin-add-module-exports'),
-      require.resolve('babel-plugin-external-helpers'),
-      require.resolve('babel-plugin-transform-runtime'),
-      require.resolve('babel-plugin-transform-regenerator'),
-      require.resolve('babel-plugin-transform-undefined-to-void'),
-      require.resolve('babel-plugin-transform-decorators-legacy'),
-      require.resolve('babel-plugin-transform-regenerator'),
+      'babel-plugin-add-module-exports',
+      'babel-plugin-external-helpers',
+      'babel-plugin-transform-runtime',
+      'babel-plugin-transform-regenerator',
+      'babel-plugin-transform-undefined-to-void',
+      'babel-plugin-transform-decorators-legacy',
+      'babel-plugin-transform-regenerator',
     ],
   }
 

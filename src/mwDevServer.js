@@ -55,7 +55,6 @@ export default async function (context, next) {
       port: port1,
       proxy: uri
     }, {reload: true}),
-
     ...plugins,
   ]
 
