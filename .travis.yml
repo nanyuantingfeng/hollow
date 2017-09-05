@@ -1,0 +1,21 @@
+os:
+- osx
+language: node_js
+node_js:
+- '8'
+
+install:
+- npm install
+script:
+- npm run publish2npm
+branches:
+  only:
+  - master
+deploy:
+  provider: npm
+  email: nanyuantingfeng@aliyun.com
+  api_key:
+    secure: ZTXkE/qCbhPuLZriVc4S56sFjqrpDREFgDF+V2WedXe+/akseVlKCBVJkhQwO3eT6NxS+vReWbahVrkDoGVN4jkStb0HSaMN0fLgwUOlp9EPO5BwztlNqCb4KOMF2TK/va03BOfSoB4bME8/sVVjUwHwzCzM+dyXsl120MLm8cCt5v9TgDb/fnKjUqC4vcKGA8FTJJAdZyyvGEfUZPHPiqXnJ4jU37oTGhtqROpFjvwBDUvyW2TL6Nu/A99nUdb9lGjkg40tC8hCaeKR0ZqaEdwMjvxW8YxvP/CoIw4/HVjZmxKwnVqBk5UwmTF20qIoERwWnanYu3bA0ZfDb6Yiu3yWlY8XxcNhC8bAI/usz8LF48bBVsnS6b0eJVyb3OiPs9zNRrghQ3Sin9fTDFbJu7Yye5qNq9S6CjAV3Jc0lxQMjuvWfJV5Rvrxrr1LR4s1CPBivvw1Vzol+2Y/7g/84/fza1oEZ6e4J45tLzsW9CWAfbg+JkaLAFu6onHS7ixS4B/P9Dn8gPGPteoHwkYGTQ17ZBt32l2Dg1vM2WyQpqTpo2CgtWjli3wi3fp/dnwkp3vJz0xUMZDBSbd1Ndylqvw+lfYPqn+HXZaFV0L+gdbnTVbaTUjwPPrwPFYG9C8CipIFSOqth7mfiJsnhLBwd+9pRkl9+UBhqnuKbT4tg/g=
+  on:
+    tags: true
+    repo: nanyuantingfeng/hollow-cli
