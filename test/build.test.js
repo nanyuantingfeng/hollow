@@ -9,7 +9,6 @@ import build from '../src/build'
 function assert (actualDir, _reference) {
   const expectDir = path.join(__dirname, 'reference', _reference)
   const actualFiles = glob.sync('**/*', {cwd: actualDir, nodir: true})
-
   actualFiles.forEach(file => {
     const actualFile = fs.readFileSync(path.join(actualDir, file), 'utf-8')
     const expectFile = fs.readFileSync(path.join(expectDir, file), 'utf-8')

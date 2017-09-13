@@ -40,8 +40,8 @@ export default async function (context, next) {
     ? defaultTo(context.port, port)
     : defaultTo(port, context.port)
 
-  let port0 = port
-  let port1 = port + 1
+  let port0 = port + 1
+  let port1 = port
 
   webpackConfig.devServer.port = port0
 

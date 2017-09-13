@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -12,7 +12,7 @@
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
     "publish2npm": "npm run build && npm publish",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "devDependencies": {
     "babel-register": "^6.26.0",
