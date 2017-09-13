@@ -4,7 +4,7 @@
 import compose from 'koa-compose'
 
 import { mwsBuild } from './mws'
-import { startBuild } from './buildCore'
+import startBuild from './buildCore'
 
 export default function (args) {
   let context = {

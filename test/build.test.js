@@ -6,11 +6,11 @@ import path from 'path'
 import glob from 'glob'
 import build from '../src/build'
 
-function assert (actualDir, _reference) {
-  const expectDir = path.join(__dirname, 'reference', _reference)
-  const actualFiles = glob.sync('**/*', {cwd: actualDir, nodir: true})
+function assert (distDir, _caseName) {
+  const expectDir = path.join(__dirname, 'reference', _caseName)
+  const actualFiles = glob.sync('**/*', {cwd: distDir, nodir: true})
   actualFiles.forEach(file => {
-    const actualFile = fs.readFileSync(path.join(actualDir, file), 'utf-8')
+    const actualFile = fs.readFileSync(path.join(distDir, file), 'utf-8')
     const expectFile = fs.readFileSync(path.join(expectDir, file), 'utf-8')
     expect(actualFile).toEqual(expectFile)
   })
@@ -21,7 +21,7 @@ function testCase (args, _case) {
   const outputPath = path.join(cwd, 'dist')
   process.chdir(cwd)
   return build({cwd, compress: false, ...args})
-    .then(() => {assert(_case,outputPath)})
+    .then(() => {assert(outputPath, _case)})
     .catch(e => {throw e})
 }
 

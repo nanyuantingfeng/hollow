@@ -115,16 +115,15 @@ test('fnBuildHTMLData:development', () => {
 test('fnBuildHTML:production', () => {
   let context = {
     entry: {
-      'debugger': './src/hosting/debugger/index.js',
-      'dingtalk': './src/hosting/dingtalk/index.js',
-      'dingtalk-message-web': './src/hosting/dingtalk/message.js',
-      'dingtalk-message-applet': './src/hosting/dingtalk/message.js'
+      'a': './src/hosting/a/index.js',
+      'b': './src/hosting/b/index.js',
+      'c': './src/hosting/c/index.js',
+      'd': './src/hosting/d/index.js',
     },
 
     externals: {
       'react': {name: 'React', path: 'node_modules/react/dist/react.js'},
       'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
-
       'big.js': {name: 'Big', path: 'node_modules/big.js/big.min.js'},
       'redux': {name: 'Redux', path: 'node_modules/redux/dist/redux.min.js'},
       'moment': {name: 'moment', path: 'node_modules/moment/min/moment.min.js'},
@@ -133,27 +132,27 @@ test('fnBuildHTML:production', () => {
     },
 
     sdks: {
-      'debugger': [
+      'a': [
         'es6-promise.auto.min.js',
         'fetch.js',
       ],
 
-      'dingtalk': [
+      'b': [
         'es6-promise.auto.min.js',
         'fetch.js',
-        'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js',
+        'https://a.b.c.d/e.js',
       ],
 
-      'dingtalk-message-web': [
+      'c': [
         'es6-promise.auto.min.js',
         'fetch.js',
-        'https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js',
+        'https://a.b.c.d/e.js',
       ],
 
-      'dingtalk-message-applet': [
+      'd': [
         'es6-promise.auto.min.js',
         'fetch.js',
-        'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js',
+        'https://a.b.c.d/e.js',
       ],
     },
 
@@ -167,27 +166,27 @@ test('fnBuildHTML:production', () => {
 
   expect(oo).toEqual([{
     'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js'],
-    'excludeChunks': ['debugger'],
+    'excludeChunks': ['b', 'c', 'd'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'debugger.html',
+    'filename': 'a.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }, {
-    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js'],
-    'excludeChunks': ['dingtalk'],
+    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'excludeChunks': ['a', 'c', 'd'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'dingtalk.html',
+    'filename': 'b.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }, {
-    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js'],
-    'excludeChunks': ['dingtalk-message-web'],
+    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'excludeChunks': ['a', 'b', 'd'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'dingtalk-message-web.html',
+    'filename': 'c.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }, {
-    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js'],
-    'excludeChunks': ['dingtalk-message-applet'],
+    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'excludeChunks': ['a', 'b', 'c'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'dingtalk-message-applet.html',
+    'filename': 'd.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }])
 
@@ -196,10 +195,10 @@ test('fnBuildHTML:production', () => {
 test('fnBuildHTML:development', () => {
   let context = {
     entry: {
-      'debugger': './src/hosting/debugger/index.js',
-      'dingtalk': './src/hosting/dingtalk/index.js',
-      'dingtalk-message-web': './src/hosting/dingtalk/message.js',
-      'dingtalk-message-applet': './src/hosting/dingtalk/message.js'
+      'a': './src/hosting/a/index.js',
+      'b': './src/hosting/b/index.js',
+      'c': './src/hosting/c/index.js',
+      'd': './src/hosting/d/index.js',
     },
 
     externals: {
@@ -214,27 +213,27 @@ test('fnBuildHTML:development', () => {
     },
 
     sdks: {
-      'debugger': [
+      'a': [
         'es6-promise.auto.min.js',
         'fetch.js',
       ],
 
-      'dingtalk': [
+      'b': [
         'es6-promise.auto.min.js',
         'fetch.js',
-        'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js',
+        'https://a.b.c.d/e.js',
       ],
 
-      'dingtalk-message-web': [
+      'c': [
         'es6-promise.auto.min.js',
         'fetch.js',
-        'https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js',
+        'https://a.b.c.d/e.js',
       ],
 
-      'dingtalk-message-applet': [
+      'd': [
         'es6-promise.auto.min.js',
         'fetch.js',
-        'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js',
+        'https://a.b.c.d/e.js',
       ],
     },
 
@@ -248,28 +247,27 @@ test('fnBuildHTML:development', () => {
 
   expect(oo).toEqual([{
     'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js'],
-    'excludeChunks': ['debugger'],
+    'excludeChunks': ['b', 'c', 'd'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'debugger.html',
+    'filename': 'a.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }, {
-    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js'],
-    'excludeChunks': ['dingtalk'],
+    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'excludeChunks': ['a', 'c', 'd'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'dingtalk.html',
+    'filename': 'b.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }, {
-    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://g.alicdn.com/dingding/dingtalk-pc-api/2.7.0/index.js'],
-    'excludeChunks': ['dingtalk-message-web'],
+    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'excludeChunks': ['a', 'b', 'd'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'dingtalk-message-web.html',
+    'filename': 'c.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }, {
-    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://g.alicdn.com/dingding/open-develop/1.0.0/dingtalk.js'],
-    'excludeChunks': ['dingtalk-message-applet'],
+    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'excludeChunks': ['a', 'b', 'c'],
     'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'dingtalk-message-applet.html',
+    'filename': 'd.html',
     'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
   }])
-
 })

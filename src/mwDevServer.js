@@ -54,10 +54,11 @@ export default async function (context, next) {
 
   if (browserSyncOptions !== false) {
     plugins.push(new BrowserSyncPlugin({
-        host, port: port1, proxy: uri,
-        ...browserSyncOptions,
-      }, {reload: true}),
-    )
+      host,
+      port: port1,
+      proxy: uri,
+      ...browserSyncOptions,
+    }, {reload: true}))
   }
 
   webpackConfig.plugins = plugins
