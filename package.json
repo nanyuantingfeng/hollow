@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib",
-    "publish2npm": "npm run build && npm publish",
+    "build:copy": "mkdir -p build && rsync -av --exclude='node_modules' --exclude='demo' --exclude='build' ./ ./build",
+    "publish2npm": "npm run build && npm run build:copy && npm publish ./build",
     "test": "jest --coverage"
   },
   "devDependencies": {
