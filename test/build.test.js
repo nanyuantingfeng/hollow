@@ -21,7 +21,7 @@ function testCase (args, _case) {
   const outputPath = path.join(cwd, 'dist')
   process.chdir(cwd)
   return build({cwd, compress: false, ...args})
-    .then(() => {assert(outputPath, _case)})
+    .then(() => {assert(_case,outputPath)})
     .catch(e => {throw e})
 }
 
@@ -33,16 +33,16 @@ describe('support test', () => {
     process.env.NODE_ENV = 'production'
   })
 
-  it('support normally', async () => {
+  it('support normal', async () => {
     await testCase({hash: true}, 'build-normal')
   })
-  it('support class property', async () => {
+  it('support class-property', async () => {
     await testCase({}, 'build-class-property')
   })
   it('support less', async () => {
     await testCase({}, 'build-less')
   })
-  it('support css modules', async () => {
+  it('support css-modules', async () => {
     await testCase({}, 'build-css-modules')
   })
   it('support add-module-exports', async () => {
@@ -60,26 +60,26 @@ describe('support test', () => {
   it('support json', async () => {
     await testCase({}, 'build-json')
   })
-  it('support node builtins', async () => {
+  it('support node-builtins', async () => {
     await testCase({}, 'build-node-builtins')
   })
-  it('support custom plugins', async () => {
+  it('support custom-plugins', async () => {
     await testCase({hash: true}, 'build-custom-plugins')
   })
-  it('support custom rules', async () => {
+  it('support custom-rules', async () => {
     await testCase({hash: false}, 'build-custom-rules')
   })
-  it('support environment production', async () => {
+  it('support environment-production', async () => {
     await testCase({compress: true}, 'build-env-production')
   })
-  it('support environment development', async () => {
+  it('support environment-development', async () => {
     process.env.NODE_ENV = 'development'
     await testCase({}, 'build-env-development')
   })
   it('support config', async () => {
     await testCase({config: 'webpack.config.path.js'}, 'build-custom-path')
   })
-  it('support hash map', async () => {
+  it('support hash-map', async () => {
     await testCase({hash: true}, 'build-hash-map')
   })
   it('support i18n', async () => {
