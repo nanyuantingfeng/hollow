@@ -5,7 +5,7 @@ import addDevServerEntrypoints from 'webpack-dev-server/lib/util/addDevServerEnt
 import { webpack, WebpackOptionsValidationError } from './plugins'
 import createDomain from 'webpack-dev-server/lib/util/createDomain'
 import Server from 'webpack-dev-server'
-import { PromiseDefer } from './PromiseDefer'
+import PromiseDefer from './PromiseDefer'
 
 function colorInfo (msg) {
   return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`

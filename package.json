@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
