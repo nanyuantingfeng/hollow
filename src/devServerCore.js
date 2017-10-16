@@ -2,6 +2,7 @@
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
 import addDevServerEntrypoints from 'webpack-dev-server/lib/util/addDevServerEntrypoints'
+import OptionsValidationError from 'webpack-dev-server/lib/OptionsValidationError'
 import { webpack, WebpackOptionsValidationError } from './plugins'
 import createDomain from 'webpack-dev-server/lib/util/createDomain'
 import Server from 'webpack-dev-server'
@@ -52,7 +53,6 @@ export function startDevServer (context) {
   try {
     server = new Server(compiler, options)
   } catch (e) {
-    const OptionsValidationError = require('webpack-dev-server/lib/OptionsValidationError')
     if (e instanceof OptionsValidationError) {
       console.error(colorError(e.message))
       process.exit(1)
@@ -60,14 +60,13 @@ export function startDevServer (context) {
     defer.reject(e)
   }
 
-  ['SIGINT', 'SIGTERM'].forEach(function (sig) {
-    process.on(sig, function () {
+  ['SIGINT', 'SIGTERM'].forEach(sig => process.on(sig, () => {
       server.close()
       process.exit()
     })
-  })
+  )
 
-  server.listen(options.port, options.host, function (err) {
+  server.listen(options.port, options.host, err => {
     if (err) throw err
     defer.resolve(server)
     console.info(`\nService is running at ${colorInfo(createDomain(options))}`)
