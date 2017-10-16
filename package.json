@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -64,6 +64,7 @@
     "node-notifier": "^5.1.2",
     "postcss": "^6.0.13",
     "postcss-loader": "^2.0.8",
+    "react-hot-loader": "^3.1.1",
     "rucksack-css": "^1.0.2",
     "shelljs": "^0.7.8",
     "style-loader": "^0.19.0",

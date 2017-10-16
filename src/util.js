@@ -116,6 +116,7 @@ export function fnBuildHTML (context, env) {
   let options = {
     template: path.join(__dirname, '../index.hbs'),
     favicon: path.join(__dirname, '../favicon.ico'),
+    inject: 'body',
     ...htmlWebpackPluginOptions
   }
 
@@ -140,4 +141,41 @@ export function fnBuildHTML (context, env) {
       ...options
     }
   })
+}
+
+export function createDomain ({host, port}) {
+  return `http://${host}:${port}`
+}
+
+export function addDevServerEntrypoints (webpackOptions, devServerOptions) {
+
+  if (devServerOptions.inline === false) {
+    return
+  }
+
+  const domain = createDomain(devServerOptions)
+
+  const devClient = [
+    'react-hot-loader/patch',
+    `webpack-dev-server/client?${domain}`,
+  ]
+
+  if (devServerOptions.hotOnly) {
+    devClient.push('webpack/hot/only-dev-server')
+  } else if (devServerOptions.hot) {
+    devClient.push('webpack/hot/dev-server')
+  }
+
+  [].concat(webpackOptions).forEach((wpOpt) => {
+    if (typeof wpOpt.entry === 'object' && !Array.isArray(wpOpt.entry)) {
+      Object.keys(wpOpt.entry).forEach((key) => {
+        wpOpt.entry[key] = devClient.concat(wpOpt.entry[key])
+      })
+    } else if (typeof wpOpt.entry === 'function') {
+      wpOpt.entry = wpOpt.entry(devClient)
+    } else {
+      wpOpt.entry = devClient.concat(wpOpt.entry)
+    }
+  })
+
 }

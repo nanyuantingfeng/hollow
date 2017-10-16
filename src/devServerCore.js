@@ -1,12 +1,11 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
-import addDevServerEntrypoints from 'webpack-dev-server/lib/util/addDevServerEntrypoints'
 import OptionsValidationError from 'webpack-dev-server/lib/OptionsValidationError'
 import { webpack, WebpackOptionsValidationError } from './plugins'
-import createDomain from 'webpack-dev-server/lib/util/createDomain'
 import Server from 'webpack-dev-server'
 import PromiseDefer from './PromiseDefer'
+import { createDomain, addDevServerEntrypoints } from './util'
 
 function colorInfo (msg) {
   return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`
@@ -61,10 +60,9 @@ export function startDevServer (context) {
   }
 
   ['SIGINT', 'SIGTERM'].forEach(sig => process.on(sig, () => {
-      server.close()
-      process.exit()
-    })
-  )
+    server.close()
+    process.exit()
+  }))
 
   server.listen(options.port, options.host, err => {
     if (err) throw err
