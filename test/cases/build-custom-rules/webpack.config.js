@@ -10,10 +10,7 @@ module.exports = async function (context, next) {
       {
         loader: 'react-svg-loader',
         options: {
-          svgo: {
-            plugins: [{removeTitle: false}],
-            floatPrecision: 2
-          }
+          jsx: true // true outputs JSX tags
         }
       }
     ],
