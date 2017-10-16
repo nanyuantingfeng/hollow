@@ -21,7 +21,7 @@ export default async function (context, next) {
 
   next()
 
-  let {devServer, webpackConfig, browserSyncOptions = {}} = context
+  let {devServer, webpackConfig, browserSyncOptions = false} = context
 
   let {plugins = []} = webpackConfig
 

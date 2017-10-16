@@ -23,7 +23,8 @@ export default function (args) {
   let {cwd, config} = context
 
   return compose(mwsBuild(cwd, config))(context)
-    .then(startBuild).catch(e => {
+    .then(startBuild)
+    .catch(e => {
       console.error(e)
     })
 }

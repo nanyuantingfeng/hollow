@@ -22,6 +22,6 @@ export default async function (context, next) {
       'babel-plugin-transform-regenerator',
     ],
   }
-  
+
   next()
 }

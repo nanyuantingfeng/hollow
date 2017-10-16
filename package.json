@@ -21,8 +21,10 @@
     "coveralls": "~3.0.0",
     "glob": "^7.1.2",
     "jest": "^21.2.1",
+    "mocha-sinon": "^2.0.0",
     "react": "^16.0.0",
-    "react-svg-loader": "^2.1.0"
+    "react-svg-loader": "^2.1.0",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "autoprefixer": "^7.1.5",
