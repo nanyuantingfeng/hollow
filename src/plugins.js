@@ -21,6 +21,8 @@ const {
   WebpackOptionsValidationError,
   BannerPlugin,
   ProvidePlugin,
+  DllPlugin,
+  DllReferencePlugin,
 } = webpack
 
 const {CommonsChunkPlugin, UglifyJsPlugin} = optimize
@@ -44,5 +46,7 @@ export {
   BannerPlugin,
   BrowserSyncPlugin,
   CopyWebpackPlugin,
+  DllPlugin,
+  DllReferencePlugin,
   WebpackOptionsValidationError,
 }

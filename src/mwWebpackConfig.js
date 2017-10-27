@@ -107,6 +107,7 @@ export default async function (context, next) {
     cache: true,
     node,
     context: context.context || cwd,
+
     output: {
       filename: jsFileName,
       chunkFilename: jsFileName,
@@ -122,7 +123,7 @@ export default async function (context, next) {
       new CommonsChunkPlugin({
         name: 'common',
         filename: commonName,
-        minChunks: 3,
+        minChunks: 4,
       }),
       new CaseSensitivePathsPlugin(),
       new FriendlyErrorsWebpackPlugin({

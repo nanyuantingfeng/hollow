@@ -30,7 +30,6 @@ export default async function (context, next) {
   /***********************
    * 配置忽略依赖
    */
-
   webpackConfig.externals = fnBuildExternals(context.externals)
 
   let env = process.env.NODE_ENV || default_node_env || 'development'
@@ -52,7 +51,6 @@ export default async function (context, next) {
   /***********************
    * 多入口配置
    */
-
   fnBuildHTML(context, env).forEach(line => {
     plugins.push(new HTMLWebpackPlugin(line))
   })
