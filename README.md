@@ -16,6 +16,7 @@
 ```CLI
     hollow dev -p 9999 
     hollow build  
+    hollow dll  
     =======================
     > 其他参数详见 
     > hollow dev -h 
@@ -130,11 +131,6 @@ module.exports = async function (context) {
  context.webpackConfig = {}
 ```
 
-*  默认的环境变量 ['development', 'beta', 'production']
-```javascript
- context.default_node_env = 'production'
-```
-
 * 定义环境变量
 ```javascript
  context.defines = {
@@ -184,6 +180,17 @@ module.exports = async function (context) {
  context.devServer = {}
  context.browserSyncOptions = false
  
+```
+
+## DLL Plugin 的支持
+
+```javascript
+    //webpack.dll.js
+    context.dll = ['react', 'react-dom', 'moment', 'prop-types', /* ... */]
+    
+    //webpack.config.js | webpack.build.js
+    context.dll = true // === context.dll = './dll'
+    context.dll = './src/dll'
 ```
 
 ##其他
