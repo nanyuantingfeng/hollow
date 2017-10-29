@@ -2,36 +2,57 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path'
-
-import {
-  NoEmitOnErrorsPlugin,
-  mapJSONWebpackPlugin,
-  UglifyJsPlugin,
-  ProgressPlugin,
-} from './plugins'
-
-import {
-  fnProgressHandler,
-  fnCheckWebpackConfig,
-  fnGetValueByPath,
-} from './util'
+import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap, } from './util'
 
 export default async function (context, next) {
-  let {cwd} = context
-
-  context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'))
-
-  context.rules = []
+  context.output = {}
+  context.webpackConfig = {}
 
   next()
 
-  let {webpackConfig, cache, packageMap} = context
+  const {
+    cwd, devtool, rules, ENV, packageMap,
+    outputPath, publicPath, hash, output,
+  } = context
 
-  let {plugins = []} = webpackConfig
+  const jsChunkFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
+  const webpackConfig = context.webpackConfig = {
 
-  webpackConfig.entry = context.entry || packageMap.entry
+    cache: true,
 
-  let {outputPath, publicPath, compress, hash} = context
+    entry: context.entry || packageMap.entry,
+
+    resolve: {
+      modules: ['node_modules', path.join(__dirname, '../node_modules')],
+      extensions: [
+        '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
+        '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'
+      ],
+    },
+
+    output: {
+      filename: jsChunkFileName,
+      chunkFilename: jsChunkFileName,
+      ...output,
+    },
+
+    context: context.context || cwd,
+
+    externals: context.externals,
+
+    node: fnGetNode(packageMap),
+
+    devtool: fnBuildSourceMap(devtool, ENV),
+
+    module: {
+      noParse: [/moment.js/],
+      rules,
+    },
+
+    plugins: context.plugins,
+
+    ...context.webpackConfig,
+  }
 
   if (outputPath) {
     webpackConfig.output.path = path.join(cwd, outputPath)
@@ -41,28 +62,7 @@ export default async function (context, next) {
     webpackConfig.output.publicPath = publicPath
   }
 
-  if (compress === true) {
-    plugins.push(new UglifyJsPlugin({
-      output: {ascii_only: true,},
-      compress: {warnings: false,},
-    }))
-  }
-
-  plugins.push(... [
-    new ProgressPlugin(fnProgressHandler),
-    new NoEmitOnErrorsPlugin(),
-  ])
-
-  if (hash) {
-    webpackConfig.output.filename = '[name]-[chunkhash].js'
-    webpackConfig.output.chunkFilename = '[name]-[chunkhash].js'
-    plugins.push(mapJSONWebpackPlugin({assetsPath: packageMap.name, cache,}))
-  }
-
-  webpackConfig.plugins = plugins
-
   fnCheckWebpackConfig(webpackConfig)
 
-  return context
 }
 

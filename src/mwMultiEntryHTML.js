@@ -17,44 +17,37 @@ import {
 export default async function (context, next) {
   next()
 
-  let {webpackConfig, packageMap, default_node_env} = context
-
-  let {plugins = []} = webpackConfig
+  let {packageMap, plugins, ENV} = context
 
   /***********************
    * copy文件到输出目录
    */
-
   plugins.push(new CopyWebpackPlugin(fnBuildCopyFiles(context.files)))
 
   /***********************
    * 配置忽略依赖
    */
-  webpackConfig.externals = fnBuildExternals(context.externals)
+  context.externals = fnBuildExternals(context.externals)
+  const isDevelopment = ENV.isDevelopment
+  const isBeta = ENV.isBeta
 
-  let env = process.env.NODE_ENV || default_node_env || 'development'
-
-  let isDevENV = env === 'development'
-  let isBetaENV = env === 'beta'
-
-  let version = context.version || packageMap.version || '0.0.0'
-  let versionTail = isBetaENV ? '-beta' : isDevENV ? '-dev' : ''
+  const version = context.version || packageMap.version || '0.0.0'
+  const versionTail = isBeta ? '-beta' : isDevelopment ? '-dev' : ''
 
   plugins.push(new DefinePlugin({
-    ['process.env.NODE_ENV']: JSON.stringify(env),
+    ['process.env.NODE_ENV']: JSON.stringify(ENV.env),
     VERSION: JSON.stringify(version),
     APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
     ...context.defines
   }))
 
   plugins.push(new ProvidePlugin(context.provides))
+
   /***********************
    * 多入口配置
    */
-  fnBuildHTML(context, env).forEach(line => {
+  fnBuildHTML(context, ENV.env).forEach(line => {
     plugins.push(new HTMLWebpackPlugin(line))
   })
-
-  webpackConfig.plugins = plugins
 
 }

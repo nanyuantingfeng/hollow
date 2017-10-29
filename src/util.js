@@ -179,3 +179,45 @@ export function addDevServerEntrypoints (webpackOptions, devServerOptions) {
   })
 
 }
+
+export function fnGetNode (packageMap) {
+
+  const emptyBuildIns = [
+    'child_process', 'cluster', 'dgram', 'dns', 'fs',
+    'module', 'net', 'readline', 'repl', 'tls',
+  ]
+
+  const browser = packageMap.browser || {}
+
+  return emptyBuildIns.reduce((obj, name) => {
+    if (!(name in browser)) {
+      return {...obj, ...{[name]: 'empty'}}
+    }
+    return obj
+  }, {})
+
+}
+
+export function fnBuildSourceMap (devtool, ENV) {
+  /******************
+   *#source-map 编译过慢
+   * production 环境不需要
+   * beta 环境需要
+   */
+
+  if (typeof devtool === 'string') {
+    return devtool
+  }
+
+  if (!devtool) {
+    return false
+  }
+
+  if (devtool === true) {
+    return ENV.isProduction ? false
+      : ENV.isDevelopment ? '#source-map'
+        : ENV.isBeta ? '#inline-module-eval-source-map'
+          : false
+  }
+
+}

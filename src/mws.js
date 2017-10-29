@@ -7,9 +7,11 @@ import mwBuild from './mwBuild'
 import mwBabelOptions from './mwBabelOptions'
 import mwPostCSSOptions from './mwPostCSSOptions'
 import mwTSOptions from './mwTSOptions'
-import mwWebpackConfig from './mwWebpackConfig'
 import mwDevServer from './mwDevServer'
 import mwMultiEntryHTML from './mwMultiEntryHTML'
+import mwPlugins from './mwPlugins'
+import mwRules from './mwRules'
+import mwENV from './mwENV'
 
 function getCustomConfig (path) {
   if (!fs.existsSync(path)) {
@@ -24,11 +26,13 @@ function getCustomConfigValue (cwd, config) {
 
 export function mwsBuild (cwd, config) {
 
-  let mwConfig = getCustomConfigValue(cwd, config)
+  const mwConfig = getCustomConfigValue(cwd, config)
 
   return [
+    mwENV,
     mwBuild,
-    mwWebpackConfig,
+    mwPlugins,
+    mwRules,
     mwMultiEntryHTML,
     mwBabelOptions,
     mwPostCSSOptions,
@@ -38,16 +42,18 @@ export function mwsBuild (cwd, config) {
 }
 
 export function mwsDevServer (cwd, config) {
-  let mwConfig = getCustomConfigValue(cwd, config)
+  const mwConfig = getCustomConfigValue(cwd, config)
 
   return [
+    mwENV,
     mwBuild,
-    mwWebpackConfig,
+    mwPlugins,
+    mwRules,
     mwMultiEntryHTML,
-    mwDevServer,
     mwBabelOptions,
     mwPostCSSOptions,
     mwTSOptions,
+    mwDevServer,
     mwConfig,
   ]
 }

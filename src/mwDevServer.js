@@ -15,7 +15,7 @@ function defaultTo (a, b) {
 const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
 
-function parseProxy (proxy, options) {
+function parseProxyWithOptions (proxy, options) {
   const oo = {}
   const keys = Object.keys(proxy)
   keys.forEach(key => {
@@ -36,16 +36,12 @@ export default async function (context, next) {
 
   next()
 
-  let {
-    devServer, webpackConfig,
-    browserSyncOptions = false,
-    proxy,
-    proxyOptions,
-  } = context
+  let {devServer, browserSyncOptions = false, proxy, proxyOptions, plugins} = context
 
-  let {plugins = []} = webpackConfig
-
-  let {host, port} = devServer = webpackConfig.devServer = {
+  let {host, port}
+    = context.webpackConfig.devServer
+    = context.devServer
+    = devServer = {
     hot: true,
     hotOnly: true,
     contentBase: false,
@@ -55,11 +51,11 @@ export default async function (context, next) {
     port: context.port || DEFAULT_PORT,
     historyApiFallback: true,
     overlay: true,
-    proxy: parseProxy(proxy, proxyOptions),
+    proxy: parseProxyWithOptions(proxy, proxyOptions),
     ...devServer,
   }
 
-  webpackConfig.devServer.port = port = (port === DEFAULT_PORT)
+  devServer.port = port = (port === DEFAULT_PORT)
     ? defaultTo(context.port, port)
     : defaultTo(port, context.port)
 
@@ -78,5 +74,4 @@ export default async function (context, next) {
     }, {reload: true}))
   }
 
-  webpackConfig.plugins = plugins
 }

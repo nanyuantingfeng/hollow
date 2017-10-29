@@ -20,7 +20,7 @@ export default function (args) {
     ...args,
   }
 
-  let {cwd, config} = context
+  const {cwd, config} = context
 
   return compose(mwsBuild(cwd, config))(context)
     .then(startBuild)
