@@ -7,7 +7,7 @@ import { mwsBuild } from './mws'
 import startBuild from './buildCore'
 
 export default function (args) {
-  let context = {
+  const context = {
     cwd: process.cwd(),
     files: {},
     externals: {},

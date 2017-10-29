@@ -25,7 +25,6 @@ function getCustomConfigValue (cwd, config) {
 }
 
 export function mwsBuild (cwd, config) {
-
   const mwConfig = getCustomConfigValue(cwd, config)
 
   return [

@@ -7,7 +7,7 @@ import { mwsDevServer } from './mws'
 import { startDevServer } from './devServerCore'
 
 export default function (args) {
-  let context = {
+  const context = {
     cwd: process.cwd(),
     files: {},
     externals: {},
@@ -19,7 +19,7 @@ export default function (args) {
     ...args,
   }
 
-  let {cwd, config} = context
+  const {cwd, config} = context
 
   return compose(mwsDevServer(cwd, config))(context)
     .then(startDevServer)

@@ -11,6 +11,7 @@ export default async function (context, next) {
     plugins: [
       rucksack(),
       autoprefixer({
+        remove: false,
         browsers: [
           'last 2 versions',
           'Firefox ESR',
