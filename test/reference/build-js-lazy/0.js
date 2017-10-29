@@ -1,6 +1,6 @@
-webpackJsonp([0],[
-/* 0 */,
-/* 1 */
+webpackJsonp([0],{
+
+/***/ "/5Tm":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13,4 +13,5 @@ ReactDOM.render(React.createElement(
 ));
 
 /***/ })
-]);
+
+});

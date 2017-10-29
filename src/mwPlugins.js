@@ -11,7 +11,8 @@ import {
   ProgressPlugin,
   NoEmitOnErrorsPlugin,
   UglifyJsPlugin,
-  mapJSONWebpackPlugin
+  mapJSONWebpackPlugin,
+  HashedModuleIdsPlugin,
 } from './plugins'
 
 import { notifier, fnProgressHandler } from './util'
@@ -58,11 +59,12 @@ export default async function (context, next) {
   }))
 
   if (ENV.isProduction) {
-    context.plugins.push(new ExtractTextPlugin({
+    plugins.push(new ExtractTextPlugin({
       filename: cssFileName,
       disable: false,
       allChunks: true
     }))
+    plugins.push(new HashedModuleIdsPlugin())
   }
 
   if (compress === true) {

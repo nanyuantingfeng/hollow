@@ -1,16 +1,18 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ "JkW7":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _a = __webpack_require__(1);
+var _a = __webpack_require__("pJAT");
 
 (0, _a.shout)();
 
 /***/ }),
-/* 1 */
+
+/***/ "pJAT":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27,4 +29,5 @@ exports.default = {
 module.exports = exports['default'];
 
 /***/ })
-],[0]);
+
+},["JkW7"]);

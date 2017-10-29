@@ -1,10 +1,11 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/06/2017 00:15.
  **************************************************/
-let path = require('path')
-let fs = require('fs')
-let glob = require('glob')
-let copyDir = require('copy-dir')
+const path = require('path')
+const fs = require('fs')
+const glob = require('glob')
+const copyDir = require('copy-dir')
+const shell = require('shelljs')
 
 glob('./cases/*', function (er, files) {
 
@@ -16,9 +17,10 @@ glob('./cases/*', function (er, files) {
       return false
     }
 
-    let to = file.replace('./cases/', '')
-
-    copyDir(path.join(file, 'dist'), path.join('reference', to), () => true)
-
+    const fromPath = path.join(file, 'dist')
+    const toPath = path.join('.', 'reference', file.replace('./cases/', ''))
+    shell.rm('-rf', toPath)
+    copyDir(fromPath, toPath, () => true)
+    console.log('success', toPath)
   })
 })

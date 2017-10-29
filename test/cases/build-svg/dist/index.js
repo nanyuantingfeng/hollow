@@ -1,19 +1,22 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ "JkW7":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(1);
+__webpack_require__("Qu1Q");
 
 console.log(1);
 
 /***/ }),
-/* 1 */
+
+/***/ "Qu1Q":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ })
-],[0]);
+
+},["JkW7"]);

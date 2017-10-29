@@ -23,6 +23,7 @@ const {
   ProvidePlugin,
   DllPlugin,
   DllReferencePlugin,
+  HashedModuleIdsPlugin,
 } = webpack
 
 const {CommonsChunkPlugin, UglifyJsPlugin} = optimize
@@ -48,5 +49,6 @@ export {
   CopyWebpackPlugin,
   DllPlugin,
   DllReferencePlugin,
+  HashedModuleIdsPlugin,
   WebpackOptionsValidationError,
 }

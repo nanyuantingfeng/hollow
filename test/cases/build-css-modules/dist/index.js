@@ -1,11 +1,12 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ "JkW7":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _indexModule = __webpack_require__(1);
+var _indexModule = __webpack_require__("kJaK");
 
 var _indexModule2 = _interopRequireDefault(_indexModule);
 
@@ -14,11 +15,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 console.log(_indexModule2.default.index);
 
 /***/ }),
-/* 1 */
+
+/***/ "kJaK":
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 module.exports = {"index":"index___1Xnek","foo":"foo___26SGr"};
 
 /***/ })
-],[0]);
+
+},["JkW7"]);

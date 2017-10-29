@@ -1,5 +1,6 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ "JkW7":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12,4 +13,5 @@ ReactDOM.render(React.createElement(
 ));
 
 /***/ })
-],[0]);
+
+},["JkW7"]);

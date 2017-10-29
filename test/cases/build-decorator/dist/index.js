@@ -1,11 +1,12 @@
-webpackJsonp([0],[
-/* 0 */
+webpackJsonp([0],{
+
+/***/ "JkW7":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _classCallCheck2 = __webpack_require__(1);
+var _classCallCheck2 = __webpack_require__("VMif");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
@@ -25,7 +26,8 @@ var Example = (_dec = dec(1), _dec(_class = function Example() {
 }) || _class);
 
 /***/ }),
-/* 1 */
+
+/***/ "VMif":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40,4 +42,5 @@ exports.default = function (instance, Constructor) {
 };
 
 /***/ })
-],[0]);
+
+},["JkW7"]);

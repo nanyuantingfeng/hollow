@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
 import build from '../src/build'
+import shell from 'shelljs'
 
 function assert (distDir, _caseName) {
   const expectDir = path.join(__dirname, 'reference', _caseName)
@@ -19,9 +20,10 @@ function assert (distDir, _caseName) {
 function testCase (args, _case) {
   const cwd = path.join(__dirname, 'cases', _case)
   const outputPath = path.join(cwd, 'dist')
+  shell.rm('-rf', outputPath)
   process.chdir(cwd)
   return build({cwd, compress: false, ...args})
-    .then(() => {assert(outputPath, _case)})
+    .then(() => assert(outputPath, _case))
     .catch(e => {throw e})
 }
 
