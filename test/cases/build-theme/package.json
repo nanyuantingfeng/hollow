@@ -2,5 +2,5 @@
   "entry": {
     "index": "./index.js"
   },
-  "theme": "./antui-config.js"
+  "theme": "./theme-config.js"
 }
