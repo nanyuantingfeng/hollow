@@ -33,6 +33,7 @@ export default async function (context, next) {
   }))
 
   plugins.push(new ProvidePlugin(context.provides))
+  
   /***********************
    * 多入口配置
    */

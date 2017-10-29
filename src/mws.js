@@ -12,6 +12,7 @@ import mwMultiEntryHTML from './mwMultiEntryHTML'
 import mwPlugins from './mwPlugins'
 import mwRules from './mwRules'
 import mwENV from './mwENV'
+import mwDLL from './mwDLL'
 
 function getCustomConfig (path) {
   if (!fs.existsSync(path)) {
@@ -30,9 +31,10 @@ export function mwsBuild (cwd, config) {
   return [
     mwENV,
     mwBuild,
+    mwMultiEntryHTML,
+    mwDLL,
     mwPlugins,
     mwRules,
-    mwMultiEntryHTML,
     mwBabelOptions,
     mwPostCSSOptions,
     mwTSOptions,
@@ -46,13 +48,29 @@ export function mwsDevServer (cwd, config) {
   return [
     mwENV,
     mwBuild,
+    mwMultiEntryHTML,
+    mwDLL,
     mwPlugins,
     mwRules,
-    mwMultiEntryHTML,
     mwBabelOptions,
     mwPostCSSOptions,
     mwTSOptions,
     mwDevServer,
+    mwConfig,
+  ]
+}
+
+export function mwsDLL (cwd, config) {
+  const mwConfig = getCustomConfigValue(cwd, config)
+  return [
+    mwENV,
+    mwBuild,
+    mwDLL,
+    mwPlugins,
+    mwRules,
+    mwBabelOptions,
+    mwPostCSSOptions,
+    mwTSOptions,
     mwConfig,
   ]
 }

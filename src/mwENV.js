@@ -20,15 +20,17 @@ export default async function (context, next) {
     env,
   }
 
-  const rootDir = cwd
-  const srcDir = path.resolve(rootDir, './src')
+  const root = cwd
+  const src = path.resolve(root, 'src')
+  const build = path.resolve(root, outputPath)
 
   context.DIRs = {
-    rootDir, // 项目根目录
-    srcDir,// 项目业务代码根目录
-    vendorDir: path.resolve(rootDir, './vendor'), // 存放所有不能用npm管理的第三方库
-    dllDir: path.resolve(srcDir, './dll'),    // 源文件目录
-    buildDir: path.resolve(rootDir, outputPath),    // 生成文件目录
+    root,  // 项目根目录
+    cwd: root,
+    src,   // 项目业务代码根目录
+    source: src,
+    build,    // 生成文件目录
+    dist: build,
   }
 
   context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'))

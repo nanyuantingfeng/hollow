@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 17:52.
  **************************************************/
-var devServer = require('../../lib/devServer')
+var fn = require('../../lib/fnDevServer')
 
 exports.command = 'dev'
 
@@ -50,5 +50,5 @@ exports.handler = function (argv) {
 
   var exit = () => {process.exit(0)}
 
-  devServer(argv).catch(exit)
+  fn(argv).catch(exit)
 }

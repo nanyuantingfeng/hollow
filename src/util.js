@@ -99,7 +99,7 @@ export function fnBuildHTMLData (filesMap, env) {
 }
 
 export function fnBuildHTML (context, env) {
-  const {externals = {}, sdks = {}, htmlWebpackPluginOptions} = context
+  const {externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions} = context
 
   let entry = context.entry || context.packageMap.entry
 
@@ -116,7 +116,7 @@ export function fnBuildHTML (context, env) {
   let options = {
     template: path.join(__dirname, '../index.hbs'),
     favicon: path.join(__dirname, '../favicon.ico'),
-    inject: 'body',
+    //inject: 'body',
     ...htmlWebpackPluginOptions
   }
 
@@ -132,6 +132,10 @@ export function fnBuildHTML (context, env) {
 
     if (sdk) {
       paths0.push(...sdk)
+    }
+
+    if (DLL_FILENAME) {
+      paths0.push(DLL_FILENAME)
     }
 
     return {

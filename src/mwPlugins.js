@@ -18,7 +18,6 @@ import {
 import { notifier, fnProgressHandler } from './util'
 
 export default async function (context, next) {
-
   context.plugins = [
     new CaseSensitivePathsPlugin(),
     new FriendlyErrorsWebpackPlugin({
@@ -48,15 +47,17 @@ export default async function (context, next) {
 
   next()
 
-  const {hash, compress, ENV, cache, packageMap, plugins} = context
+  const {hash, compress, ENV, cache, packageMap, plugins, dll} = context
   const cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
   const commonName = hash ? 'common-[chunkhash].js' : 'common.js'
 
-  plugins.push(new CommonsChunkPlugin({
-    name: 'common',
-    filename: commonName,
-    minChunks: 4,
-  }))
+  if (!Array.isArray(dll)) {
+    plugins.push(new CommonsChunkPlugin({
+      name: 'common',
+      filename: commonName,
+      minChunks: 4,
+    }))
+  }
 
   if (ENV.isProduction) {
     plugins.push(new ExtractTextPlugin({

@@ -1,11 +1,11 @@
 /**************************************************
- * Created by nanyuantingfeng on 23/08/2017 17:52.
+ * Created by nanyuantingfeng on 29/10/2017 14:21.
  **************************************************/
-var fn = require('../../lib/fnBuild')
+var fn = require('../../lib/fnBuildDLL')
 
-exports.command = 'build'
+exports.command = 'dll'
 
-exports.desc = 'build current project'
+exports.desc = 'build current project `s dll'
 
 exports.builder = function (yargs) {
   return yargs
@@ -22,23 +22,11 @@ exports.builder = function (yargs) {
       type: 'string',
       description: 'public path',
     })
-    .option('compress', {
-      type: 'boolean',
-      description: 'build files with compress',
-    })
-    .option('watch', {
-      type: 'boolean',
-      description: 'watch files change',
-    })
-    .option('devtool', {
-      type: 'string',
-      description: 'source map type',
-    })
     .option('config', {
       alias: 'c',
       type: 'string',
       description: 'webpack.config.js file path',
-      default: 'webpack.build.js',
+      default: 'webpack.dll.js',
     })
     .option('verbose', {
       type: 'boolean',
@@ -50,12 +38,6 @@ exports.handler = function (argv) {
 
   var exit = () => {process.exit(0)}
 
-  if (argv.watch) {
-    fn(argv)
-  } else {
-    fn(argv).then(exit).catch(exit)
-  }
+  fn(argv).then(exit).catch(exit)
 
 }
-
- 

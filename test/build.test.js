@@ -4,7 +4,7 @@
 import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
-import build from '../src/build'
+import build from '../src/fnBuild'
 import shell from 'shelljs'
 
 function assert (distDir, _caseName) {
