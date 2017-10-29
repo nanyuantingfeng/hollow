@@ -5,9 +5,7 @@
 import build from './fnBuild'
 import buildDLL from './fnBuildDLL'
 import devServer from './fnDevServer'
+import * as plugins from './plugins'
 
-export {
-  build,
-  buildDLL,
-  devServer,
-}
+export { build, buildDLL, devServer, plugins }
+

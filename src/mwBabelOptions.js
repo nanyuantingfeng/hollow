@@ -20,6 +20,7 @@ export default async function (context, next) {
       'babel-plugin-transform-undefined-to-void',
       'babel-plugin-transform-decorators-legacy',
       'babel-plugin-transform-regenerator',
+      'babel-plugin-lodash',
     ],
   }
 

@@ -44,6 +44,9 @@ describe('support test', () => {
   it('support less', async () => {
     await testCase({}, 'build-less')
   })
+  it('support lodash', async () => {
+    await testCase({hash: false}, 'build-lodash')
+  })
   it('support css-modules', async () => {
     await testCase({}, 'build-css-modules')
   })

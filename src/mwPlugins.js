@@ -13,6 +13,7 @@ import {
   UglifyJsPlugin,
   mapJSONWebpackPlugin,
   HashedModuleIdsPlugin,
+  ModuleConcatenationPlugin,
 } from './plugins'
 
 import { notifier, fnProgressHandler } from './util'
@@ -43,6 +44,7 @@ export default async function (context, next) {
     }),
     new ProgressPlugin(fnProgressHandler),
     new NoEmitOnErrorsPlugin(),
+    new ModuleConcatenationPlugin(),  //scope hoisting
   ]
 
   next()
