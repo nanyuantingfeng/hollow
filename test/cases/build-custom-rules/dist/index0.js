@@ -156,7 +156,7 @@ module.exports = !__webpack_require__("Uan9") && !__webpack_require__("s993")(fu
 /***/ "2csM":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.0' };
+var core = module.exports = { version: '2.5.1' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 

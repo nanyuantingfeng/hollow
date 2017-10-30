@@ -174,13 +174,7 @@ module.exports = async function (context) {
    index2 : [ "a.js", "b,js", "d.js"],
  }
 ```
-
-* devServer / browserSyncOptions 
-```javascript
- context.devServer = {}
- context.browserSyncOptions = false
  
-```
 
 ## DLL Plugin 的支持
 

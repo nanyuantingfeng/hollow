@@ -4,13 +4,7 @@
 import {
   HotModuleReplacementPlugin,
   NamedModulesPlugin,
-  BrowserSyncPlugin,
 } from './plugins'
-import { createDomain } from './util'
-
-function defaultTo (a, b) {
-  return a ? a : b
-}
 
 const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
@@ -36,12 +30,9 @@ export default async function (context, next) {
 
   next()
 
-  let {devServer, browserSyncOptions = false, proxy, proxyOptions, plugins} = context
+  let {devServer, proxy, proxyOptions, plugins} = context
 
-  let {host, port}
-    = context.webpackConfig.devServer
-    = context.devServer
-    = devServer = {
+  context.webpackConfig.devServer = context.devServer = {
     hot: true,
     hotOnly: true,
     contentBase: false,
@@ -55,23 +46,9 @@ export default async function (context, next) {
     ...devServer,
   }
 
-  devServer.port = port = (port === DEFAULT_PORT)
-    ? defaultTo(context.port, port)
-    : defaultTo(port, context.port)
-
   plugins.push(... [
     new HotModuleReplacementPlugin(),
     new NamedModulesPlugin(),
   ])
-
-  if (browserSyncOptions !== false) {
-    plugins.push(new BrowserSyncPlugin({
-      host,
-      port: port + 1,
-      proxy: createDomain(devServer),
-      open: false,
-      ...browserSyncOptions,
-    }, {reload: true}))
-  }
 
 }

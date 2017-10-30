@@ -129,7 +129,7 @@ module.exports = !__webpack_require__("Uan9") && !__webpack_require__("s993")(fu
 /***/ "2csM":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.0' };
+var core = module.exports = { version: '2.5.1' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -854,7 +854,6 @@ var uid = __webpack_require__("vix9");
 var wks = __webpack_require__("0kls");
 var wksExt = __webpack_require__("U20W");
 var wksDefine = __webpack_require__("RPMN");
-var keyOf = __webpack_require__("oha2");
 var enumKeys = __webpack_require__("A1AC");
 var isArray = __webpack_require__("0lzW");
 var anObject = __webpack_require__("Xxvf");
@@ -1018,9 +1017,9 @@ $export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
       : SymbolRegistry[key] = $Symbol(key);
   },
   // 19.4.2.5 Symbol.keyFor(sym)
-  keyFor: function keyFor(key) {
-    if (isSymbol(key)) return keyOf(SymbolRegistry, key);
-    throw TypeError(key + ' is not a symbol!');
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
+    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
   },
   useSetter: function () { setter = true; },
   useSimple: function () { setter = false; }
@@ -1561,23 +1560,6 @@ exports.f = __webpack_require__("Uan9") ? Object.defineProperty : function defin
   if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
   if ('value' in Attributes) O[P] = Attributes.value;
   return O;
-};
-
-
-/***/ }),
-
-/***/ "oha2":
-/***/ (function(module, exports, __webpack_require__) {
-
-var getKeys = __webpack_require__("q0KV");
-var toIObject = __webpack_require__("axqX");
-module.exports = function (object, el) {
-  var O = toIObject(object);
-  var keys = getKeys(O);
-  var length = keys.length;
-  var index = 0;
-  var key;
-  while (length > index) if (O[key = keys[index++]] === el) return key;
 };
 
 
