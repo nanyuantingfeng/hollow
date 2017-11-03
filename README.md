@@ -1,8 +1,10 @@
 [![Build Status](https://www.travis-ci.org/nanyuantingfeng/hollow-cli.svg?branch=master)](https://www.travis-ci.org/nanyuantingfeng/hollow-cli)
 
+![](./assets/hollow.svg)
+
+
 # hollow-cli 
 >此工具是一个基于webpack 3.x 编写的一个零配置打包工具
-
 
 ##背景 
 >webpack 3.x 已经做的相当完善,并没有一个通用的配置来简化操作,

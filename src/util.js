@@ -110,18 +110,17 @@ export function fnBuildHTML (context, env) {
   if (typeof entry === 'string') {
     entry = {index: entry}
   }
-  let paths = fnBuildHTMLData(externals, env)
-  let entryNames = Object.keys(entry)
+  const paths = fnBuildHTMLData(externals, env)
+  const entryNames = Object.keys(entry)
 
-  let options = {
-    template: path.join(__dirname, '../index.hbs'),
-    favicon: path.join(__dirname, '../favicon.ico'),
-    //inject: 'body',
+  const options = {
+    template: path.join(__dirname, '../assets/index.hbs'),
+    favicon: path.join(__dirname, '../assets/favicon.ico'),
     ...htmlWebpackPluginOptions
   }
 
   return entryNames.map(name => {
-    let excludes = entryNames.filter(line => line !== name)
+    const excludes = entryNames.filter(line => line !== name)
     let sdk = sdks[name]
 
     if (typeof sdk === 'string') {
