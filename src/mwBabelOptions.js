@@ -24,5 +24,11 @@ export default async function (context, next) {
     ],
   }
 
+  const {ENV} = context
+
+  if (ENV.isDevelopment) {
+    context.babelOptions.plugins.push('react-hot-loader/babel')
+  }
+
   next()
 }
