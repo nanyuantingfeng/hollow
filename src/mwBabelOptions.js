@@ -27,7 +27,19 @@ export default async function (context, next) {
   const {ENV} = context
 
   if (ENV.isDevelopment) {
-    context.babelOptions.plugins.push('react-hot-loader/babel')
+    //context.babelOptions.plugins.push('react-hot-loader/babel')
+    context.babelOptions.plugins.push([
+      'react-transform', {
+        'transforms': [{
+          'transform': 'react-transform-hmr',
+          'imports': ['react'],
+          'locals': ['module']
+        }, {
+          'transform': 'react-transform-catch-errors',
+          'imports': ['react', 'redbox-react']
+        }]
+      }
+    ])
   }
 
   next()

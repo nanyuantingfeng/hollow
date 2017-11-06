@@ -159,7 +159,7 @@ export function addDevServerEntrypoints (webpackOptions, devServerOptions) {
   const domain = createDomain(devServerOptions)
 
   const devClient = [
-    'react-hot-loader/patch',
+    //'react-hot-loader/patch',
     `webpack-dev-server/client?${domain}`,
   ]
 

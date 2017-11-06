@@ -191,42 +191,8 @@ module.exports = async function (context) {
 
 ##其他
 
-* react-hot-loader
+* babel-plugin-react-transform
+* react-transform-hmr
 > 在 react-hot-loader 配合 devServer 的时候需要的你在入口页面插入一段代码以保证
-> 热更新的顺利启用
-
-```javascript
-//entry.js
-
-
-import './app.less'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
-
-const app = (() => {
-  const e = document.createElement('div')
-  e.id = 'app'
-  document.body.appendChild(e)
-  return e
-})()
-
-const render = E => ReactDOM.render(<AppContainer><E/></AppContainer>, app)
-
-//demo.js 是真正的主 component
-render(require('./demo'))
-
-if (process.env.NODE_ENV !== 'production') {
-  //这个是配合 chrome:react-pref 调试插件启用的必要代码
-  window.Perf = require('react-addons-perf')
-  
-  //这段代码一配置的就是 hot 更新模式
-  if (module.hot) {
-    module.hot.accept('./demo', () => {
-      render(require('./demo'))
-    })
-  }
-}
-
-
-```
+> 热更新启用
+ 

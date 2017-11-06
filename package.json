@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -62,16 +62,19 @@
     "map-json-webpack-plugin": "^1.2.0",
     "mustache-loader": "^1.2.0",
     "node-notifier": "^5.1.2",
-    "postcss": "^6.0.13",
+    "postcss": "^6.0.14",
     "postcss-loader": "^2.0.8",
     "react-hot-loader": "^3.1.1",
     "rucksack-css": "^1.0.2",
     "style-loader": "^0.19.0",
-    "ts-loader": "^3.1.0",
-    "typescript": "^2.5.3",
+    "ts-loader": "^3.1.1",
+    "typescript": "^2.6.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.3",
-    "yargs": "^10.0.3"
+    "webpack-dev-server": "^2.9.4",
+    "yargs": "^10.0.3",
+    "babel-plugin-react-transform": "^3.0.0",
+    "react-transform-catch-errors": "^1.0.2",
+    "react-transform-hmr": "^1.0.4"
   }
 }
