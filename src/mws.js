@@ -14,19 +14,51 @@ import mwRules from './mwRules'
 import mwENV from './mwENV'
 import mwDLL from './mwDLL'
 
-function getCustomConfig (path) {
-  if (!fs.existsSync(path)) {
-    return async () => {}
-  }
-  return require(path)
+async function noop () {
+
 }
 
-function getCustomConfigValue (cwd, config) {
-  return getCustomConfig(path.join(cwd, config || 'webpack.config.js'))
+function getCustomConfig (cwd, config) {
+  let paths = []
+
+  switch (process.env.NODE_ENV) {
+    case 'production' :
+      paths.push(...['build', 'production', 'prod'])
+      break
+    case 'development':
+      paths.push(...['development', 'develop', 'dev'])
+      break
+    case 'beta':
+      paths.push(...['beta',
+        'build', 'production', 'prod',
+        'development', 'develop', 'dev'])
+      break
+    default:
+      paths.push(process.env.NODE_ENV)
+      break
+  }
+
+  paths.push('config')
+  paths = paths.map(name => `webpack.${name}.js`)
+
+  config && paths.unshift(config)
+
+  let cc = noop
+  let i = -1
+  while (++i < paths.length) {
+    let p = paths[i]
+    let pp = path.join(cwd, p)
+    if (fs.existsSync(pp)) {
+      console.log('>', pp)
+      cc = require(pp)
+      break
+    }
+  }
+  return cc
 }
 
 export function mwsBuild (cwd, config) {
-  const mwConfig = getCustomConfigValue(cwd, config)
+  const mwConfig = getCustomConfig(cwd, config)
 
   return [
     mwENV,
@@ -43,7 +75,7 @@ export function mwsBuild (cwd, config) {
 }
 
 export function mwsDevServer (cwd, config) {
-  const mwConfig = getCustomConfigValue(cwd, config)
+  const mwConfig = getCustomConfig(cwd, config)
 
   return [
     mwENV,
@@ -61,7 +93,7 @@ export function mwsDevServer (cwd, config) {
 }
 
 export function mwsDLL (cwd, config) {
-  const mwConfig = getCustomConfigValue(cwd, config)
+  const mwConfig = getCustomConfig(cwd, config)
   return [
     mwENV,
     mwBuild,

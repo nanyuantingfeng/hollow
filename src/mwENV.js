@@ -13,7 +13,7 @@ export default async function (context, next) {
   const isDevelopment = env === 'development'
   const isBeta = env === 'beta'
 
-  context.ENV = {
+  context.ENV ={
     isProduction,
     isDevelopment,
     isBeta,

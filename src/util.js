@@ -201,26 +201,19 @@ export function fnGetNode (packageMap) {
 
 }
 
-export function fnBuildSourceMap (devtool, ENV) {
+export function fnBuildSourceMap (devtool = false, ENV) {
   /******************
    *#source-map 编译过慢
    * production 环境不需要
    * beta 环境需要
    */
 
-  if (typeof devtool === 'string') {
-    return devtool
-  }
-
-  if (!devtool) {
-    return false
-  }
-
   if (devtool === true) {
-    return ENV.isProduction ? false
-      : ENV.isDevelopment ? '#source-map'
-        : ENV.isBeta ? '#inline-module-eval-source-map'
+    devtool = ENV.isProduction ? false
+      : ENV.isDevelopment ? '#cheap-module-eval-source-map'
+        : ENV.isBeta ? '#cheap-module-source-map'
           : false
   }
 
+  return devtool
 }

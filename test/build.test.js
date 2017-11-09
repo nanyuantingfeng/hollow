@@ -111,6 +111,9 @@ describe('support test', () => {
   it('support common', async () => {
     await testCase({}, 'build-common')
   })
+  it('support source-map', async () => {
+    await testCase({}, 'build-source-map')
+  })
   it('support svg', async () => {
     await testCase({}, 'build-svg')
   })
