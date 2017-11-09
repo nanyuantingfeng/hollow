@@ -49,7 +49,7 @@ export default async function (context, next) {
 
   next()
 
-  const {hash, compress, ENV, cache, packageMap, plugins, dll} = context
+  const {hash, compress, ENV, cache, packageMap, plugins, dll, devtool} = context
   const cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
   const commonName = hash ? 'common-[chunkhash].js' : 'common.js'
 
@@ -57,11 +57,11 @@ export default async function (context, next) {
     plugins.push(new CommonsChunkPlugin({
       name: 'common',
       filename: commonName,
-      minChunks: 4,
+      minChunks: 3,
     }))
   }
 
-  if (ENV.isProduction) {
+  if (ENV.isProduction || ENV.isBeta) {
     plugins.push(new ExtractTextPlugin({
       filename: cssFileName,
       disable: false,
@@ -74,6 +74,7 @@ export default async function (context, next) {
     plugins.push(new UglifyJsPlugin({
       output: {ascii_only: true,},
       compress: {warnings: false,},
+      sourceMap: !!devtool
     }))
   }
 

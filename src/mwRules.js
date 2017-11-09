@@ -4,15 +4,15 @@
 import path from 'path'
 import { ExtractTextPlugin } from './plugins'
 
-function fnFixStyleLoaders4Production (rules, isProduction) {
-  let styleLoader = 'style-loader'
-  if (isProduction) {
+function fnFixStyleLoaders4ENV (rules, ENV) {
+  const styleLoader = 'style-loader'
+  if (ENV.isProduction || ENV.isBeta) {
     return ExtractTextPlugin.extract({fallback: styleLoader, use: rules})
   }
   return [{loader: styleLoader}, ...rules]
 }
 
-function fnGetTheme (packageMap, cwd) {
+function fnGetThemeMap (packageMap, cwd) {
   let theme = {}
   const packageMapTheme = packageMap.theme
 
@@ -40,8 +40,7 @@ export default async function (context, next) {
   next()
 
   const {cwd, limit = 10000, ENV, packageMap} = context
-  const isProduction = ENV.isProduction
-  const theme = fnGetTheme(packageMap, cwd)
+  const theme = fnGetThemeMap(packageMap, cwd)
 
   const {babelOptions, postcssOptions, tsOptions, rules} = context
 
@@ -57,12 +56,10 @@ export default async function (context, next) {
       ]
     },
     {
-      test: /\.js$/,
+      test (filePath) {
+        return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx$/.test(filePath)
+      },
       exclude: /node_modules/,
-      use: [{loader: 'babel-loader', options: babelOptions}],
-    },
-    {
-      test: /\.jsx$/,
       use: [{loader: 'babel-loader', options: babelOptions}],
     },
     {
@@ -77,7 +74,7 @@ export default async function (context, next) {
       test (filePath) {
         return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
       },
-      use: fnFixStyleLoaders4Production([
+      use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
           sourceMap: true,
@@ -86,11 +83,11 @@ export default async function (context, next) {
         }
         },
         {loader: 'postcss-loader', options: postcssOptions},
-      ], isProduction)
+      ], ENV)
     },
     {
       test: /\.module\.css$/,
-      use: fnFixStyleLoaders4Production([
+      use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
           sourceMap: true,
@@ -101,13 +98,13 @@ export default async function (context, next) {
         }
         },
         {loader: 'postcss-loader', options: postcssOptions},
-      ], isProduction)
+      ], ENV)
     },
     {
       test (filePath) {
         return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
       },
-      use: fnFixStyleLoaders4Production([
+      use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
           sourceMap: true,
@@ -116,11 +113,11 @@ export default async function (context, next) {
         },
         {loader: 'postcss-loader', options: postcssOptions},
         {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-      ], isProduction)
+      ], ENV)
     },
     {
       test: /\.module\.less$/,
-      use: fnFixStyleLoaders4Production([
+      use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
           sourceMap: true,
@@ -131,27 +128,42 @@ export default async function (context, next) {
         },
         {loader: 'postcss-loader', options: postcssOptions},
         {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
-      ], isProduction)
+      ], ENV)
     },
     {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-      use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
+      use: [{
+        loader: 'url-loader',
+        options: {limit, minetype: 'application/font-woff'}
+      }],
     },
     {
       test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-      use: [{loader: 'url-loader', options: {limit, minetype: 'application/font-woff'}}],
+      use: [{
+        loader: 'url-loader',
+        options: {limit, minetype: 'application/font-woff'}
+      }],
     },
     {
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      use: [{loader: 'url-loader', options: {limit, minetype: 'application/octet-stream'}}],
+      use: [{
+        loader: 'url-loader',
+        options: {limit, minetype: 'application/octet-stream'}
+      }],
     },
     {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      use: [{loader: 'url-loader', options: {limit, minetype: 'application/vnd.ms-fontobject'}}],
+      use: [{
+        loader: 'url-loader',
+        options: {limit, minetype: 'application/vnd.ms-fontobject'}
+      }],
     },
     {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      use: [{loader: 'url-loader', options: {limit, minetype: 'image/svg+xml'}}],
+      use: [{
+        loader: 'url-loader',
+        options: {limit, minetype: 'image/svg+xml'}
+      }],
     },
     {
       test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
