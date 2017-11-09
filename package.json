@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.2.7",
+  "version": "0.3.0",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -25,7 +25,8 @@
     "lodash": "^4.17.4",
     "react": "^16.0.0",
     "react-svg-loader": "^2.1.0",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.7.8",
+    "webpack-bundle-analyzer": "^2.9.0"
   },
   "dependencies": {
     "autoprefixer": "^7.1.6",
