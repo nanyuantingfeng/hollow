@@ -39,6 +39,7 @@ exports.builder = function (yargs) {
       alias: 'c',
       type: 'string',
       description: 'webpack.config.js file path',
+      default: 'webpack.config.js',
     })
     .option('verbose', {
       type: 'boolean',
