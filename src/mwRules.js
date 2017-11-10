@@ -5,11 +5,17 @@ import path from 'path'
 import { ExtractTextPlugin } from './plugins'
 
 function fnFixStyleLoaders4ENV (rules, ENV) {
-  const styleLoader = 'style-loader'
-  if (ENV.isProduction || ENV.isBeta) {
-    return ExtractTextPlugin.extract({fallback: styleLoader, use: rules})
+  const extractLoader = ExtractTextPlugin.extract({
+    fallback: 'style-loader', use: rules
+  })
+
+  if (ENV.isDevelopment) {
+    return ['css-hot-loader'].concat(extractLoader)
   }
-  return [{loader: styleLoader}, ...rules]
+
+  if (ENV.isProduction || ENV.isBeta) {
+    return extractLoader
+  }
 }
 
 function fnGetThemeMap (packageMap, cwd) {

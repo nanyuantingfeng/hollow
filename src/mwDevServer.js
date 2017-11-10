@@ -6,6 +6,8 @@ import {
   NamedModulesPlugin,
 } from './plugins'
 
+import { stats } from './stats'
+
 const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
 
@@ -43,6 +45,7 @@ export default async function (context, next) {
     historyApiFallback: true,
     overlay: true,
     proxy: parseProxyWithOptions(proxy, proxyOptions),
+    stats,
     ...devServer,
   }
 
