@@ -45,7 +45,7 @@ export default async function (context, next) {
     devtool: fnBuildSourceMap(devtool, ENV),
 
     module: {
-      noParse: [/moment.*\.js/],
+      noParse: [/moment.js/],
       rules,
     },
 
