@@ -71,9 +71,10 @@ export default async function (context, next) {
 
   if (compress === true) {
     plugins.push(new UglifyJsPlugin({
+      parallel: true,
       output: {ascii_only: true,},
       compress: {warnings: false,},
-      sourceMap: !!devtool
+      sourceMap: !!devtool,
     }))
   }
 

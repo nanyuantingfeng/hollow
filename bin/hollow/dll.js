@@ -28,6 +28,14 @@ exports.builder = function (yargs) {
       description: 'webpack.config.js file path',
       default: 'webpack.dll.js',
     })
+    .option('compress', {
+      type: 'boolean',
+      description: 'build files with compress',
+    })
+    .option('devtool', {
+      type: 'string',
+      description: 'source map type',
+    })
     .option('verbose', {
       type: 'boolean',
       description: 'verbose info level',
