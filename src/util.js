@@ -120,7 +120,6 @@ export function fnBuildHTML (context, env) {
   }
 
   return entryNames.map(name => {
-    const excludes = entryNames.filter(line => line !== name)
     let sdk = sdks[name]
 
     if (typeof sdk === 'string') {
@@ -140,7 +139,8 @@ export function fnBuildHTML (context, env) {
     return {
       PATHS: paths0,
       filename: `${name}.html`,
-      excludeChunks: excludes,
+      chunks: ['common', name],
+      chunksSortMode: 'dependency',
       ...options
     }
   })
