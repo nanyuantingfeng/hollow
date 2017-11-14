@@ -108,7 +108,7 @@ export function fnBuildHTML (context, env) {
   }
 
   if (typeof entry === 'string') {
-    entry = {index: entry}
+    context.entry = entry = {index: entry}
   }
   const paths = fnBuildHTMLData(externals, env)
   const entryNames = Object.keys(entry)
