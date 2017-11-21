@@ -41,6 +41,7 @@ export default async function (context, next) {
     inline: true,
     noInfo: false,
     host: DEFAULT_HOST,
+    disableHostCheck: true,
     port: context.port || DEFAULT_PORT,
     historyApiFallback: true,
     overlay: true,
