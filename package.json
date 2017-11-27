@@ -24,6 +24,7 @@
     "coveralls": "~3.0.0",
     "glob": "^7.1.2",
     "jest": "^21.2.1",
+    "leven": "^2.1.0",
     "lodash": "^4.17.4",
     "react": "^16.1.1",
     "react-svg-loader": "^2.1.0",

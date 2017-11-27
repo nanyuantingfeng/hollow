@@ -7,14 +7,25 @@ import glob from 'glob'
 import build from '../src/fnBuild'
 import buildDll from '../src/fnBuildDLL'
 import shell from 'shelljs'
+import leven from 'leven'
+
+function similarity(a, b) {
+  if (!a || !b || !a.length || !b.length) return 0
+  if (a === b) return 1
+  let d = leven(a.toLowerCase(), b.toLowerCase())
+  let longest = Math.max(a.length, b.length)
+  return (longest - d) / longest
+}
 
 function assert(distDir, _caseName) {
   const expectDir = path.join(__dirname, 'reference', _caseName)
   const actualFiles = glob.sync('**/*', { cwd: distDir, nodir: true })
+
   actualFiles.forEach(file => {
     const actualFile = fs.readFileSync(path.join(distDir, file), 'utf-8')
     const expectFile = fs.readFileSync(path.join(expectDir, file), 'utf-8')
-    expect(actualFile).toEqual(expectFile)
+    const sim = similarity(actualFile, expectFile)
+    expect(sim > 0.7).toBeTruthy()
   })
 }
 
