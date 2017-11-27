@@ -112,16 +112,17 @@ workflows:
 
   build:
     jobs:
-      - checkout
-      - test:
-          requires:
-            - checkout
-      - coveralls:
-          requires:
-            - test
       - build:
-          requires:
-            - test
+#      - checkout
+#      - test:
+#          requires:
+#            - checkout
+#      - coveralls:
+#          requires:
+#            - test
+#      - build:
+#          requires:
+#            - test
 
   release:
     jobs:
