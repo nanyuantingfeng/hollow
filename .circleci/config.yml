@@ -6,6 +6,8 @@ defaults: &defaults
 whitelist: &whitelist
   paths:
     - .npmignore
+    - .babelrc
+    - .gitignore
     - coverage/*
     - build/*
     - lib/*
