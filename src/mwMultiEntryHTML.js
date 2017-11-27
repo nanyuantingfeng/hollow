@@ -26,7 +26,6 @@ export default async function (context, next) {
   const versionTail = ENV.isBeta ? '-beta' : ENV.isDevelopment ? '-dev' : ''
 
   plugins.push(new DefinePlugin({
-    ['process.env.NODE_ENV']: JSON.stringify(ENV.env),
     VERSION: JSON.stringify(version),
     APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
     ...context.defines

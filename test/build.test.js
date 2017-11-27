@@ -5,11 +5,12 @@ import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
 import build from '../src/fnBuild'
+import buildDll from '../src/fnBuildDLL'
 import shell from 'shelljs'
 
-function assert (distDir, _caseName) {
+function assert(distDir, _caseName) {
   const expectDir = path.join(__dirname, 'reference', _caseName)
-  const actualFiles = glob.sync('**/*', {cwd: distDir, nodir: true})
+  const actualFiles = glob.sync('**/*', { cwd: distDir, nodir: true })
   actualFiles.forEach(file => {
     const actualFile = fs.readFileSync(path.join(distDir, file), 'utf-8')
     const expectFile = fs.readFileSync(path.join(expectDir, file), 'utf-8')
@@ -17,12 +18,22 @@ function assert (distDir, _caseName) {
   })
 }
 
-function testCase (args, _case) {
+function testCase(args, _case) {
   const cwd = path.join(__dirname, 'cases', _case)
   const outputPath = path.join(cwd, 'dist')
   shell.rm('-rf', outputPath)
   process.chdir(cwd)
-  return build({cwd, compress: false, ...args})
+  return build({ cwd, compress: false, ...args })
+    .then(() => assert(outputPath, _case))
+    .catch(e => {throw e})
+}
+
+function testCaseDll(args, _case) {
+  const cwd = path.join(__dirname, 'cases', _case)
+  const outputPath = path.join(cwd, 'dist')
+  shell.rm('-rf', outputPath)
+  process.chdir(cwd)
+  return buildDll({ cwd, compress: false, config: 'webpack.dll.js', ...args })
     .then(() => assert(outputPath, _case))
     .catch(e => {throw e})
 }
@@ -36,7 +47,7 @@ describe('support test', () => {
   })
 
   it('support normal', async () => {
-    await testCase({hash: true}, 'build-normal')
+    await testCase({ hash: true }, 'build-normal')
   })
   it('support class-property', async () => {
     await testCase({}, 'build-class-property')
@@ -45,7 +56,7 @@ describe('support test', () => {
     await testCase({}, 'build-less')
   })
   it('support lodash', async () => {
-    await testCase({hash: false}, 'build-lodash')
+    await testCase({ hash: false }, 'build-lodash')
   })
   it('support css-modules', async () => {
     await testCase({}, 'build-css-modules')
@@ -69,23 +80,28 @@ describe('support test', () => {
     await testCase({}, 'build-node-builtins')
   })
   it('support custom-plugins', async () => {
-    await testCase({hash: true}, 'build-custom-plugins')
+    await testCase({ hash: true }, 'build-custom-plugins')
   })
   it('support custom-rules', async () => {
-    await testCase({hash: false}, 'build-custom-rules')
+    await testCase({ hash: false }, 'build-custom-rules')
   })
   it('support environment-production', async () => {
-    await testCase({compress: true}, 'build-env-production')
+    await testCase({ compress: true }, 'build-env-production')
   })
+
+  it('support environment-dll', async () => {
+    await testCaseDll({ compress: true }, 'build-env-dll')
+  })
+
   it('support environment-development', async () => {
     process.env.NODE_ENV = 'development'
     await testCase({}, 'build-env-development')
   })
   it('support config', async () => {
-    await testCase({config: 'webpack.config.path.js'}, 'build-custom-path')
+    await testCase({ config: 'webpack.config.path.js' }, 'build-custom-path')
   })
   it('support hash-map', async () => {
-    await testCase({hash: true}, 'build-hash-map')
+    await testCase({ hash: true }, 'build-hash-map')
   })
   it('support i18n', async () => {
     await testCase({}, 'build-i18n')

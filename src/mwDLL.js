@@ -11,7 +11,6 @@ export default async function (context, next) {
 
   const {dll, plugins, DIRs} = context
   const libraryName = '[name]_[chunkhash]'
-
   if (Array.isArray(dll)) {
     plugins.push(new DllPlugin({
       path: path.resolve(DIRs.build, 'manifest.json'),

@@ -15,12 +15,11 @@ export default function (args) {
     provides: {},
     defines: {},
     outputPath: 'dist',
-    default_node_env: 'production',
     cache: {},
     ...args,
   }
 
-  const {cwd, config} = context
+  const { cwd, config } = context
 
   return compose(mwsBuild(cwd, config))(context)
     .then(startBuild)

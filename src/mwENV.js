@@ -2,18 +2,19 @@
  * Created by nanyuantingfeng on 27/10/2017 16:54.
  **************************************************/
 import path from 'path'
+import { DefinePlugin } from './plugins'
 
 import { fnGetValueByPath } from './util'
 
 export default async function (context, next) {
-  const {default_node_env, cwd, outputPath} = context
+  const { default_node_env, cwd, outputPath } = context
   const env = process.env.NODE_ENV || default_node_env || 'development'
 
   const isProduction = env === 'production'
   const isDevelopment = env === 'development'
   const isBeta = env === 'beta'
 
-  context.ENV ={
+  context.ENV = {
     isProduction,
     isDevelopment,
     isBeta,
@@ -36,6 +37,10 @@ export default async function (context, next) {
   context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'))
 
   next()
+
+  context.webpackConfig.plugins.push(new DefinePlugin({
+    ['process.env.NODE_ENV']: JSON.stringify(env),
+  }))
 
   return context
 }
