@@ -7,12 +7,11 @@ whitelist: &whitelist
   paths:
     - .npmignore
     - coverage/*
-    - dist/*
+    - build/*
+    - lib/*
     - node_modules/*
     - src/*
     - test/*
-    - CODE_OF_CONDUCT.md
-    - LICENSE.md
     - package.json
     - README.md
 version: 2
