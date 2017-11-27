@@ -153,8 +153,8 @@ workflows:
               only: /v\d+(\.\d+)*/
             branches:
               ignore: /.*/
-          requires:
-            - test
+#          requires:
+#            - test
       - deploy:
           filters:
             tags:
