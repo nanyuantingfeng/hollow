@@ -8,12 +8,12 @@ whitelist: &whitelist
     - assets/*
     - bin/*
     - lib/*
+    - .babelrc
     - node_modules/*
     - src/*
     - test/*
-    - coverage/*
-    - .babelrc
     - .gitignore
+    - coverage/*
     - build/*
     - package.json
     - README.md
@@ -112,17 +112,16 @@ workflows:
 
   build:
     jobs:
+      - checkout
+      - test:
+          requires:
+            - checkout
+      - coveralls:
+          requires:
+            - test
       - build:
-#      - checkout
-#      - test:
-#          requires:
-#            - checkout
-#      - coveralls:
-#          requires:
-#            - test
-#      - build:
-#          requires:
-#            - test
+          requires:
+            - test
 
   release:
     jobs:
@@ -154,8 +153,8 @@ workflows:
               only: /v\d+(\.\d+)*/
             branches:
               ignore: /.*/
-#          requires:
-#            - test
+          requires:
+            - test
       - deploy:
           filters:
             tags:
