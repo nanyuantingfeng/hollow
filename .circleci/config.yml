@@ -48,7 +48,7 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Test TypeScript code
+          name: Test code
           command: npm run test:cover
 
       - persist_to_workspace:
@@ -74,7 +74,7 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Build TypeScript code
+          name: Build code
           command: npm run build
 
       - persist_to_workspace:
