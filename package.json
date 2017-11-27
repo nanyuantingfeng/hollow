@@ -11,7 +11,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib && rm -rf build",
-    "build": "npm run clean && babel src --out-dir lib",
+    "build": "npm run clean && node_modules/.bin/babel src --out-dir lib",
     "build:copy": "mkdir -p build && rsync -av --exclude='node_modules' --exclude='demo' --exclude='build' ./ ./build",
     "publish2npm": "npm run build && npm run build:copy && npm publish ./build",
     "test": "jest",
