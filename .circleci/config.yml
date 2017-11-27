@@ -5,15 +5,16 @@ defaults: &defaults
 
 whitelist: &whitelist
   paths:
-    - .npmignore
-    - .babelrc
-    - .gitignore
-    - coverage/*
-    - build/*
+    - assets/*
+    - bin/*
     - lib/*
     - node_modules/*
     - src/*
     - test/*
+    - coverage/*
+    - .babelrc
+    - .gitignore
+    - build/*
     - package.json
     - README.md
 version: 2

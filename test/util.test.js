@@ -10,17 +10,17 @@ import {
 
 test('fnBuildCopyFiles', () => {
   let files = {
-    'whatwg-fetch': {path: 'node_modules/whatwg-fetch/fetch.js'},
-    'es6-promise': {path: 'node_modules/es6-promise/dist/es6-promise.auto.min.js'},
+    'whatwg-fetch': { path: 'node_modules/whatwg-fetch/fetch.js' },
+    'es6-promise': { path: 'node_modules/es6-promise/dist/es6-promise.auto.min.js' },
 
-    'didi-callback.html': {path: 'src/didi-callback.html'},
-    'didi-reopen.html': {path: 'src/didi-reopen.html'},
-    'help-writtenoff.html': {path: 'src/help/help-writtenoff.html'},
-    'help-writtenoff-image': {path: 'src/help/help-writtenoff-image.png'},
-    'help-feetype.html': {path: 'src/help/help-feetype.html'},
-    'help-feetype-image': {path: 'src/help/help-feetype-image.png'},
+    'didi-callback.html': { path: 'src/didi-callback.html' },
+    'didi-reopen.html': { path: 'src/didi-reopen.html' },
+    'help-writtenoff.html': { path: 'src/help/help-writtenoff.html' },
+    'help-writtenoff-image': { path: 'src/help/help-writtenoff-image.png' },
+    'help-feetype.html': { path: 'src/help/help-feetype.html' },
+    'help-feetype-image': { path: 'src/help/help-feetype-image.png' },
 
-    'experience': {path: 'src/plugins/experience/', to: 'experience/'},
+    'experience': { path: 'src/plugins/experience/', to: 'experience/' },
     'aaaa': 'iiosdo/adasd/asdasd.js',
     'bbsh': 'src/plugins/experience/',
 
@@ -29,29 +29,29 @@ test('fnBuildCopyFiles', () => {
   let oo = fnBuildCopyFiles(files)
 
   expect(oo).toEqual([
-    {'from': 'node_modules/whatwg-fetch/fetch.js',},
-    {'from': 'node_modules/es6-promise/dist/es6-promise.auto.min.js',},
-    {'from': 'src/didi-callback.html',},
-    {'from': 'src/didi-reopen.html',},
-    {'from': 'src/help/help-writtenoff.html',},
-    {'from': 'src/help/help-writtenoff-image.png',},
-    {'from': 'src/help/help-feetype.html',},
-    {'from': 'src/help/help-feetype-image.png',},
-    {'from': 'src/plugins/experience/', 'to': 'experience/'},
-    {'from': 'iiosdo/adasd/asdasd.js',},
-    {'from': 'src/plugins/experience/',},
+    { 'from': 'node_modules/whatwg-fetch/fetch.js', },
+    { 'from': 'node_modules/es6-promise/dist/es6-promise.auto.min.js', },
+    { 'from': 'src/didi-callback.html', },
+    { 'from': 'src/didi-reopen.html', },
+    { 'from': 'src/help/help-writtenoff.html', },
+    { 'from': 'src/help/help-writtenoff-image.png', },
+    { 'from': 'src/help/help-feetype.html', },
+    { 'from': 'src/help/help-feetype-image.png', },
+    { 'from': 'src/plugins/experience/', 'to': 'experience/' },
+    { 'from': 'iiosdo/adasd/asdasd.js', },
+    { 'from': 'src/plugins/experience/', },
   ])
 
 })
 
 test('fnBuildExternals', () => {
   let externals = {
-    'react': {name: 'React', path: 'node_modules/react/dist/react.js'},
-    'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
+    'react': { name: 'React', path: 'node_modules/react/dist/react.js' },
+    'react-dom': { name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js' },
 
-    'big.js': {name: 'Big', path: 'node_modules/big.js/big.min.js'},
-    'redux': {name: 'Redux', path: 'node_modules/redux/dist/redux.min.js'},
-    'moment': {name: 'moment', path: 'node_modules/moment/min/moment.min.js'},
+    'big.js': { name: 'Big', path: 'node_modules/big.js/big.min.js' },
+    'redux': { name: 'Redux', path: 'node_modules/redux/dist/redux.min.js' },
+    'moment': { name: 'moment', path: 'node_modules/moment/min/moment.min.js' },
     'jquery': 'jQuery',
     '$': 'jQuery',
   }
@@ -71,12 +71,12 @@ test('fnBuildExternals', () => {
 
 test('fnBuildHTMLData:production', () => {
   let externals = {
-    'react': {name: 'React', path: 'node_modules/react/dist/react.js'},
-    'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
+    'react': { name: 'React', path: 'node_modules/react/dist/react.js' },
+    'react-dom': { name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js' },
 
-    'big.js': {name: 'Big', path: 'node_modules/big.js/big.min.js'},
-    'redux': {name: 'Redux', path: 'node_modules/redux/dist/redux.min.js'},
-    'moment': {name: 'moment', path: 'node_modules/moment/min/moment.min.js'},
+    'big.js': { name: 'Big', path: 'node_modules/big.js/big.min.js' },
+    'redux': { name: 'Redux', path: 'node_modules/redux/dist/redux.min.js' },
+    'moment': { name: 'moment', path: 'node_modules/moment/min/moment.min.js' },
     'jquery': 'jQuery',
     '$': 'jQuery',
   }
@@ -90,12 +90,12 @@ test('fnBuildHTMLData:production', () => {
 
 test('fnBuildHTMLData:development', () => {
   let externals = {
-    'react': {name: 'React', path: 'node_modules/react/dist/react.js'},
-    'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
+    'react': { name: 'React', path: 'node_modules/react/dist/react.js' },
+    'react-dom': { name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js' },
 
-    'big.js': {name: 'Big', path: 'node_modules/big.js/big.min.js'},
-    'redux': {name: 'Redux', path: 'node_modules/redux/dist/redux.min.js'},
-    'moment': {name: 'moment', path: 'node_modules/moment/min/moment.min.js'},
+    'big.js': { name: 'Big', path: 'node_modules/big.js/big.min.js' },
+    'redux': { name: 'Redux', path: 'node_modules/redux/dist/redux.min.js' },
+    'moment': { name: 'moment', path: 'node_modules/moment/min/moment.min.js' },
     'jquery': 'jQuery',
     '$': 'jQuery',
   }
@@ -122,11 +122,11 @@ test('fnBuildHTML:production', () => {
     },
 
     externals: {
-      'react': {name: 'React', path: 'node_modules/react/dist/react.js'},
-      'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
-      'big.js': {name: 'Big', path: 'node_modules/big.js/big.min.js'},
-      'redux': {name: 'Redux', path: 'node_modules/redux/dist/redux.min.js'},
-      'moment': {name: 'moment', path: 'node_modules/moment/min/moment.min.js'},
+      'react': { name: 'React', path: 'node_modules/react/dist/react.js' },
+      'react-dom': { name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js' },
+      'big.js': { name: 'Big', path: 'node_modules/big.js/big.min.js' },
+      'redux': { name: 'Redux', path: 'node_modules/redux/dist/redux.min.js' },
+      'moment': { name: 'moment', path: 'node_modules/moment/min/moment.min.js' },
       'jquery': 'jQuery',
       '$': 'jQuery',
     },
@@ -164,7 +164,39 @@ test('fnBuildHTML:production', () => {
 
   let oo = fnBuildHTML(context, env)
 
-  expect(oo).toEqual([{"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js"], "chunks": ["common", "a"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "a.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "b"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "b.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "c"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "c.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "d"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "d.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}])
+  expect(oo).toMatchObject([{
+    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js',
+      'fetch.js'],
+    'chunks': ['common', 'a'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('/assets/favicon.ico'),
+    'filename': 'a.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }, {
+    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js',
+      'fetch.js', 'https://a.b.c.d/e.js'],
+    'chunks': ['common', 'b'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('assets/favicon.ico'),
+    'filename': 'b.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }, {
+    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js',
+      'fetch.js', 'https://a.b.c.d/e.js'],
+    'chunks': ['common', 'c'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('assets/favicon.ico'),
+    'filename': 'c.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }, {
+    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js',
+      'fetch.js', 'https://a.b.c.d/e.js'],
+    'chunks': ['common', 'd'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('assets/favicon.ico'),
+    'filename': 'd.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }])
 
 })
 
@@ -178,12 +210,12 @@ test('fnBuildHTML:development', () => {
     },
 
     externals: {
-      'react': {name: 'React', path: 'node_modules/react/dist/react.js'},
-      'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
+      'react': { name: 'React', path: 'node_modules/react/dist/react.js' },
+      'react-dom': { name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js' },
 
-      'big.js': {name: 'Big', path: 'node_modules/big.js/big.min.js'},
-      'redux': {name: 'Redux', path: 'node_modules/redux/dist/redux.min.js'},
-      'moment': {name: 'moment', path: 'node_modules/moment/min/moment.min.js'},
+      'big.js': { name: 'Big', path: 'node_modules/big.js/big.min.js' },
+      'redux': { name: 'Redux', path: 'node_modules/redux/dist/redux.min.js' },
+      'moment': { name: 'moment', path: 'node_modules/moment/min/moment.min.js' },
       'jquery': 'jQuery',
       '$': 'jQuery',
     },
@@ -221,5 +253,41 @@ test('fnBuildHTML:development', () => {
 
   let oo = fnBuildHTML(context, env)
 
-  expect(oo).toEqual([{"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js"], "chunks": ["common", "a"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "a.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "b"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "b.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "c"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "c.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "d"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "d.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}])
+  expect(oo).toMatchObject([{
+    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js',
+      'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js',
+      'es6-promise.auto.min.js', 'fetch.js'],
+    'chunks': ['common', 'a'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('assets/favicon.ico'),
+    'filename': 'a.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }, {
+    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js',
+      'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js',
+      'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'chunks': ['common', 'b'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('assets/favicon.ico'),
+    'filename': 'b.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }, {
+    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js',
+      'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js',
+      'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'chunks': ['common', 'c'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('assets/favicon.ico'),
+    'filename': 'c.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }, {
+    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js',
+      'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js',
+      'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
+    'chunks': ['common', 'd'],
+    'chunksSortMode': 'dependency',
+    'favicon': expect.stringMatching('assets/favicon.ico'),
+    'filename': 'd.html',
+    'template': expect.stringMatching('assets/index.hbs'),
+  }])
 })
