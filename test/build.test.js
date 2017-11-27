@@ -25,7 +25,6 @@ function testCase(args, _case) {
   process.chdir(cwd)
   return build({ cwd, compress: false, ...args })
     .then(() => assert(outputPath, _case))
-    .catch(e => {throw e})
 }
 
 function testCaseDll(args, _case) {
@@ -35,7 +34,6 @@ function testCaseDll(args, _case) {
   process.chdir(cwd)
   return buildDll({ cwd, compress: false, config: 'webpack.dll.js', ...args })
     .then(() => assert(outputPath, _case))
-    .catch(e => {throw e})
 }
 
 describe('support test', () => {
@@ -138,6 +136,7 @@ describe('support test', () => {
       .catch((e) => {
         expect(e.name).toEqual('NoEntry')
         expect(e.message).toEqual('no webpack entry found')
+        return Promise.resolve()
       })
   })
 })

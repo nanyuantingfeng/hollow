@@ -50,8 +50,8 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Test code
-          command: npm run test:cover
+          name: Test Code
+          command: npm run test
 
       - persist_to_workspace:
           root: ~/repo
@@ -76,7 +76,7 @@ jobs:
           at: ~/repo
 
       - run:
-          name: Build code
+          name: Build Code
           command: npm run build
 
       - persist_to_workspace:
@@ -91,19 +91,19 @@ jobs:
           at: ~/repo
 
       - run: 
-          name: Write NPM Token to ~/.npmrc
+          name: Write NPM Token 2 ~/.npmrc
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
 
       - run: 
-          name: Install dot-json package
+          name: Install dot-json
           command: npm install dot-json
 
       - run:
-          name: Write version to package.json
+          name: Write Version 2 package.json
           command: $(npm bin)/dot-json package.json version ${CIRCLE_TAG:1}
 
       - run:
-          name: Publish to NPM
+          name: Publish 2 NPM
           command: npm run publish2npm
 
 workflows:
@@ -127,13 +127,13 @@ workflows:
       - checkout:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v\d+(\.\d+)*/
             branches:
               ignore: /.*/
       - test:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v\d+(\.\d+)*/
             branches:
               ignore: /.*/
           requires:
@@ -141,7 +141,7 @@ workflows:
       - coveralls:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v\d+(\.\d+)*/
             branches:
               ignore: /.*/
           requires:
@@ -149,7 +149,7 @@ workflows:
       - build:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v\d+(\.\d+)*/
             branches:
               ignore: /.*/
           requires:
@@ -157,7 +157,7 @@ workflows:
       - deploy:
           filters:
             tags:
-              only: /v[0-9]+(\.[0-9]+)*/
+              only: /v\d+(\.\d+)*/
             branches:
               ignore: /.*/
           requires:

@@ -164,31 +164,7 @@ test('fnBuildHTML:production', () => {
 
   let oo = fnBuildHTML(context, env)
 
-  expect(oo).toEqual([{
-    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js'],
-    'excludeChunks': ['b', 'c', 'd'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'a.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }, {
-    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
-    'excludeChunks': ['a', 'c', 'd'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'b.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }, {
-    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
-    'excludeChunks': ['a', 'b', 'd'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'c.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }, {
-    'PATHS': ['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
-    'excludeChunks': ['a', 'b', 'c'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'd.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }])
+  expect(oo).toEqual([{"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js"], "chunks": ["common", "a"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "a.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "b"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "b.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "c"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "c.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["react.js", "react-dom.js", "big.min.js", "redux.min.js", "moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "d"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "d.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}])
 
 })
 
@@ -245,29 +221,5 @@ test('fnBuildHTML:development', () => {
 
   let oo = fnBuildHTML(context, env)
 
-  expect(oo).toEqual([{
-    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js'],
-    'excludeChunks': ['b', 'c', 'd'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'a.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }, {
-    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
-    'excludeChunks': ['a', 'c', 'd'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'b.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }, {
-    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
-    'excludeChunks': ['a', 'b', 'd'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'c.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }, {
-    'PATHS': ['node_modules/react/dist/react.js', 'node_modules/react-dom/dist/react-dom.js', 'node_modules/big.js/big.min.js', 'node_modules/redux/dist/redux.min.js', 'node_modules/moment/min/moment.min.js', 'es6-promise.auto.min.js', 'fetch.js', 'https://a.b.c.d/e.js'],
-    'excludeChunks': ['a', 'b', 'c'],
-    'favicon': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/favicon.ico',
-    'filename': 'd.html',
-    'template': '/Users/nanyuantingfeng/Repositories/github/hollow-cli/index.hbs'
-  }])
+  expect(oo).toEqual([{"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js"], "chunks": ["common", "a"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "a.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "b"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "b.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "c"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "c.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}, {"PATHS": ["node_modules/react/dist/react.js", "node_modules/react-dom/dist/react-dom.js", "node_modules/big.js/big.min.js", "node_modules/redux/dist/redux.min.js", "node_modules/moment/min/moment.min.js", "es6-promise.auto.min.js", "fetch.js", "https://a.b.c.d/e.js"], "chunks": ["common", "d"], "chunksSortMode": "dependency", "favicon": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/favicon.ico", "filename": "d.html", "template": "/Users/nanyuantingfeng/Repositories/github/hollow-cli/assets/index.hbs"}])
 })
