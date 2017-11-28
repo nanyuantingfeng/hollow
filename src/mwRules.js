@@ -4,7 +4,7 @@
 import path from 'path'
 import { ExtractTextPlugin } from './plugins'
 
-function fnFixStyleLoaders4ENV (rules, ENV) {
+function fnFixStyleLoaders4ENV(rules, ENV) {
   const extractLoader = ExtractTextPlugin.extract({
     fallback: 'style-loader', use: rules
   })
@@ -18,7 +18,7 @@ function fnFixStyleLoaders4ENV (rules, ENV) {
   }
 }
 
-function fnGetThemeMap (packageMap, cwd) {
+function fnGetThemeMap(packageMap, cwd) {
   let theme = {}
   const packageMapTheme = packageMap.theme
 
@@ -45,39 +45,46 @@ export default async function (context, next) {
   context.rules = []
   next()
 
-  const {cwd, limit = 10000, ENV, packageMap} = context
+  const { cwd, limit = 10000, ENV, packageMap, hash } = context
   const theme = fnGetThemeMap(packageMap, cwd)
-
-  const {babelOptions, postcssOptions, tsOptions, rules} = context
+  const { babelOptions, postcssOptions, tsOptions, rules } = context
+  const workerFileName = hash ? '[hash].worker.js' : '[name].worker.js'
 
   context.rules = [
     {
-      test (filePath) {
+      test: /\.worker\.jsx?$/,
+      use: [
+        { loader: 'babel-loader', options: babelOptions },
+        { loader: 'worker-loader', options: { name: workerFileName } },
+      ]
+    },
+    {
+      test(filePath) {
         return /\.lazy\.jsx?$/.test(filePath)
       },
       exclude: /node_modules/,
       use: [
-        {loader: 'babel-loader', options: babelOptions},
-        {loader: 'bundle-loader', options: {lazy: true}}
+        { loader: 'babel-loader', options: babelOptions },
+        { loader: 'bundle-loader', options: { lazy: true } }
       ]
     },
     {
-      test (filePath) {
+      test(filePath) {
         return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx$/.test(filePath)
       },
       exclude: /node_modules/,
-      use: [{loader: 'babel-loader', options: babelOptions}],
+      use: [{ loader: 'babel-loader', options: babelOptions }],
     },
     {
       test: /\.tsx?$/,
       exclude: /node_modules/,
       use: [
-        {loader: 'babel-loader', options: babelOptions},
-        {loader: 'ts-loader', options: tsOptions}
+        { loader: 'babel-loader', options: babelOptions },
+        { loader: 'ts-loader', options: tsOptions }
       ]
     },
     {
-      test (filePath) {
+      test(filePath) {
         return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
       },
       use: fnFixStyleLoaders4ENV([
@@ -88,7 +95,7 @@ export default async function (context, next) {
           '-restructuring': true,
         }
         },
-        {loader: 'postcss-loader', options: postcssOptions},
+        { loader: 'postcss-loader', options: postcssOptions },
       ], ENV)
     },
     {
@@ -103,11 +110,11 @@ export default async function (context, next) {
           '-restructuring': true,
         }
         },
-        {loader: 'postcss-loader', options: postcssOptions},
+        { loader: 'postcss-loader', options: postcssOptions },
       ], ENV)
     },
     {
-      test (filePath) {
+      test(filePath) {
         return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
       },
       use: fnFixStyleLoaders4ENV([
@@ -117,8 +124,8 @@ export default async function (context, next) {
           '-autoprefixer': true,
         }
         },
-        {loader: 'postcss-loader', options: postcssOptions},
-        {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
+        { loader: 'postcss-loader', options: postcssOptions },
+        { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
       ], ENV)
     },
     {
@@ -132,48 +139,48 @@ export default async function (context, next) {
           '-autoprefixer': true,
         }
         },
-        {loader: 'postcss-loader', options: postcssOptions},
-        {loader: 'less-loader', options: {sourceMap: true, modifyVars: theme}},
+        { loader: 'postcss-loader', options: postcssOptions },
+        { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
       ], ENV)
     },
     {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit, minetype: 'application/font-woff'}
+        options: { limit, minetype: 'application/font-woff' }
       }],
     },
     {
       test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit, minetype: 'application/font-woff'}
+        options: { limit, minetype: 'application/font-woff' }
       }],
     },
     {
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit, minetype: 'application/octet-stream'}
+        options: { limit, minetype: 'application/octet-stream' }
       }],
     },
     {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit, minetype: 'application/vnd.ms-fontobject'}
+        options: { limit, minetype: 'application/vnd.ms-fontobject' }
       }],
     },
     {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: {limit, minetype: 'image/svg+xml'}
+        options: { limit, minetype: 'image/svg+xml' }
       }],
     },
     {
       test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
-      use: [{loader: 'url-loader', options: {limit}}],
+      use: [{ loader: 'url-loader', options: { limit } }],
     },
     {
       test: /\.html?$/,
@@ -184,7 +191,7 @@ export default async function (context, next) {
       }],
     },
     {
-      test: /\.hbs?$/, use: [{loader: 'mustache-loader'}]
+      test: /\.hbs?$/, use: [{ loader: 'mustache-loader' }]
     },
     ...rules
   ]

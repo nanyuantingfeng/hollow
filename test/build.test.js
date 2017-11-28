@@ -58,6 +58,9 @@ describe('support test', () => {
   it('support normal', async () => {
     await testCase({ hash: true }, 'build-normal')
   })
+  it('support web-worker', async () => {
+    await testCase({ hash: true }, 'build-web-worker')
+  })
   it('support class-property', async () => {
     await testCase({}, 'build-class-property')
   })
@@ -97,11 +100,9 @@ describe('support test', () => {
   it('support environment-production', async () => {
     await testCase({ compress: true }, 'build-env-production')
   })
-
   it('support environment-dll', async () => {
     await testCaseDll({ compress: true }, 'build-env-dll')
   })
-
   it('support environment-development', async () => {
     process.env.NODE_ENV = 'development'
     await testCase({}, 'build-env-development')
