@@ -53,6 +53,7 @@ export default async function (context, next) {
   context.rules = [
     {
       test: /\.worker\.jsx?$/,
+      exclude: /node_modules/,
       use: [
         { loader: 'babel-loader', options: babelOptions },
         { loader: 'worker-loader', options: { name: workerFileName } },
@@ -70,7 +71,7 @@ export default async function (context, next) {
     },
     {
       test(filePath) {
-        return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx$/.test(filePath)
+        return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx$/.test(filePath) && !/\.worker\.jsx$/.test(filePath)
       },
       exclude: /node_modules/,
       use: [{ loader: 'babel-loader', options: babelOptions }],
