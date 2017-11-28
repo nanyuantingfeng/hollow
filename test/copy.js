@@ -12,12 +12,15 @@ glob('./cases/*', function (er, files) {
   files.forEach(file => {
 
     let isDir = fs.existsSync(path.join(file, 'dist'))
+    let isDir2 = fs.existsSync(path.join(file, 'dll'))
 
-    if (!isDir) {
+    if (!isDir && !isDir2) {
       return false
     }
 
-    const fromPath = path.join(file, 'dist')
+    const p = isDir ? 'dist' : isDir2 ? 'dll' : ''
+
+    const fromPath = path.join(file, p)
     const toPath = path.join('.', 'reference', file.replace('./cases/', ''))
     shell.rm('-rf', toPath)
     copyDir(fromPath, toPath, () => true)

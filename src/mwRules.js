@@ -1,8 +1,12 @@
 /**************************************************
  * Created by nanyuantingfeng on 27/10/2017 16:28.
  **************************************************/
+import os from 'os'
 import path from 'path'
 import { ExtractTextPlugin } from './plugins'
+import HappyPack, { ThreadPool } from 'happypack'
+
+const happyThreadPool = ThreadPool({ size: os.cpus().length })
 
 function fnFixStyleLoaders4ENV(rules, ENV) {
   const extractLoader = ExtractTextPlugin.extract({
@@ -45,7 +49,7 @@ export default async function (context, next) {
   context.rules = []
   next()
 
-  const { cwd, limit = 10000, ENV, packageMap, hash } = context
+  const { cwd, limit = 10000, ENV, packageMap, hash, plugins } = context
   const theme = fnGetThemeMap(packageMap, cwd)
   const { babelOptions, postcssOptions, tsOptions, rules } = context
   const workerFileName = hash ? '[hash].worker.js' : '[name].worker.js'
@@ -66,7 +70,7 @@ export default async function (context, next) {
       exclude: /node_modules/,
       use: [
         { loader: 'babel-loader', options: babelOptions },
-        { loader: 'bundle-loader', options: { lazy: true } }
+        { loader: 'bundle-loader', options: { lazy: true } },
       ]
     },
     {
@@ -74,15 +78,12 @@ export default async function (context, next) {
         return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx$/.test(filePath) && !/\.worker\.jsx$/.test(filePath)
       },
       exclude: /node_modules/,
-      use: [{ loader: 'babel-loader', options: babelOptions }],
+      use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
     },
     {
       test: /\.tsx?$/,
       exclude: /node_modules/,
-      use: [
-        { loader: 'babel-loader', options: babelOptions },
-        { loader: 'ts-loader', options: tsOptions }
-      ]
+      use: [{ loader: 'happypack/loader', options: { id: 'tsx' } }],
     },
     {
       test(filePath) {
@@ -196,4 +197,19 @@ export default async function (context, next) {
     },
     ...rules
   ]
+
+  plugins.push(new HappyPack({
+    id: 'jsx', threadPool: happyThreadPool,
+    loaders: [{ loader: 'babel-loader', options: babelOptions }],
+  }))
+
+  tsOptions.happyPackMode = true
+  
+  plugins.push(new HappyPack({
+    id: 'tsx', threadPool: happyThreadPool,
+    loaders: [
+      { loader: 'babel-loader', options: babelOptions },
+      { loader: 'ts-loader', options: tsOptions }
+    ]
+  }))
 }

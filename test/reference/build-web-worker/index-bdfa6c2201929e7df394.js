@@ -32,7 +32,7 @@ console.log(1);
 
 
 module.exports = function () {
-  return new Worker(__webpack_require__.p + "0a6a664aa47857bb0bde.worker.js");
+  return new Worker(__webpack_require__.p + "6d21a2fc79ba658dabdd.worker.js");
 };
 
 /***/ })

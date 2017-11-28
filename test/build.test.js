@@ -38,13 +38,25 @@ function testCase(args, _case) {
     .then(() => assert(outputPath, _case))
 }
 
+function assertDll(distDir, _caseName) {
+  const fileName = require(path.join(distDir, 'manifest.json')).name
+  
+  const expectDir = path.join(__dirname, 'reference', _caseName)
+  const fileName2 = require(path.join(expectDir, 'manifest.json')).name
+   
+  const actualFile = fs.readFileSync(path.join(distDir, fileName + '.js'), 'utf-8')
+  const expectFile = fs.readFileSync(path.join(expectDir, fileName2 + '.js'), 'utf-8')
+  const sim = similarity(actualFile, expectFile)
+  expect(sim > 0.7).toBeTruthy()
+}
+
 function testCaseDll(args, _case) {
   const cwd = path.join(__dirname, 'cases', _case)
-  const outputPath = path.join(cwd, 'dist')
+  const outputPath = path.join(cwd, 'dll')
   shell.rm('-rf', outputPath)
   process.chdir(cwd)
   return buildDll({ cwd, compress: false, config: 'webpack.dll.js', ...args })
-    .then(() => assert(outputPath, _case))
+    .then(() => assertDll(outputPath, _case))
 }
 
 describe('support test', () => {
