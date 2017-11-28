@@ -6,8 +6,6 @@ import path from 'path'
 import { ExtractTextPlugin } from './plugins'
 import HappyPack, { ThreadPool } from 'happypack'
 
-const happyThreadPool = ThreadPool({ size: os.cpus().length })
-
 function fnFixStyleLoaders4ENV(rules, ENV) {
   const extractLoader = ExtractTextPlugin.extract({
     fallback: 'style-loader', use: rules
@@ -198,15 +196,16 @@ export default async function (context, next) {
     ...rules
   ]
 
+  const threadPool = ThreadPool({ size: os.cpus().length })
+  tsOptions.happyPackMode = true
+
   plugins.push(new HappyPack({
-    id: 'jsx', threadPool: happyThreadPool,
+    id: 'jsx', threadPool,
     loaders: [{ loader: 'babel-loader', options: babelOptions }],
   }))
 
-  tsOptions.happyPackMode = true
-  
   plugins.push(new HappyPack({
-    id: 'tsx', threadPool: happyThreadPool,
+    id: 'tsx', threadPool,
     loaders: [
       { loader: 'babel-loader', options: babelOptions },
       { loader: 'ts-loader', options: tsOptions }
