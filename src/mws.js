@@ -14,11 +14,11 @@ import mwRules from './mwRules'
 import mwENV from './mwENV'
 import mwDLL from './mwDLL'
 
-async function noop () {
+async function noop() {
 
 }
 
-function getCustomConfig (cwd, config) {
+function getCustomConfig(cwd, config) {
   let paths = []
 
   switch (process.env.NODE_ENV) {
@@ -57,7 +57,7 @@ function getCustomConfig (cwd, config) {
   return cc
 }
 
-export function mwsBuild (cwd, config) {
+export function mwsBuild(cwd, config) {
   const mwConfig = getCustomConfig(cwd, config)
 
   return [
@@ -74,7 +74,7 @@ export function mwsBuild (cwd, config) {
   ]
 }
 
-export function mwsDevServer (cwd, config) {
+export function mwsDevServer(cwd, config) {
   const mwConfig = getCustomConfig(cwd, config)
 
   return [
@@ -92,7 +92,7 @@ export function mwsDevServer (cwd, config) {
   ]
 }
 
-export function mwsDLL (cwd, config) {
+export function mwsDLL(cwd, config) {
   const mwConfig = getCustomConfig(cwd, config)
   return [
     mwENV,

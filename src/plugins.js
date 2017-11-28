@@ -10,23 +10,23 @@ import mapJSONWebpackPlugin from 'map-json-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 const {
-  optimize,
-  LoaderOptionsPlugin,
-  DefinePlugin,
-  NamedModulesPlugin,
-  HotModuleReplacementPlugin,
-  NoEmitOnErrorsPlugin,
-  ProgressPlugin,
-  WebpackOptionsValidationError,
-  ContextReplacementPlugin,
-  BannerPlugin,
-  ProvidePlugin,
-  DllPlugin,
-  DllReferencePlugin,
-  HashedModuleIdsPlugin,
-} = webpack
+        optimize,
+        LoaderOptionsPlugin,
+        DefinePlugin,
+        NamedModulesPlugin,
+        HotModuleReplacementPlugin,
+        NoEmitOnErrorsPlugin,
+        ProgressPlugin,
+        WebpackOptionsValidationError,
+        ContextReplacementPlugin,
+        BannerPlugin,
+        ProvidePlugin,
+        DllPlugin,
+        DllReferencePlugin,
+        HashedModuleIdsPlugin,
+      } = webpack
 
-const {CommonsChunkPlugin, UglifyJsPlugin, ModuleConcatenationPlugin} = optimize
+const { CommonsChunkPlugin, UglifyJsPlugin, ModuleConcatenationPlugin } = optimize
 
 export {
   webpack,

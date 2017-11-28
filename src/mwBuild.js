@@ -11,9 +11,9 @@ export default async function (context, next) {
   next()
 
   const {
-    cwd, devtool, rules, ENV, packageMap,
-    outputPath, publicPath, hash, output,
-  } = context
+          cwd, devtool, rules, ENV, packageMap,
+          outputPath, publicPath, hash, output,
+        } = context
 
   const jsChunkFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
   const webpackConfig = context.webpackConfig = {

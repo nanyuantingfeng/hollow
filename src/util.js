@@ -8,7 +8,7 @@ import path from 'path'
 
 export { notifier, chalk, }
 
-export function fnProgressHandler (percent, msg1, msg2) {
+export function fnProgressHandler(percent, msg1, msg2) {
   let stream = process.stdout
   if (stream.isTTY && percent < .70) {
     stream.cursorTo(0)
@@ -19,7 +19,7 @@ export function fnProgressHandler (percent, msg1, msg2) {
   }
 }
 
-export function fnCheckWebpackConfig (webpackConfig) {
+export function fnCheckWebpackConfig(webpackConfig) {
   const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
   const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0)
   if (hasEmptyEntry) {
@@ -29,13 +29,13 @@ export function fnCheckWebpackConfig (webpackConfig) {
   }
 }
 
-export function fnGetValueByPath (path) {
+export function fnGetValueByPath(path) {
   return !fs.existsSync(path) ? {} : require(path)
 }
 
-export function fnBuildCopyFiles (files) {
+export function fnBuildCopyFiles(files) {
   if (Array.isArray(files)) {
-    return files.map(from => ({from}))
+    return files.map(from => ({ from }))
   }
   return Object.keys(files).filter(key => {
     let file = files[key]
@@ -43,13 +43,13 @@ export function fnBuildCopyFiles (files) {
   }).map(key => {
     let file = files[key]
     if (typeof file === 'string') {
-      return {from: file}
+      return { from: file }
     }
-    return {from: file.path, to: file.to}
+    return { from: file.path, to: file.to }
   })
 }
 
-export function fnBuildExternals (files) {
+export function fnBuildExternals(files) {
   let ret = {}
   Object.keys(files).forEach(key => {
     let file = files[key]
@@ -62,7 +62,7 @@ export function fnBuildExternals (files) {
   return ret
 }
 
-export function fnBuild4DevelopmentENV (filesMap) {
+export function fnBuild4DevelopmentENV(filesMap) {
   let ret = []
   Object.keys(filesMap).forEach(key => {
     let line = filesMap[key]
@@ -74,7 +74,7 @@ export function fnBuild4DevelopmentENV (filesMap) {
   return ret
 }
 
-export function fnBuild4ProductionENV (filesMap) {
+export function fnBuild4ProductionENV(filesMap) {
   let ret = []
   Object.keys(filesMap).forEach(key => {
     let line = filesMap[key]
@@ -88,7 +88,7 @@ export function fnBuild4ProductionENV (filesMap) {
   return ret
 }
 
-export function fnBuildHTMLData (filesMap, env) {
+export function fnBuildHTMLData(filesMap, env) {
   switch (env) {
     case 'production' :
     case 'beta' :
@@ -98,8 +98,8 @@ export function fnBuildHTMLData (filesMap, env) {
   }
 }
 
-export function fnBuildHTML (context, env) {
-  const {externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions} = context
+export function fnBuildHTML(context, env) {
+  const { externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions } = context
 
   let entry = context.entry || context.packageMap.entry
 
@@ -108,7 +108,7 @@ export function fnBuildHTML (context, env) {
   }
 
   if (typeof entry === 'string') {
-    context.entry = entry = {index: entry}
+    context.entry = entry = { index: entry }
   }
   const paths = fnBuildHTMLData(externals, env)
   const entryNames = Object.keys(entry)
@@ -146,11 +146,11 @@ export function fnBuildHTML (context, env) {
   })
 }
 
-export function createDomain ({host, port}) {
+export function createDomain({ host, port }) {
   return `http://${host}:${port}`
 }
 
-export function addDevServerEntrypoints (webpackOptions, devServerOptions) {
+export function addDevServerEntrypoints(webpackOptions, devServerOptions) {
 
   if (devServerOptions.inline === false) {
     return
@@ -183,7 +183,7 @@ export function addDevServerEntrypoints (webpackOptions, devServerOptions) {
 
 }
 
-export function fnGetNode (packageMap) {
+export function fnGetNode(packageMap) {
 
   const emptyBuildIns = [
     'child_process', 'cluster', 'dgram', 'dns', 'fs',
@@ -194,14 +194,14 @@ export function fnGetNode (packageMap) {
 
   return emptyBuildIns.reduce((obj, name) => {
     if (!(name in browser)) {
-      return {...obj, ...{[name]: 'empty'}}
+      return { ...obj, ...{ [name]: 'empty' } }
     }
     return obj
   }, {})
 
 }
 
-export function fnBuildSourceMap (devtool = false, ENV) {
+export function fnBuildSourceMap(devtool = false, ENV) {
   /******************
    *#source-map 编译过慢
    * production 环境不需要

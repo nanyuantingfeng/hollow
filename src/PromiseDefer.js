@@ -8,5 +8,5 @@ export default function () {
     resolve = rs
     reject = rj
   })
-  return {promise, resolve, reject}
+  return { promise, resolve, reject }
 }

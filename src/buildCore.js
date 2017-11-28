@@ -9,7 +9,7 @@ import PromiseDefer from './PromiseDefer'
 
 export default function (context) {
 
-  let {webpackConfig} = context
+  let { webpackConfig } = context
 
   webpackConfig = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
 
@@ -21,7 +21,7 @@ export default function (context) {
 
   let defer = PromiseDefer()
 
-  function compileDoneHandler (err, stats) {
+  function compileDoneHandler(err, stats) {
     if (context.json) {
       const filename = typeof context.json === 'boolean' ? 'build-bundle.json' : context.json
       const jsonPath = path.join(fileOutputPath, filename)
@@ -29,7 +29,7 @@ export default function (context) {
       console.log(`Generate JSON File: ${jsonPath}`)
     }
 
-    const {errors} = stats.toJson()
+    const { errors } = stats.toJson()
 
     if (errors && errors.length) {
       process.on('exit', () => {

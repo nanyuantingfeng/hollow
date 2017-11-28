@@ -7,7 +7,7 @@ export default async function (context, next) {
   context.babelOptions = {
     cacheDirectory: tmpdir(),
     presets: [
-      ['babel-preset-env', {modules: false}],
+      ['babel-preset-env', { modules: false }],
       'babel-preset-es2015',
       'babel-preset-react',
       'babel-preset-stage-0',
@@ -24,7 +24,7 @@ export default async function (context, next) {
     ],
   }
 
-  const {ENV} = context
+  const { ENV } = context
 
   if (ENV.isDevelopment) {
     //context.babelOptions.plugins.push('react-hot-loader/babel')

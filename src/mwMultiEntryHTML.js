@@ -10,7 +10,7 @@ import { fnBuildCopyFiles, fnBuildExternals, fnBuildHTML, } from './util'
 export default async function (context, next) {
   next()
 
-  const {packageMap, plugins, ENV} = context
+  const { packageMap, plugins, ENV } = context
 
   /***********************
    * copy文件到输出目录
@@ -32,7 +32,7 @@ export default async function (context, next) {
   }))
 
   plugins.push(new ProvidePlugin(context.provides))
-  
+
   /***********************
    * 多入口配置
    */

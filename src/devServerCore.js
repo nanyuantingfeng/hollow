@@ -7,17 +7,17 @@ import Server from 'webpack-dev-server'
 import PromiseDefer from './PromiseDefer'
 import { createDomain, addDevServerEntrypoints } from './util'
 
-function colorInfo (msg) {
+function colorInfo(msg) {
   return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`
 }
 
-function colorError (msg) {
+function colorError(msg) {
   return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
 }
 
-export function startDevServer (context) {
+export function startDevServer(context) {
 
-  const {webpackConfig} = context
+  const { webpackConfig } = context
 
   const firstWpOpt = Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig
 

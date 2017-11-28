@@ -49,7 +49,7 @@ export default async function (context, next) {
 
   next()
 
-  const {hash, compress, cache, packageMap, plugins, dll, devtool} = context
+  const { hash, compress, cache, packageMap, plugins, dll, devtool } = context
   const cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
   const commonName = hash ? 'common-[chunkhash].js' : 'common.js'
 
@@ -72,14 +72,14 @@ export default async function (context, next) {
   if (compress === true) {
     plugins.push(new UglifyJsPlugin({
       parallel: true,
-      output: {ascii_only: true,},
-      compress: {warnings: false,},
+      output: { ascii_only: true, },
+      compress: { warnings: false, },
       sourceMap: !!devtool,
     }))
   }
 
   if (hash) {
-    plugins.push(mapJSONWebpackPlugin({assetsPath: packageMap.name, cache,}))
+    plugins.push(mapJSONWebpackPlugin({ assetsPath: packageMap.name, cache, }))
   }
 
   context.plugins = plugins

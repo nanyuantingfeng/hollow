@@ -9,7 +9,7 @@ export default async function (context, next) {
 
   next()
 
-  const {dll, plugins, DIRs} = context
+  const { dll, plugins, DIRs } = context
   const libraryName = '[name]_[chunkhash]'
   if (Array.isArray(dll)) {
     plugins.push(new DllPlugin({
@@ -24,7 +24,7 @@ export default async function (context, next) {
       library: libraryName,
     }
 
-    context.entry = {dll}
+    context.entry = { dll }
   }
 
   if (typeof dll === 'string' || dll === true) {
