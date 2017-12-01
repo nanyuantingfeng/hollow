@@ -15,6 +15,7 @@ export default function (args) {
     provides: {},
     defines: {},
     outputPath: 'dll',
+    default_node_env: 'production',
     cache: {},
     ...args,
   }

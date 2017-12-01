@@ -15,6 +15,7 @@ export default function (args) {
     provides: {},
     defines: {},
     outputPath: 'dist',
+    default_node_env: 'development',
     cache: {},
     ...args,
   }
