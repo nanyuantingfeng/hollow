@@ -6,7 +6,6 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
-import mapJSONWebpackPlugin from 'map-json-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 const {
@@ -44,7 +43,6 @@ export {
   HTMLWebpackPlugin,
   CaseSensitivePathsPlugin,
   FriendlyErrorsWebpackPlugin,
-  mapJSONWebpackPlugin,
   BannerPlugin,
   CopyWebpackPlugin,
   DllPlugin,

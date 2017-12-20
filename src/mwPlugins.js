@@ -11,7 +11,6 @@ import {
   ProgressPlugin,
   NoEmitOnErrorsPlugin,
   UglifyJsPlugin,
-  mapJSONWebpackPlugin,
   HashedModuleIdsPlugin,
   ModuleConcatenationPlugin,
 } from './plugins'
@@ -45,11 +44,12 @@ export default async function (context, next) {
     new ProgressPlugin(fnProgressHandler),
     new NoEmitOnErrorsPlugin(),
     new ModuleConcatenationPlugin(),  //scope hoisting
+    new HashedModuleIdsPlugin(),
   ]
 
   next()
 
-  const { hash, compress, cache, packageMap, plugins, dll, devtool } = context
+  const { hash, compress, plugins, dll, devtool } = context
   const cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
   const commonName = hash ? 'common-[chunkhash].js' : 'common.js'
 
@@ -67,19 +67,13 @@ export default async function (context, next) {
     allChunks: true
   }))
 
-  plugins.push(new HashedModuleIdsPlugin())
-
   if (compress === true) {
     plugins.push(new UglifyJsPlugin({
       parallel: true,
-      output: { ascii_only: true, },
-      compress: { warnings: false, },
+      output: { ascii_only: true, comments: false, },
+      compress: { warnings: false, reduce_vars: false, sequences: false },
       sourceMap: !!devtool,
     }))
-  }
-
-  if (hash) {
-    plugins.push(mapJSONWebpackPlugin({ assetsPath: packageMap.name, cache, }))
   }
 
   context.plugins = plugins
