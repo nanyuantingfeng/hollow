@@ -1,16 +1,10 @@
 webpackJsonp([0],{
 
-/***/ "xD1R":
+/***/ "85Xr":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-ReactDOM.render(React.createElement(
-  "div",
-  null,
-  "a"
-));
+var DEMO=React.createElement("div",null,React.createElement("div",null,React.createElement("div",null,React.createElement("div",null,"99909090909009"))));ReactDOM.render(DEMO);
 
 /***/ })
 

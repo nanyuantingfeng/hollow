@@ -4,42 +4,59 @@
 import { tmpdir } from 'os'
 
 export default async function (context, next) {
+
+  const commonPresets = [
+    ['env', {
+      targets: {browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10']},
+      modules: false,
+      useBuiltIns: true,
+      loose: false,
+    }],
+    'react',
+  ]
+
+  const commonPlugins = [
+    'add-module-exports',
+    'external-helpers',
+    'transform-runtime',
+    'transform-regenerator',
+    'transform-undefined-to-void',
+    'transform-decorators-legacy',
+    'transform-regenerator',
+    'transform-class-properties',
+    'lodash',
+  ]
+
   context.babelOptions = {
     cacheDirectory: tmpdir(),
-    presets: [
-      ['babel-preset-env', { modules: false }],
-      'babel-preset-es2015',
-      'babel-preset-react',
-      'babel-preset-stage-0',
-    ],
-    plugins: [
-      'babel-plugin-add-module-exports',
-      'babel-plugin-external-helpers',
-      'babel-plugin-transform-runtime',
-      'babel-plugin-transform-regenerator',
-      'babel-plugin-transform-undefined-to-void',
-      'babel-plugin-transform-decorators-legacy',
-      'babel-plugin-transform-regenerator',
-      'babel-plugin-lodash',
-    ],
-  }
 
-  const { ENV } = context
+    presets: commonPresets,
 
-  if (ENV.isDevelopment) {
-    //context.babelOptions.plugins.push('react-hot-loader/babel')
-    context.babelOptions.plugins.push([
-      'react-transform', {
-        'transforms': [{
-          'transform': 'react-transform-hmr',
-          'imports': ['react'],
-          'locals': ['module']
-        }, {
-          'transform': 'react-transform-catch-errors',
-          'imports': ['react', 'redbox-react']
-        }]
+    plugins: commonPlugins,
+
+    env: {
+      production: {
+        presets: [
+          'babel-preset-minify'
+        ],
+      },
+      development: {
+        plugins: [
+          ['react-transform',
+            {
+              'transforms': [{
+                'transform': 'react-transform-hmr',
+                'imports': ['react'],
+                'locals': ['module']
+              }, {
+                'transform': 'react-transform-catch-errors',
+                'imports': ['react', 'redbox-react']
+              }]
+            }
+          ]
+        ]
       }
-    ])
+    }
   }
 
   next()

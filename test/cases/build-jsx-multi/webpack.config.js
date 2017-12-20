@@ -5,11 +5,11 @@
 module.exports = async function (context, next) {
 
   let externals = {
-    'mime': {name: 'mime', path: '../../../node_modules/mime/mime.js'},
+    'mime': { name: 'mime', path: '../../../node_modules/mime/mime.js' },
   }
 
   let files = Object.assign({
-    'whatwg-fetch': {path: '../../../node_modules/whatwg-url/lib/URL.js'},
+    'whatwg-fetch': { name: 'fetch', path: '../../../node_modules/whatwg-fetch/fetch.js' },
   }, externals)
 
   let sdks = {
@@ -33,7 +33,7 @@ module.exports = async function (context, next) {
 
   }
 
-  let defines = {UPLOAD_INVOICE_FILE_URL: '"http://127.0.0.1:7367364"'}
+  let defines = { UPLOAD_INVOICE_FILE_URL: '"http://127.0.0.1:7367364"' }
 
   context.externals = externals
   context.files = files

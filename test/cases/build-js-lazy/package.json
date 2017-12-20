@@ -1,5 +1,5 @@
 {
   "entry": {
-    "index": "./index.lazy.js"
+    "index": "./index.js"
   }
 }

@@ -59,7 +59,7 @@ module.exports = !__webpack_require__("Uan9") && !__webpack_require__("s993")(fu
 /***/ "2csM":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.1' };
+var core = module.exports = { version: '2.5.3' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -249,40 +249,7 @@ exports.default = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var _classCallCheck2 = __webpack_require__("VMif");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__("d/v/");
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Greeter = function () {
-    function Greeter(greeting) {
-        (0, _classCallCheck3.default)(this, Greeter);
-
-        this.greeting = greeting;
-    }
-
-    (0, _createClass3.default)(Greeter, [{
-        key: 'greet',
-        value: function greet() {
-            return '<h1>' + this.greeting + '</h1>';
-        }
-    }]);
-    return Greeter;
-}();
-
-var greeter = new Greeter('Hello, world!');
-document.body.innerHTML = React.createElement(
-    'div',
-    null,
-    greeter.greet()
-);
+var _classCallCheck2=__webpack_require__("VMif"),_classCallCheck3=_interopRequireDefault(_classCallCheck2),_createClass2=__webpack_require__("d/v/"),_createClass3=_interopRequireDefault(_createClass2);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}var Greeter=function(){function a(b){(0,_classCallCheck3.default)(this,a),this.greeting=b}return(0,_createClass3.default)(a,[{key:'greet',value:function greet(){return'<h1>'+this.greeting+'</h1>'}}]),a}(),greeter=new Greeter('Hello, world!');document.body.innerHTML=React.createElement('div',null,greeter.greet());
 
 /***/ }),
 

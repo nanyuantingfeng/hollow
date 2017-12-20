@@ -4,15 +4,7 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var _fs = __webpack_require__("RKyv");
-
-var _fs2 = _interopRequireDefault(_fs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-console.log(_fs2.default);
+var _fs=__webpack_require__("RKyv"),_fs2=_interopRequireDefault(_fs);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}console.log(_fs2.default);
 
 /***/ }),
 

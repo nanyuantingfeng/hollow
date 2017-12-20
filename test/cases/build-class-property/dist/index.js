@@ -129,7 +129,7 @@ module.exports = !__webpack_require__("Uan9") && !__webpack_require__("s993")(fu
 /***/ "2csM":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.1' };
+var core = module.exports = { version: '2.5.3' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -398,7 +398,7 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
   var VALUES_BUG = false;
   var proto = Base.prototype;
   var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-  var $default = $native || getMethod(DEFAULT);
+  var $default = (!BUGGY && $native) || getMethod(DEFAULT);
   var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
   var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
   var methods, key, IteratorPrototype;
@@ -582,69 +582,7 @@ module.exports = (
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var _getPrototypeOf = __webpack_require__("b1DC");
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _createClass2 = __webpack_require__("d/v/");
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__("6AD2");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__("+oaX");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _classCallCheck2 = __webpack_require__("VMif");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _class, _temp;
-
-__webpack_require__("tpyr");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Parent = function Parent() {
-  (0, _classCallCheck3.default)(this, Parent);
-
-  console.log('Parent constructor');
-  this.name = 'john';
-};
-
-var A = (_temp = _class = function (_Parent) {
-  (0, _inherits3.default)(A, _Parent);
-
-  function A() {
-    (0, _classCallCheck3.default)(this, A);
-
-    console.log('Child constructor');
-    return (0, _possibleConstructorReturn3.default)(this, (A.__proto__ || (0, _getPrototypeOf2.default)(A)).call(this));
-  }
-
-  (0, _createClass3.default)(A, [{
-    key: 'foo',
-    value: function foo() {
-      console.log('foo', this.name);
-    }
-  }], [{
-    key: 'method',
-    value: function method(obj) {
-      console.log('method', obj);
-    }
-  }]);
-  return A;
-}(Parent), _class.propTypes = 1, _temp);
-
-
-var a = new A();
-a.foo();
-A.method('haha');
+var _class,_temp,_getPrototypeOf=__webpack_require__("b1DC"),_getPrototypeOf2=_interopRequireDefault(_getPrototypeOf),_createClass2=__webpack_require__("d/v/"),_createClass3=_interopRequireDefault(_createClass2),_possibleConstructorReturn2=__webpack_require__("6AD2"),_possibleConstructorReturn3=_interopRequireDefault(_possibleConstructorReturn2),_inherits2=__webpack_require__("+oaX"),_inherits3=_interopRequireDefault(_inherits2),_classCallCheck2=__webpack_require__("VMif"),_classCallCheck3=_interopRequireDefault(_classCallCheck2);__webpack_require__("tpyr");function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}var Parent=function a(){(0,_classCallCheck3.default)(this,a),console.log('Parent constructor'),this.name='john'},A=(_temp=_class=function(a){function b(){return(0,_classCallCheck3.default)(this,b),console.log('Child constructor'),(0,_possibleConstructorReturn3.default)(this,(b.__proto__||(0,_getPrototypeOf2.default)(b)).call(this))}return(0,_inherits3.default)(b,a),(0,_createClass3.default)(b,[{key:'foo',value:function foo(){console.log('foo',this.name)}}],[{key:'method',value:function method(a){console.log('method',a)}}]),b}(Parent),_class.propTypes=1,_temp),a=new A;a.foo(),A.method('haha');
 
 /***/ }),
 
@@ -857,6 +795,7 @@ var wksDefine = __webpack_require__("RPMN");
 var enumKeys = __webpack_require__("A1AC");
 var isArray = __webpack_require__("0lzW");
 var anObject = __webpack_require__("Xxvf");
+var isObject = __webpack_require__("vqT2");
 var toIObject = __webpack_require__("axqX");
 var toPrimitive = __webpack_require__("yfTW");
 var createDesc = __webpack_require__("ZKD/");
@@ -1049,15 +988,14 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
   return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
 })), 'JSON', {
   stringify: function stringify(it) {
-    if (it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
     var args = [it];
     var i = 1;
     var replacer, $replacer;
     while (arguments.length > i) args.push(arguments[i++]);
-    replacer = args[1];
-    if (typeof replacer == 'function') $replacer = replacer;
-    if ($replacer || !isArray(replacer)) replacer = function (key, value) {
-      if ($replacer) value = $replacer.call(this, key, value);
+    $replacer = replacer = args[1];
+    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+    if (!isArray(replacer)) replacer = function (key, value) {
+      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
       if (!isSymbol(value)) return value;
     };
     args[1] = replacer;

@@ -1,10 +1,8 @@
 /**************************************************
  * Created by nanyuantingfeng on 27/10/2017 16:28.
  **************************************************/
-import os from 'os'
 import path from 'path'
 import { ExtractTextPlugin } from './plugins'
-import HappyPack, { ThreadPool } from 'happypack'
 
 function fnFixStyleLoaders4ENV(rules, ENV) {
   const extractLoader = ExtractTextPlugin.extract({
@@ -67,21 +65,24 @@ export default async function (context, next) {
       },
       exclude: /node_modules/,
       use: [
+        { loader: 'bundle-loader', options: { lazy: true, } },
         { loader: 'babel-loader', options: babelOptions },
-        { loader: 'bundle-loader', options: { lazy: true } },
       ]
     },
     {
       test(filePath) {
-        return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx$/.test(filePath) && !/\.worker\.jsx$/.test(filePath)
+        return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
       exclude: /node_modules/,
-      use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
+      use: [{ loader: 'babel-loader', options: babelOptions }],
     },
     {
       test: /\.tsx?$/,
       exclude: /node_modules/,
-      use: [{ loader: 'happypack/loader', options: { id: 'tsx' } }],
+      use: [
+        { loader: 'babel-loader', options: babelOptions },
+        { loader: 'ts-loader', options: tsOptions }
+      ],
     },
     {
       test(filePath) {
@@ -90,10 +91,10 @@ export default async function (context, next) {
       use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
-          sourceMap: true,
-          '-autoprefixer': true,
-          '-restructuring': true,
-        }
+            sourceMap: true,
+            '-autoprefixer': true,
+            '-restructuring': true,
+          }
         },
         { loader: 'postcss-loader', options: postcssOptions },
       ], ENV)
@@ -103,12 +104,12 @@ export default async function (context, next) {
       use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
-          sourceMap: true,
-          modules: true,
-          localIdentName: '[local]___[hash:base64:5]',
-          '-autoprefixer': true,
-          '-restructuring': true,
-        }
+            sourceMap: true,
+            modules: true,
+            localIdentName: '[local]___[hash:base64:5]',
+            '-autoprefixer': true,
+            '-restructuring': true,
+          }
         },
         { loader: 'postcss-loader', options: postcssOptions },
       ], ENV)
@@ -120,9 +121,9 @@ export default async function (context, next) {
       use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
-          sourceMap: true,
-          '-autoprefixer': true,
-        }
+            sourceMap: true,
+            '-autoprefixer': true,
+          }
         },
         { loader: 'postcss-loader', options: postcssOptions },
         { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
@@ -133,11 +134,11 @@ export default async function (context, next) {
       use: fnFixStyleLoaders4ENV([
         {
           loader: 'css-loader', options: {
-          sourceMap: true,
-          modules: true,
-          localIdentName: '[local]___[hash:base64:5]',
-          '-autoprefixer': true,
-        }
+            sourceMap: true,
+            modules: true,
+            localIdentName: '[local]___[hash:base64:5]',
+            '-autoprefixer': true,
+          }
         },
         { loader: 'postcss-loader', options: postcssOptions },
         { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
@@ -196,19 +197,4 @@ export default async function (context, next) {
     ...rules
   ]
 
-  const threadPool = ThreadPool({ size: os.cpus().length })
-  tsOptions.happyPackMode = true
-
-  plugins.push(new HappyPack({
-    id: 'jsx', threadPool,
-    loaders: [{ loader: 'babel-loader', options: babelOptions }],
-  }))
-
-  plugins.push(new HappyPack({
-    id: 'tsx', threadPool,
-    loaders: [
-      { loader: 'babel-loader', options: babelOptions },
-      { loader: 'ts-loader', options: tsOptions }
-    ]
-  }))
 }

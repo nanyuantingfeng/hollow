@@ -4,15 +4,7 @@ webpackJsonp([1],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-__webpack_require__("xHuH");
-
-console.log('a');
-
-function AAX() {}
-
-AAX.prototype.demo = function () {};
+__webpack_require__("xHuH"),console.log('a');function AAX(){}AAX.prototype.demo=function(){};
 
 /***/ }),
 

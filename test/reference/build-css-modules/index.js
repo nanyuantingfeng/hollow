@@ -4,15 +4,7 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var _indexModule = __webpack_require__("kJaK");
-
-var _indexModule2 = _interopRequireDefault(_indexModule);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-console.log(_indexModule2.default.index);
+var _indexModule=__webpack_require__("kJaK"),_indexModule2=_interopRequireDefault(_indexModule);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}console.log(_indexModule2.default.index);
 
 /***/ }),
 
