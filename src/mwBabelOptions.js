@@ -25,6 +25,8 @@ export default async function (context, next) {
     'transform-regenerator',
     'transform-class-properties',
     'transform-object-rest-spread',
+    'transform-function-bind',
+    'syntax-export-extensions',
     'lodash',
   ]
 
