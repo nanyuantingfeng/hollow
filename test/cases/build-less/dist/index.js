@@ -4,7 +4,11 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__("Qu1Q"),console.log('1');
+
+
+__webpack_require__("Qu1Q");
+
+console.log('1');
 
 /***/ }),
 

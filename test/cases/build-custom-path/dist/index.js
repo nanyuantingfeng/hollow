@@ -4,7 +4,9 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-console.log(9e5);
+
+
+console.log(900000);
 
 /***/ })
 

@@ -4,7 +4,11 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _a=__webpack_require__("pJAT");(0,_a.shout)();
+
+
+var _a = __webpack_require__("pJAT");
+
+(0, _a.shout)();
 
 /***/ }),
 
@@ -12,7 +16,17 @@ var _a=__webpack_require__("pJAT");(0,_a.shout)();
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:!0}),exports.default={shout:function shout(){console.log('a')}},module.exports=exports['default'];
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  shout: function shout() {
+    console.log('a');
+  }
+};
+module.exports = exports['default'];
 
 /***/ })
 

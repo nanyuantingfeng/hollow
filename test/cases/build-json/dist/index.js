@@ -11,7 +11,15 @@ module.exports = {"entry":{"index":"./index.js"}}
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _package=__webpack_require__("7YgM"),_package2=_interopRequireDefault(_package);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}console.log(_package2.default);
+
+
+var _package = __webpack_require__("7YgM");
+
+var _package2 = _interopRequireDefault(_package);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+console.log(_package2.default);
 
 /***/ })
 

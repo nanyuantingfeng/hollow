@@ -241,7 +241,19 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _demo=__webpack_require__("ksy6"),_demo2=_interopRequireDefault(_demo);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}ReactDOM.render(React.createElement('div',null,React.createElement(_demo2.default,null)));
+
+
+var _demo = __webpack_require__("ksy6");
+
+var _demo2 = _interopRequireDefault(_demo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+ReactDOM.render(React.createElement(
+  'div',
+  null,
+  React.createElement(_demo2.default, null)
+));
 
 /***/ }),
 

@@ -7,7 +7,7 @@ export default async function (context, next) {
 
   const commonPresets = [
     ['env', {
-      targets: {browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10']},
+      targets: { browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
       modules: false,
       useBuiltIns: true,
       loose: false,
@@ -24,6 +24,7 @@ export default async function (context, next) {
     'transform-decorators-legacy',
     'transform-regenerator',
     'transform-class-properties',
+    'transform-object-rest-spread',
     'lodash',
   ]
 
@@ -35,11 +36,6 @@ export default async function (context, next) {
     plugins: commonPlugins,
 
     env: {
-      production: {
-        presets: [
-          'babel-preset-minify'
-        ],
-      },
       development: {
         plugins: [
           ['react-transform',

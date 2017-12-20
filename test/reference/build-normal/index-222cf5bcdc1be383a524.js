@@ -4,7 +4,9 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-console.log(__("Hello World")),console.log(__("Missing Text"));
+
+
+console.log(1);
 
 /***/ })
 

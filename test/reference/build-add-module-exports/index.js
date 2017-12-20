@@ -4,7 +4,15 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _a=__webpack_require__("pJAT"),_a2=_interopRequireDefault(_a);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}console.log(_a2.default);
+
+
+var _a = __webpack_require__("pJAT");
+
+var _a2 = _interopRequireDefault(_a);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+console.log(_a2.default);
 
 /***/ }),
 
@@ -12,7 +20,13 @@ var _a=__webpack_require__("pJAT"),_a2=_interopRequireDefault(_a);function _inte
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=1,module.exports=exports["default"];
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = 1;
+module.exports = exports["default"];
 
 /***/ })
 

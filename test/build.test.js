@@ -125,9 +125,7 @@ describe('support test', () => {
   it('support hash-map', async () => {
     await testCase({ hash: true }, 'build-hash-map')
   })
-  it('support i18n', async () => {
-    await testCase({}, 'build-i18n')
-  })
+ 
   it('support decorator', async () => {
     await testCase({}, 'build-decorator')
   })
