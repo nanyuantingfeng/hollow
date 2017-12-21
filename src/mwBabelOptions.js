@@ -1,7 +1,6 @@
 /**************************************************
  * Created by nanyuantingfeng on 16/08/2017 13:03.
  **************************************************/
-import { tmpdir } from 'os'
 
 export default async function (context, next) {
 
@@ -31,7 +30,7 @@ export default async function (context, next) {
   ]
 
   context.babelOptions = {
-    cacheDirectory: tmpdir(),
+    cacheDirectory: true,
 
     presets: commonPresets,
 

@@ -7,6 +7,7 @@ import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 
 const {
         optimize,
@@ -25,7 +26,7 @@ const {
         HashedModuleIdsPlugin,
       } = webpack
 
-const { CommonsChunkPlugin, UglifyJsPlugin, ModuleConcatenationPlugin } = optimize
+const { CommonsChunkPlugin, ModuleConcatenationPlugin } = optimize
 
 export {
   webpack,

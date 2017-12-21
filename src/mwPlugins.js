@@ -57,7 +57,7 @@ export default async function (context, next) {
     plugins.push(new CommonsChunkPlugin({
       name: 'common',
       filename: commonName,
-      minChunks: 3,
+      minChunks: 2,
     }))
   }
 
@@ -70,12 +70,10 @@ export default async function (context, next) {
   if (compress === true) {
     plugins.push(new UglifyJsPlugin({
       parallel: true,
-      output: { ascii_only: true, comments: false, },
-      compress: { warnings: false, reduce_vars: false, sequences: false },
+      cache: true,
       sourceMap: !!devtool,
     }))
   }
 
   context.plugins = plugins
-
 }
