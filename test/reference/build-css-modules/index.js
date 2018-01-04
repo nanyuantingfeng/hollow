@@ -20,7 +20,7 @@ console.log(_indexModule2.default.index);
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-module.exports = {"index":"index___1Xnek","foo":"foo___26SGr"};
+module.exports = {"index":"index___1Xnek","foo":"foo___26SGr","index4":"index4___17bSP"};
 
 /***/ })
 

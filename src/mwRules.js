@@ -7,9 +7,7 @@ import { ExtractTextPlugin } from './plugins'
 import HappyPack, { ThreadPool } from 'happypack'
 
 function fnFixStyleLoaders4ENV(rules, ENV) {
-  const extractLoader = ExtractTextPlugin.extract({
-    fallback: 'style-loader', use: rules
-  })
+  const extractLoader = ExtractTextPlugin.extract({ fallback: 'style-loader', use: rules })
 
   if (ENV.isDevelopment) {
     return ['css-hot-loader'].concat(extractLoader)
@@ -45,6 +43,7 @@ function fnGetThemeMap(packageMap, cwd) {
 
 export default async function (context, next) {
   context.rules = []
+
   next()
 
   const { cwd, limit = 10000, ENV, packageMap, hash, plugins } = context
@@ -72,7 +71,7 @@ export default async function (context, next) {
       ]
     },
     {
-      test : /webpack-dev-server.*client.*/,
+      test: /webpack-dev-server.*client.*/,
       use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
     },
     {
@@ -92,13 +91,7 @@ export default async function (context, next) {
         return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
       },
       use: fnFixStyleLoaders4ENV([
-        {
-          loader: 'css-loader', options: {
-            sourceMap: true,
-            '-autoprefixer': true,
-            '-restructuring': true,
-          }
-        },
+        { loader: 'css-loader', options: { sourceMap: true, minimize: true, } },
         { loader: 'postcss-loader', options: postcssOptions },
       ], ENV)
     },
@@ -109,9 +102,8 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
+            minimize: true,
             localIdentName: '[local]___[hash:base64:5]',
-            '-autoprefixer': true,
-            '-restructuring': true,
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
@@ -122,12 +114,7 @@ export default async function (context, next) {
         return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
       },
       use: fnFixStyleLoaders4ENV([
-        {
-          loader: 'css-loader', options: {
-            sourceMap: true,
-            '-autoprefixer': true,
-          }
-        },
+        { loader: 'css-loader', options: { sourceMap: true, minimize: true, } },
         { loader: 'postcss-loader', options: postcssOptions },
         { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
       ], ENV)
@@ -139,8 +126,8 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
+            minimize: true,
             localIdentName: '[local]___[hash:base64:5]',
-            '-autoprefixer': true,
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },

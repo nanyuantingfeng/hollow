@@ -1,6 +1,1 @@
-.index {
-  color: red;
-  -webkit-transform: translateX(1);
-      -ms-transform: translateX(1);
-          transform: translateX(1);
-}
+.index,.index2,.index3{color:red;-webkit-transform:translateX(1);-ms-transform:translateX(1);transform:translateX(1)}.index3{border-right:1px solid #fff}
