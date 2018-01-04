@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.5.8",
+  "version": "0.5.10",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rm -rf lib && rm -rf build",
     "build": "npm run clean && node_modules/.bin/babel src --out-dir lib",
-    "build:copy": "mkdir -p build && rsync -av --exclude='node_modules' --exclude='demo' --exclude='build' ./ ./build",
+    "build:copy": "mkdir -p build && rsync -av --exclude='.DS_Store' --exclude='cp.js' --exclude='node_modules' --exclude='demo' --exclude='.idea' --exclude='.git' --exclude='build' ./ ./build",
     "publish2npm": "npm run build && npm run build:copy && npm publish ./build",
     "test": "jest",
     "test:cover": "jest --coverage",
