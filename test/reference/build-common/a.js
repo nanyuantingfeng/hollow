@@ -10,6 +10,13 @@ __webpack_require__("xHuH");
 
 console.log('a');
 
+/***/ }),
+
+/***/ "xHuH":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
 /***/ })
 
 },["pJAT"]);

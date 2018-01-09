@@ -26,6 +26,7 @@ export default async function (context, next) {
     'transform-object-rest-spread',
     'transform-function-bind',
     'syntax-export-extensions',
+    'syntax-dynamic-import',
     'lodash',
   ]
 

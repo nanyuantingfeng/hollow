@@ -40,10 +40,10 @@ function testCase(args, _case) {
 
 function assertDll(distDir, _caseName) {
   const fileName = require(path.join(distDir, 'manifest.json')).name
-  
+
   const expectDir = path.join(__dirname, 'reference', _caseName)
   const fileName2 = require(path.join(expectDir, 'manifest.json')).name
-   
+
   const actualFile = fs.readFileSync(path.join(distDir, fileName + '.js'), 'utf-8')
   const expectFile = fs.readFileSync(path.join(expectDir, fileName2 + '.js'), 'utf-8')
   const sim = similarity(actualFile, expectFile)
@@ -125,7 +125,9 @@ describe('support test', () => {
   it('support hash-map', async () => {
     await testCase({ hash: true }, 'build-hash-map')
   })
- 
+  it('support dynamic import()', async () => {
+    await testCase({ hash: true, compress: true }, 'build-dynamic-import')
+  })
   it('support decorator', async () => {
     await testCase({}, 'build-decorator')
   })

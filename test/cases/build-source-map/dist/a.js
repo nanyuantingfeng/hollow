@@ -14,6 +14,13 @@ function AAX() {}
 
 AAX.prototype.demo = function () {};
 
+/***/ }),
+
+/***/ "xHuH":
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
 /***/ })
 
 },["pJAT"]);

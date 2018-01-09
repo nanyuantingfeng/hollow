@@ -54,9 +54,17 @@ export default async function (context, next) {
   const commonName = hash ? 'common-[chunkhash].js' : 'common.js'
 
   if (!Array.isArray(dll)) {
+
     plugins.push(new CommonsChunkPlugin({
       name: 'common',
       filename: commonName,
+      minChunks: (module) => module.context && module.context.includes('node_modules'),
+    }))
+
+    //split import() and require.ensure modules common chunks
+    plugins.push(new CommonsChunkPlugin({
+      children: true,
+      async: true,
       minChunks: 2,
     }))
   }
