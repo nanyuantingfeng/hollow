@@ -91,7 +91,14 @@ export default async function (context, next) {
         return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
       },
       use: fnFixStyleLoaders4ENV([
-        { loader: 'css-loader', options: { sourceMap: true, minimize: true, } },
+        {
+          loader: 'css-loader', options: {
+            sourceMap: true,
+            '-autoprefixer': true,
+            '-restructuring': true,
+          }
+        },
+
         { loader: 'postcss-loader', options: postcssOptions },
       ], ENV)
     },
@@ -102,7 +109,8 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: true,
+            '-autoprefixer': true,
+            '-restructuring': true,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
@@ -114,7 +122,12 @@ export default async function (context, next) {
         return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
       },
       use: fnFixStyleLoaders4ENV([
-        { loader: 'css-loader', options: { sourceMap: true, minimize: true, } },
+        {
+          loader: 'css-loader', options: {
+            sourceMap: true,
+            '-autoprefixer': true,
+          }
+        },
         { loader: 'postcss-loader', options: postcssOptions },
         { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
       ], ENV)
@@ -126,7 +139,7 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: true,
+            '-autoprefixer': true,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
