@@ -160,7 +160,7 @@ export function addDevServerEntrypoints(webpackOptions, devServerOptions) {
 
   const devClient = [
     //'react-hot-loader/patch',
-    `webpack-dev-server/client?${domain}`,
+    `webpack-dev-server/client/index.bundle.js?${domain}`,
   ]
 
   if (devServerOptions.hotOnly) {
