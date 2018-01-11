@@ -71,6 +71,10 @@ export default async function (context, next) {
       ]
     },
     {
+      test: /webpack-dev-server.*client.*/,
+      use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
+    },
+    {
       test(filePath) {
         return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
