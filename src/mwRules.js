@@ -94,8 +94,7 @@ export default async function (context, next) {
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            '-autoprefixer': true,
-            '-restructuring': true,
+            minimize: true,
           }
         },
 
@@ -109,8 +108,7 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            '-autoprefixer': true,
-            '-restructuring': true,
+            minimize: true,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
@@ -125,7 +123,7 @@ export default async function (context, next) {
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            '-autoprefixer': true,
+            minimize: true,
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
@@ -139,7 +137,7 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            '-autoprefixer': true,
+            minimize: true,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },

@@ -58,15 +58,14 @@ export default async function (context, next) {
     plugins.push(new CommonsChunkPlugin({
       name: 'common',
       filename: commonName,
-      minChunks: (module) => module.context && module.context.includes('node_modules'),
+      minChunks: 2,
     }))
 
     //split import() and require.ensure modules common chunks
-    plugins.push(new CommonsChunkPlugin({
-      children: true,
-      async: true,
-      minChunks: 2,
-    }))
+    /*plugins.push(new CommonsChunkPlugin({
+     async: true,
+     minChunks: 2,
+     }))*/
   }
 
   plugins.push(new ExtractTextPlugin({
