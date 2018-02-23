@@ -6,16 +6,19 @@ import path from 'path'
 import { ExtractTextPlugin } from './plugins'
 import HappyPack, { ThreadPool } from 'happypack'
 
-function fnFixStyleLoaders4ENV(rules, ENV) {
-  const extractLoader = ExtractTextPlugin.extract({ fallback: 'style-loader', use: rules })
-
-  if (ENV.isDevelopment) {
-    return ['css-hot-loader'].concat(extractLoader)
-  }
+function fnUseExtractTextPlugin(styleRules, ENV) {
 
   if (ENV.isProduction || ENV.isBeta) {
-    return extractLoader
+    styleRules = styleRules.map(rule => {
+      rule.use.shift()
+      const use = rule.use
+      rule.use = ExtractTextPlugin.extract({ fallback: 'style-loader', use })
+      return rule
+    })
   }
+
+  return styleRules
+
 }
 
 function fnGetThemeMap(packageMap, cwd) {
@@ -51,7 +54,7 @@ export default async function (context, next) {
   const { babelOptions, postcssOptions, tsOptions, rules } = context
   const workerFileName = hash ? '[hash].worker.js' : '[name].worker.js'
 
-  context.rules = [
+  const scriptRules = [
     {
       test: /\.worker\.jsx?$/,
       exclude: /node_modules/,
@@ -71,10 +74,6 @@ export default async function (context, next) {
       ]
     },
     {
-      test: /webpack-dev-server.*client.*/,
-      use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
-    },
-    {
       test(filePath) {
         return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
@@ -86,65 +85,72 @@ export default async function (context, next) {
       exclude: /node_modules/,
       use: [{ loader: 'happypack/loader', options: { id: 'tsx' } }],
     },
+  ]
+  const stylesRules = [
     {
       test(filePath) {
         return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
       },
-      use: fnFixStyleLoaders4ENV([
+      use: [
+        { loader: 'style-loader' },
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            minimize: true,
+            minimize: false,
           }
         },
-
         { loader: 'postcss-loader', options: postcssOptions },
-      ], ENV)
+      ]
     },
     {
       test: /\.module\.css$/,
-      use: fnFixStyleLoaders4ENV([
+      use: [
+        { loader: 'style-loader' },
         {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: true,
+            minimize: false,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
-      ], ENV)
+      ]
     },
     {
       test(filePath) {
         return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
       },
-      use: fnFixStyleLoaders4ENV([
+      use: [
+        { loader: 'style-loader' },
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            minimize: true,
+            minimize: false,
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
         { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
-      ], ENV)
+      ]
     },
     {
       test: /\.module\.less$/,
-      use: fnFixStyleLoaders4ENV([
+      use: [
+        { loader: 'style-loader' },
         {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: true,
+            minimize: false,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
         { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
-      ], ENV)
+      ]
     },
+  ]
+  const othersRules = [
     {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
@@ -195,8 +201,17 @@ export default async function (context, next) {
     {
       test: /\.hbs?$/, use: [{ loader: 'mustache-loader' }]
     },
-    ...rules
   ]
+
+  context.rules = scriptRules
+    .concat(fnUseExtractTextPlugin(stylesRules, ENV))
+    .concat(othersRules)
+    .concat([
+      {
+        test: /webpack-dev-server.*client.*/,
+        use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
+      },
+    ]).concat(rules)
 
   const size = os.cpus().length >= 4 ? 4 : 2
 
@@ -205,15 +220,18 @@ export default async function (context, next) {
   tsOptions.happyPackMode = true
 
   plugins.push(new HappyPack({
-    id: 'jsx', threadPool,
+    id: 'jsx',
+    threadPool,
     loaders: [{ loader: 'babel-loader', options: babelOptions }],
   }))
 
   plugins.push(new HappyPack({
-    id: 'tsx', threadPool,
+    id: 'tsx',
+    threadPool,
     loaders: [
       { loader: 'babel-loader', options: babelOptions },
       { loader: 'ts-loader', options: tsOptions }
     ]
   }))
+
 }

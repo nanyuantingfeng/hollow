@@ -1,4 +1,8 @@
+/**************************************************
+ * Created by nanyuantingfeng on 09/11/2017 21:53.
+ **************************************************/
+
 body {
-  flex-direction:column;
-  -webkit-flex-direction:column;
+    flex-direction: column;
+    -webkit-flex-direction: column;
 }

@@ -62,15 +62,14 @@ export default async function (context, next) {
     }))
 
     //split import() and require.ensure modules common chunks
-    /*plugins.push(new CommonsChunkPlugin({
-     async: true,
-     minChunks: 2,
-     }))*/
+    plugins.push(new CommonsChunkPlugin({
+      async: true,
+      minChunks: 2,
+    }))
   }
 
   plugins.push(new ExtractTextPlugin({
     filename: cssFileName,
-    disable: false,
     allChunks: true
   }))
 

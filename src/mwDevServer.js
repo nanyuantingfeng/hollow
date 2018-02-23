@@ -34,19 +34,25 @@ export default async function (context, next) {
 
   let { devServer, proxy, proxyOptions, plugins } = context
 
+  const proxyObj = parseProxyWithOptions(proxy, proxyOptions)
+
   context.webpackConfig.devServer = context.devServer = {
+    port: context.port || DEFAULT_PORT,
+    host: DEFAULT_HOST,
     hot: true,
     hotOnly: true,
     contentBase: false,
+    compress: true,
+    noInfo: true,
     inline: true,
-    noInfo: false,
-    host: DEFAULT_HOST,
+    lazy: false,
+    headers: { 'Access-Control-Allow-Origin': '*' },
     disableHostCheck: true,
-    port: context.port || DEFAULT_PORT,
-    historyApiFallback: true,
+    historyApiFallback: { verbose: true, disableDotRule: false, },
     overlay: true,
-    proxy: parseProxyWithOptions(proxy, proxyOptions),
+    proxy: proxyObj,
     stats,
+
     ...devServer,
   }
 

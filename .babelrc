@@ -13,7 +13,6 @@
     "external-helpers",
     "transform-runtime",
     "transform-regenerator",
-    "transform-undefined-to-void",
     "transform-decorators-legacy",
     "transform-regenerator",
     "transform-class-properties",

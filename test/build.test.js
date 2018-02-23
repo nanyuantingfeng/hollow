@@ -126,7 +126,7 @@ describe('support test', () => {
     await testCase({ hash: true }, 'build-hash-map')
   })
   it('support dynamic import()', async () => {
-    await testCase({ hash: true, compress: true }, 'build-dynamic-import')
+    await testCase({ hash: true, compress: false }, 'build-dynamic-import')
   })
   it('support decorator', async () => {
     await testCase({}, 'build-decorator')
@@ -144,7 +144,7 @@ describe('support test', () => {
     await testCase({}, 'build-font')
   })
   it('support autoprefix', async () => {
-    await testCase({}, 'build-autoprefix')
+    await testCase({ compress: false }, 'build-autoprefix')
   })
   it('support common', async () => {
     await testCase({}, 'build-common')
