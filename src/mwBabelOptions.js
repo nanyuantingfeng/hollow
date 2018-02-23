@@ -5,26 +5,21 @@
 export default async function (context, next) {
 
   const commonPresets = [
-    ['env', {
-      targets: { browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
-      modules: false,
-      useBuiltIns: true,
-      loose: false,
-    }],
+    'env',
     'react',
   ]
 
   const commonPlugins = [
-    'add-module-exports',
     'external-helpers',
+    'add-module-exports',
+    'syntax-export-extensions',
+    'syntax-dynamic-import',
+    'transform-object-rest-spread',
     'transform-runtime',
     'transform-regenerator',
     'transform-decorators-legacy',
     'transform-class-properties',
-    'transform-object-rest-spread',
     'transform-function-bind',
-    'syntax-export-extensions',
-    'syntax-dynamic-import',
     'lodash',
   ]
 

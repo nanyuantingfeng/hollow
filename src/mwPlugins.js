@@ -64,7 +64,12 @@ export default async function (context, next) {
     //split import() and require.ensure modules common chunks
     plugins.push(new CommonsChunkPlugin({
       async: true,
-      minChunks: 2,
+      minChunks: (module, count) => {
+        if (module.resource && (/^.*\.(css|less)$/).test(module.resource)) {
+          return false
+        }
+        return !!module.context && count >= 2
+      }
     }))
   }
 

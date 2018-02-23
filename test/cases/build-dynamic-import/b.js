@@ -5,4 +5,8 @@
 import './b.less'
 import f from './x'
 
-export default { b: '9999999', f: f(9) } 
+import React, { cloneElement } from 'react'
+
+const bbb = <div>111</div>
+
+export default { b: '9999999', f: f(9), bbb } 

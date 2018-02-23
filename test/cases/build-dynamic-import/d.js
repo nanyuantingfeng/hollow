@@ -5,4 +5,4 @@
 import './d.less'
 import f from './x'
 
-export default { a: '9999999', f: f(323232) } 
+export default { d: '9999999', f: f(323232) } 

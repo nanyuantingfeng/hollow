@@ -96,7 +96,7 @@ export default async function (context, next) {
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            minimize: false,
+            minimize: !ENV.isDevelopment,
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
@@ -110,7 +110,7 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: false,
+            minimize: !ENV.isDevelopment,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
@@ -126,7 +126,7 @@ export default async function (context, next) {
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            minimize: false,
+            minimize: !ENV.isDevelopment,
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
@@ -141,7 +141,7 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: false,
+            minimize: !ENV.isDevelopment,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
@@ -206,12 +206,7 @@ export default async function (context, next) {
   context.rules = scriptRules
     .concat(fnUseExtractTextPlugin(stylesRules, ENV))
     .concat(othersRules)
-    .concat([
-      {
-        test: /webpack-dev-server.*client.*/,
-        use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
-      },
-    ]).concat(rules)
+    .concat(rules)
 
   const size = os.cpus().length >= 4 ? 4 : 2
 
