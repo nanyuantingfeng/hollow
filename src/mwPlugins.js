@@ -4,7 +4,6 @@
 import path from 'path'
 
 import {
-  CaseSensitivePathsPlugin,
   CommonsChunkPlugin,
   ExtractTextPlugin,
   FriendlyErrorsWebpackPlugin,
@@ -19,7 +18,6 @@ import { notifier, fnProgressHandler } from './util'
 
 export default async function (context, next) {
   context.plugins = [
-    new CaseSensitivePathsPlugin(),
     new FriendlyErrorsWebpackPlugin({
       onErrors: (severity, errors) => {
         if (severity !== 'error') {

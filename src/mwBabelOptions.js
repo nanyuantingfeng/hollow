@@ -5,10 +5,13 @@
 export default async function (context, next) {
 
   const commonPresets = [
-    'env',
+    ['env', {
+      'targets': { 'browsers': ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
+      'modules': false,
+      'useBuiltIns': true,
+    }],
     'react',
   ]
-
   const commonPlugins = [
     'external-helpers',
     'add-module-exports',
@@ -25,11 +28,8 @@ export default async function (context, next) {
 
   context.babelOptions = {
     cacheDirectory: true,
-
     presets: commonPresets,
-
     plugins: commonPlugins,
-
     env: {
       development: {
         plugins: [

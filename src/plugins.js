@@ -2,7 +2,6 @@
  * Created by nanyuantingfeng on 11/06/2017 04:26.
  **************************************************/
 import webpack from 'webpack'
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
@@ -41,7 +40,6 @@ export {
   ContextReplacementPlugin,
   ExtractTextPlugin,
   HTMLWebpackPlugin,
-  CaseSensitivePathsPlugin,
   FriendlyErrorsWebpackPlugin,
   BannerPlugin,
   CopyWebpackPlugin,

@@ -33,25 +33,31 @@
     context.babelOptions = {
         cacheDirectory: tmpdir(),
         presets: [
-          ['babel-preset-env', {modules: false}],
-          'babel-preset-es2015',
-          'babel-preset-react',
-          'babel-preset-stage-0',
+        ['env', {
+          'targets': { 'browsers': ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
+          'modules': false,
+          'useBuiltIns': true,
+        }],
+        'react',
         ],
         plugins: [
-          'babel-plugin-add-module-exports',
-          'babel-plugin-external-helpers',
-          'babel-plugin-transform-runtime',
-          'babel-plugin-transform-regenerator',
-          'babel-plugin-transform-undefined-to-void',
-          'babel-plugin-transform-decorators-legacy',
-          'babel-plugin-transform-regenerator',
+              'external-helpers',
+              'add-module-exports',
+              'syntax-export-extensions',
+              'syntax-dynamic-import',
+              'transform-object-rest-spread',
+              'transform-runtime',
+              'transform-regenerator',
+              'transform-decorators-legacy',
+              'transform-class-properties',
+              'transform-function-bind',
+              'lodash',
         ],
       }
 ```
 * Lazy [*.lazy.js, *.lazy.jsx]
 
-* TypeScript [ *.ts ]
+* TypeScript [ *.ts ,*.tsx ]
 ```javascript
     context.tsOptions = {
         transpileOnly: true,
@@ -81,7 +87,6 @@
     context.postcssOptions = {
         sourceMap: true,
         plugins: [
-          rucksack(),
           autoprefixer({
             browsers: [
               'last 2 versions',
@@ -154,7 +159,7 @@ module.exports = async function (context) {
 * 排除的文件列表
 ```javascript
  context.externals = {
-   'react': {name: 'React', path: 'node_modules/react/dist/react-with-addons.js'},
+  'react': {name: 'React', path: 'node_modules/react/dist/react-with-addons.js'},
    'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
    //...
  }
