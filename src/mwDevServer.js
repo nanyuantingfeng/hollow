@@ -32,7 +32,7 @@ export default async function (context, next) {
 
   next()
 
-  let { devServer, proxy, proxyOptions, plugins } = context
+  let { devServer, proxy, proxyOptions, plugins, DIRs } = context
 
   const proxyObj = parseProxyWithOptions(proxy, proxyOptions)
 
@@ -41,15 +41,12 @@ export default async function (context, next) {
     host: DEFAULT_HOST,
     hot: true,
     hotOnly: true,
-    contentBase: false,
+    contentBase: DIRs.root,
     compress: true,
-    noInfo: true,
-    inline: true,
-    lazy: false,
-    headers: { 'Access-Control-Allow-Origin': '*' },
     disableHostCheck: true,
-    historyApiFallback: { verbose: true, disableDotRule: false, },
     overlay: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    historyApiFallback: { verbose: true, disableDotRule: false, },
     proxy: proxyObj,
     stats,
 
