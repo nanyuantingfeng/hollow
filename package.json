@@ -10,7 +10,10 @@
     "hollow": "./bin/index"
   },
   "scripts": {
-    "build": "node_modules/.bin/babel src --out-dir lib",
+    "clean": "rm -rf lib && rm -rf build",
+    "build:copy": "mkdir -p build && rsync -av --exclude='.DS_Store' --exclude='cp.js' --exclude='node_modules' --exclude='demo' --exclude='.idea' --exclude='.git' --exclude='build' ./ ./build",
+    "build": "npm run clean && node_modules/.bin/babel src --out-dir lib && npm run build:copy",
+    "publish2npm": "npm run build && npm publish ./build",
     "test": "jest",
     "test:cover": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
