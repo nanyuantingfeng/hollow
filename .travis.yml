@@ -9,7 +9,6 @@ script:
 - npm run publish2npm
 branches:
   only:
-  - master
   - /^v?\d+(\.\d+)+[\.\-_\w]*/
 deploy:
   provider: npm
