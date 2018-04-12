@@ -1,0 +1,23 @@
+os:
+- osx
+language: node_js
+node_js:
+- '9'
+before_install:
+- printf "registry=https://registry.npmjs.org/\n//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+install:
+- npm install
+script:
+- npm run publish2npm
+branches:
+  only:
+  - master
+  - /^v?\d+(\.\d+)+[\.\-_\w]*/
+deploy:
+  provider: npm
+  email: nanyuantingfeng@aliyun.com
+  api_key:
+    secure: $NPM_TOKEN
+  on:
+    tags: true
+    repo: nanyuantingfeng/hollow-cli
