@@ -32,8 +32,8 @@ export default async function (context, next) {
         const error = errors[0]
         notifier.notify({
           title: 'hollow cli',
-          message: `${severity} : ${error.name}`,
-          subtitle: error.file || '',
+          message: `${severity} : ${error ? error.name : error}`,
+          subtitle: error ? error.file : error || '',
           contentImage: path.join(__dirname, '../assets/fail.png'),
           sound: 'Glass',
         })

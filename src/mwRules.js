@@ -59,8 +59,8 @@ export default async function (context, next) {
       test: /\.worker\.jsx?$/,
       exclude: /node_modules/,
       use: [
-        { loader: 'happypack/loader', options: { id: 'jsx' } },
         { loader: 'worker-loader', options: { name: workerFileName } },
+        { loader: 'happypack/loader', options: { id: 'jsx' } }
       ]
     },
     {
