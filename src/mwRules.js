@@ -155,35 +155,35 @@ export default async function (context, next) {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: { limit, minetype: 'application/font-woff' }
+        options: { limit, mimetype: 'application/font-woff' }
       }],
     },
     {
       test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: { limit, minetype: 'application/font-woff' }
+        options: { limit, mimetype: 'application/font-woff' }
       }],
     },
     {
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: { limit, minetype: 'application/octet-stream' }
+        options: { limit, mimetype: 'application/octet-stream' }
       }],
     },
     {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: { limit, minetype: 'application/vnd.ms-fontobject' }
+        options: { limit, mimetype: 'application/vnd.ms-fontobject' }
       }],
     },
     {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: 'url-loader',
-        options: { limit, minetype: 'image/svg+xml' }
+        options: { limit, mimetype: 'image/svg+xml' }
       }],
     },
     {

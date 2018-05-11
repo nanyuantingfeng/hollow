@@ -28,11 +28,8 @@ console.log(1);
 /***/ "L3rp":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-module.exports = function () {
-  return new Worker(__webpack_require__.p + "90b992ac17b4ae412a3d.worker.js");
+module.exports = function() {
+  return new Worker(__webpack_require__.p + "1b5d7e4b471d27099e6a.worker.js");
 };
 
 /***/ })

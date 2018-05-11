@@ -60,35 +60,37 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "L3rp");
+/******/ 	return __webpack_require__(__webpack_require__.s = "+Tl5");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "L3rp":
-/***/ (function(module, exports) {
+/***/ "+Tl5":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 /**************************************************
  * Created by nanyuantingfeng on 28/11/2017 10:57.
  **************************************************/
-importScripts('./b')
+importScripts('./b');
 
-const demo = { a: false }
+var demo = { a: false };
 
 self.addEventListener('message', function (e) {
-  self.postMessage('You said: ' + e.data)
-}, false)
+  self.postMessage('You said: ' + e.data);
+}, false);
 
 self.onmessage = function (event) {
-  const { a } = demo
-
-  const method = event.data.method
-  const args = event.data.args
-  const reply = doSomething(args)
-  self.postMessage({ method: method, reply: reply })
-}
+  var a = demo.a;
 
 
+  var method = event.data.method;
+  var args = event.data.args;
+  var reply = doSomething(args);
+  self.postMessage({ method: method, reply: reply });
+};
 
 /***/ })
 
