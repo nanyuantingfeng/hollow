@@ -3,7 +3,7 @@
  **************************************************/
 import os from 'os'
 import path from 'path'
-import { ExtractTextPlugin } from './plugins'
+import { ExtractTextPlugin, ForkTsCheckerWebpackPlugin } from './plugins'
 import HappyPack, { ThreadPool } from 'happypack'
 
 function fnUseExtractTextPlugin(styleRules, ENV) {
@@ -229,4 +229,8 @@ export default async function (context, next) {
     ]
   }))
 
+  plugins.push(new ForkTsCheckerWebpackPlugin({
+    checkSyntacticErrors: true,
+    tsconfig: path.join(__dirname, '..', 'tsconfig.json'),
+  }))
 }

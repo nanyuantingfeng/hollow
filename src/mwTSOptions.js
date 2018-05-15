@@ -3,26 +3,11 @@
  **************************************************/
 export default async function (context, next) {
 
-  context.typescriptOptions = context.tsOptions = {
-    transpileOnly: true,
-    compilerOptions: {
-      target: 'es2016',
-      module: 'es2015',
-      jsx: 'preserve',
-      moduleResolution: 'node',
-      declaration: false,
-      sourceMap: false,
+  const options = require('../tsconfig.json')
 
-      allowSyntheticDefaultImports: true,
-      lib: ['dom', 'es2015', 'es2016'],
-      noImplicitAny: true,
-      noUnusedLocals: true,
-      noUnusedParameters: true,
-      removeComments: false,
-      preserveConstEnums: true,
-      skipLibCheck: true
-    }
-  }
+  context.typescriptOptions =
+    context.tsOptions =
+      Object.assign({}, { transpileOnly: true, }, options)
 
   next()
 }

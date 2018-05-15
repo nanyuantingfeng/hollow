@@ -1,15 +1,50 @@
-class Greeter {
-  constructor (public greeting: string) {}
+import * as React from 'react';
 
-  greet () {
-    return `<h1>${this.greeting}</h1>`;
-  }
+class Greeter {
+    constructor(public greeting: string) {
+    }
+
+    greet(): string {
+        return `<h1>${this.greeting}</h1>`;
+    }
 }
 
 const greeter = new Greeter('Hello, world!');
 
-document.body.innerHTML = (
-  <div>
-    {greeter.greet()}
-  </div>
-)
+const MMM = (
+    <div>
+        {greeter.greet()}
+    </div>
+);
+
+
+export interface Props {
+    name: string;
+    enthusiasmLevel?: number;
+}
+
+function Hello({name, enthusiasmLevel = 1}: Props) {
+    if (enthusiasmLevel <= 0) {
+        throw new Error('You could be a little more enthusiastic. :D');
+    }
+
+    return (
+        <div className="hello">
+            <div className="greeting">
+                Hello {name + getExclamationMarks(enthusiasmLevel)}
+            </div>
+        </div>
+    );
+}
+
+export default Hello;
+
+
+function getExclamationMarks(numChars: number) {
+    return Array(numChars + 1).join('!');
+}
+
+
+Hello({enthusiasmLevel: 2})
+
+

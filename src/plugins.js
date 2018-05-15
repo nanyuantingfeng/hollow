@@ -6,6 +6,7 @@ import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 
 const {
         optimize,
@@ -48,4 +49,5 @@ export {
   HashedModuleIdsPlugin,
   WebpackOptionsValidationError,
   ModuleConcatenationPlugin,
+  ForkTsCheckerWebpackPlugin,
 }
