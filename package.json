@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -72,7 +72,7 @@
     "react-transform-hmr": "^1.0.4",
     "redbox-react": "^1.5.0",
     "style-loader": "^0.20.2",
-    "ts-loader": "^3.5.0",
+    "ts-loader": "^4.3.0",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3",
     "url-loader": "^0.6.2",
