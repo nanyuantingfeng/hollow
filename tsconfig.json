@@ -17,6 +17,7 @@
     "skipLibCheck": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "experimentalDecorators": true
   }
 }
