@@ -219,6 +219,7 @@ module.exports = emptyObject;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.Hello = Hello;
 
 var _react = __webpack_require__("SAdv");
 
@@ -246,13 +247,10 @@ function Hello(_a) {
     }
     return React.createElement("div", { className: "hello" }, React.createElement("div", { className: "greeting" }, "Hello ", name + getExclamationMarks(enthusiasmLevel)));
 }
-exports.default = Hello;
-
 function getExclamationMarks(numChars) {
     return Array(numChars + 1).join('!');
 }
-Hello({ enthusiasmLevel: 2 });
-module.exports = exports["default"];
+exports.default = MMM;
 
 /***/ }),
 

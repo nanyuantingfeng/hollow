@@ -26,7 +26,10 @@ export default async function (context, next) {
       modules: ['node_modules', path.join(__dirname, '../node_modules')],
       extensions: [
         '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
-        '.ts', '.tsx', '.lazy.js', '.js', '.jsx', '.json'
+        '.ts', '.tsx', '.js', '.jsx',
+        '.json',
+        '.lazy.js', '.lazy.jsx',
+        '.worker.js', '.worker.ts'
       ],
     },
 

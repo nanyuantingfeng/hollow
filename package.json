@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -11,7 +11,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib && rm -rf build",
-    "build:copy": "mkdir -p build && cp -R assets bin lib package.json README.md build",
+    "build:copy": "mkdir -p build && cp -R assets bin lib package.json tsconfig.json README.md build",
     "build": "npm run clean && node_modules/.bin/babel src --out-dir lib && npm run build:copy",
     "publish2npm": "npm run build && npm publish ./build",
     "test": "jest",
