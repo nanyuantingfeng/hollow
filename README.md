@@ -4,10 +4,10 @@
 
 
 # hollow-cli 
->此工具是一个基于webpack 3.x 编写的一个零配置打包工具.
+>此工具是一个基于webpack 4.x 编写的一个零配置打包工具.
 
 ## 背景 
->webpack 3.x 已经做的相当完善,并没有一个通用的配置来简化操作,
+>webpack 4.x 已经做的相当完善,并没有一个通用的配置来简化操作,
 >此工具提供一个的默认的基础配置的以适应大部分的开发场合.
 
 
@@ -193,11 +193,3 @@ module.exports = async function (context) {
     context.dll = true // === context.dll = './dll'
     context.dll = './src/dll'
 ```
-
-## 其他
-
-* babel-plugin-react-transform
-* react-transform-hmr
-> 在 react-hot-loader 配合 devServer 的时候需要的你在入口页面插入一段代码以保证
-> 热更新启用
- 
