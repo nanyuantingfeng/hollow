@@ -1,5 +1,12 @@
 {
   "entry": {
     "index": "./index.js"
+  },
+  "test": {
+    "a": {
+      "b": {
+        "c": false
+      }
+    }
   }
 }

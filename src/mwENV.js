@@ -42,5 +42,7 @@ export default async function (context, next) {
     ['process.env.NODE_ENV']: JSON.stringify(env),
   }))
 
+  context.webpackConfig.mode = isProduction ? 'production' : 'development'
+
   return context
 }

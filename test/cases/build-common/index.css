@@ -1,3 +1,7 @@
 body {
-  background-color: #ffffff;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
 }

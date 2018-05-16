@@ -6,7 +6,7 @@ module.exports = async function (context, next) {
   context.rules.push({
     test: /\.svgx$/,
     use: [
-      {loader: 'babel-loader'},
+      { loader: 'babel-loader' },
       {
         loader: 'react-svg-loader',
         options: {

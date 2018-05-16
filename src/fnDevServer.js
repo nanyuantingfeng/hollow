@@ -25,6 +25,7 @@ export default function (args) {
   return compose(mwsDevServer(cwd, config))(context)
     .then(startDevServer)
     .catch(e => {
+      //throw e
       console.error(e)
     })
 }

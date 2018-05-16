@@ -1,12 +1,8 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 17:19.
  **************************************************/
-import {
-  HotModuleReplacementPlugin,
-  NamedModulesPlugin,
-} from './plugins'
-
-import { stats } from './stats'
+import { HotModuleReplacementPlugin, } from './plugins'
+import stats from './stats'
 
 const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
@@ -49,13 +45,9 @@ export default async function (context, next) {
     historyApiFallback: { verbose: true, disableDotRule: false, },
     proxy: proxyObj,
     stats,
-
     ...devServer,
   }
 
-  plugins.push(... [
-    new HotModuleReplacementPlugin(),
-    new NamedModulesPlugin(),
-  ])
+  plugins.push(new HotModuleReplacementPlugin())
 
 }

@@ -78,12 +78,15 @@ export default async function (context, next) {
         return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
       exclude: /node_modules/,
+      include: /src/,
       use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
     },
     {
       test: /\.tsx?$/,
-      exclude: /node_modules/,
-      use: [{ loader: 'happypack/loader', options: { id: 'tsx' } }],
+      exclude: /node_modules|typings|.*\.js/,
+      use: [
+        { loader: 'happypack/loader', options: { id: 'tsx' } }
+      ],
     },
   ]
   const stylesRules = [
@@ -212,8 +215,6 @@ export default async function (context, next) {
 
   const threadPool = ThreadPool({ size })
 
-  tsOptions.happyPackMode = true
-
   plugins.push(new HappyPack({
     id: 'jsx',
     threadPool,
@@ -223,14 +224,13 @@ export default async function (context, next) {
   plugins.push(new HappyPack({
     id: 'tsx',
     threadPool,
-    loaders: [
-      { loader: 'babel-loader', options: babelOptions },
-      { loader: 'ts-loader', options: tsOptions }
-    ]
+    loaders: [{ loader: 'ts-loader', options: tsOptions }]
   }))
 
   plugins.push(new ForkTsCheckerWebpackPlugin({
     checkSyntacticErrors: true,
-    tsconfig: path.join(__dirname, '..', 'tsconfig.json'),
+    colors: true,
+    async: true,
+    tslint: true,
   }))
 }

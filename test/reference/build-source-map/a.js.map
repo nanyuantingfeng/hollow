@@ -1,1 +1,0 @@
-{"version":3,"file":"a.js","sources":["webpack:///a.js"],"sourcesContent":["import './index.css'\n\nconsole.log('a')\n\nfunction AAX () {\n\n}\n\nAAX.prototype.demo = function () {\n\n}\n\n\n\n// WEBPACK FOOTER //\n// a.js"],"mappings":";;;;;;;;AAAA;AACA;AACA;AACA;AACA;AACA;AAGA;;;;A","sourceRoot":""}

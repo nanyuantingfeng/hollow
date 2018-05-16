@@ -3,21 +3,32 @@
     "target": "es5",
     "module": "es2015",
     "jsx": "react",
-    "lib": ["es5", "es6", "es7", "dom", "webworker"],
+    "lib": [
+      "es5",
+      "es6",
+      "es7",
+      "dom",
+      "webworker"
+    ],
     "moduleResolution": "node",
     "declaration": false,
     "sourceMap": false,
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
     "preserveConstEnums": true,
     "skipLibCheck": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "strictNullChecks": true,
-    "experimentalDecorators": true
+    "noEmitOnError": true
   }
 }

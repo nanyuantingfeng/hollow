@@ -1,6 +1,6 @@
-webpackJsonp([0],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[0],{
 
-/***/ "Ilc+":
+/***/ "/ph1":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28,4 +28,4 @@ ReactDOM.render(DEMO);
 
 /***/ })
 
-});
+}]);

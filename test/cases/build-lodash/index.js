@@ -1,7 +1,9 @@
 /**************************************************
  * Created by nanyuantingfeng on 29/10/2017 17:04.
  **************************************************/
-import _ from 'lodash'
+import { get, map } from 'lodash'
 
-_.get({a: {b: 5}}, 'a.b')
-_.map({}, {a: 0})
+get({ a: { b: 5 } }, 'a.b')
+map({}, { a: 0 })
+
+

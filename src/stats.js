@@ -2,7 +2,7 @@
  * Created by nanyuantingfeng on 09/11/2017 21:53.
  **************************************************/
 
-export const stats = {
+const stats = {
   assets: true,
   colors: true,
   version: true,
@@ -18,4 +18,8 @@ export const stats = {
   chunks: false,
   chunkModules: false,
   modules: false,
+
+  exclude: /node_modules|typings/,
 }
+
+export default stats

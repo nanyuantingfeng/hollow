@@ -6,7 +6,9 @@ import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap, } from './util'
 
 export default async function (context, next) {
   context.output = {}
-  context.webpackConfig = {}
+  context.webpackConfig = {
+    optimization: {}
+  }
 
   next()
 

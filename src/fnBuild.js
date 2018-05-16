@@ -25,6 +25,7 @@ export default function (args) {
   return compose(mwsBuild(cwd, config))(context)
     .then(startBuild)
     .catch(e => {
-      console.error(e)
+     // throw e
+      console.error(e);
     })
 }

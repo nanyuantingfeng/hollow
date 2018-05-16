@@ -4,14 +4,10 @@
 import path from 'path'
 
 import {
-  CommonsChunkPlugin,
   ExtractTextPlugin,
   FriendlyErrorsWebpackPlugin,
   ProgressPlugin,
-  NoEmitOnErrorsPlugin,
-  UglifyJsPlugin,
   HashedModuleIdsPlugin,
-  ModuleConcatenationPlugin,
 } from './plugins'
 
 import { notifier, fnProgressHandler } from './util'
@@ -40,8 +36,6 @@ export default async function (context, next) {
       },
     }),
     new ProgressPlugin(fnProgressHandler),
-    new NoEmitOnErrorsPlugin(),
-    new ModuleConcatenationPlugin(),  //scope hoisting
     new HashedModuleIdsPlugin(),
   ]
 
@@ -52,23 +46,25 @@ export default async function (context, next) {
   const commonName = hash ? 'common-[chunkhash].js' : 'common.js'
 
   if (!Array.isArray(dll)) {
-
-    plugins.push(new CommonsChunkPlugin({
-      name: 'common',
-      filename: commonName,
-      minChunks: 2,
-    }))
-
-    //split import() and require.ensure modules common chunks
-    plugins.push(new CommonsChunkPlugin({
-      async: true,
-      minChunks: (module, count) => {
-        if (module.resource && (/^.*\.(css|less)$/).test(module.resource)) {
-          return false
+    context.webpackConfig.optimization.splitChunks = {
+      chunks: 'async',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: true,
+      cacheGroups: {
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+        vendors: {
+          test: /[/]node_modules[/]/,
+          priority: -10
         }
-        return !!module.context && count >= 2
       }
-    }))
+    }
   }
 
   plugins.push(new ExtractTextPlugin({
@@ -76,13 +72,7 @@ export default async function (context, next) {
     allChunks: true
   }))
 
-  if (compress === true) {
-    plugins.push(new UglifyJsPlugin({
-      parallel: true,
-      cache: true,
-      sourceMap: !!devtool,
-    }))
-  }
+  context.webpackConfig.optimization.minimize = !!compress
 
   context.plugins = plugins
 }

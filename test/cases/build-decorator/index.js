@@ -1,9 +1,8 @@
+const calls = []
 
-const calls = [];
-
-function dec(id){
-  calls.push(id);
-  return function(){};
+function dec(id) {
+  calls.push(id)
+  return function () {}
 }
 
 @dec(1)

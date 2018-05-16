@@ -9,45 +9,29 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 
 const {
-        optimize,
-        LoaderOptionsPlugin,
         DefinePlugin,
-        NamedModulesPlugin,
         HotModuleReplacementPlugin,
-        NoEmitOnErrorsPlugin,
         ProgressPlugin,
         WebpackOptionsValidationError,
-        ContextReplacementPlugin,
-        BannerPlugin,
         ProvidePlugin,
         DllPlugin,
         DllReferencePlugin,
         HashedModuleIdsPlugin,
       } = webpack
 
-const { CommonsChunkPlugin, UglifyJsPlugin, ModuleConcatenationPlugin } = optimize
-
 export {
   webpack,
   DefinePlugin,
   ProgressPlugin,
   ProvidePlugin,
-  UglifyJsPlugin,
-  CommonsChunkPlugin,
-  LoaderOptionsPlugin,
-  NoEmitOnErrorsPlugin,
-  NamedModulesPlugin,
   HotModuleReplacementPlugin,
-  ContextReplacementPlugin,
   ExtractTextPlugin,
   HTMLWebpackPlugin,
   FriendlyErrorsWebpackPlugin,
-  BannerPlugin,
   CopyWebpackPlugin,
   DllPlugin,
   DllReferencePlugin,
   HashedModuleIdsPlugin,
   WebpackOptionsValidationError,
-  ModuleConcatenationPlugin,
   ForkTsCheckerWebpackPlugin,
 }

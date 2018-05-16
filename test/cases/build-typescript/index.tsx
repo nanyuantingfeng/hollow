@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {PureComponent} from 'react'
 
 class Greeter {
     constructor(public greeting: string) {
@@ -42,6 +42,20 @@ function getExclamationMarks(numChars: number) {
     return Array(numChars + 1).join('!');
 }
 
+
+class LL extends PureComponent<Props> {
+
+    render() {
+
+        return (
+            <div>
+            </div>
+        )
+    }
+}
+
+
+export const O = (<LL name={greeter.greet()}/>)
 
 export default MMM
 

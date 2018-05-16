@@ -8,10 +8,11 @@ export default async function (context, next) {
     ['env', {
       'targets': { 'browsers': ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
       'modules': false,
-      'useBuiltIns': true,
+      'useBuiltIns': false,
     }],
     'react',
   ]
+
   const commonPlugins = [
     'external-helpers',
     'add-module-exports',
@@ -30,24 +31,6 @@ export default async function (context, next) {
     cacheDirectory: true,
     presets: commonPresets,
     plugins: commonPlugins,
-    env: {
-      development: {
-        plugins: [
-          ['react-transform',
-            {
-              'transforms': [{
-                'transform': 'react-transform-hmr',
-                'imports': ['react'],
-                'locals': ['module']
-              }, {
-                'transform': 'react-transform-catch-errors',
-                'imports': ['react', 'redbox-react']
-              }]
-            }
-          ]
-        ]
-      }
-    }
   }
 
   next()
