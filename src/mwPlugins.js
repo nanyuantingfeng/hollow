@@ -8,6 +8,7 @@ import {
   FriendlyErrorsWebpackPlugin,
   ProgressPlugin,
   HashedModuleIdsPlugin,
+  AggressiveSplittingPlugin,
 } from './plugins'
 
 import { notifier, fnProgressHandler } from './util'
@@ -37,13 +38,18 @@ export default async function (context, next) {
     }),
     new ProgressPlugin(fnProgressHandler),
     new HashedModuleIdsPlugin(),
+    /*    new AggressiveSplittingPlugin({
+     minSize: 100 * 1024, // 字节，分割点。默认：30720
+     maxSize: 200 * 1024, // 字节，每个文件最大字节。默认：51200
+     chunkOverhead: 0, // 默认：0
+     entryChunkMultiplicator: 1, // 默认：1
+     }),*/
   ]
 
   next()
 
-  const { hash, compress, plugins, dll, devtool } = context
+  const { hash, compress, plugins, dll } = context
   const cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
-  const commonName = hash ? 'common-[chunkhash].js' : 'common.js'
 
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization.splitChunks = {
@@ -73,6 +79,7 @@ export default async function (context, next) {
   }))
 
   context.webpackConfig.optimization.minimize = !!compress
-
   context.plugins = plugins
+
+  //context.webpackConfig.recordsOutputPath = path.join(cwd, 'dist', 'records.json')
 }

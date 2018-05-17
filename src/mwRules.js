@@ -3,7 +3,7 @@
  **************************************************/
 import os from 'os'
 import path from 'path'
-import { ExtractTextPlugin, ForkTsCheckerWebpackPlugin } from './plugins'
+import { ExtractTextPlugin, ForkTsCheckerWebpackPlugin, WatchIgnorePlugin } from './plugins'
 import HappyPack, { ThreadPool } from 'happypack'
 
 function fnUseExtractTextPlugin(styleRules, ENV) {
@@ -233,4 +233,6 @@ export default async function (context, next) {
     async: true,
     tslint: true,
   }))
+
+  plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]))
 }

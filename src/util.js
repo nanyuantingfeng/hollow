@@ -119,28 +119,34 @@ export function fnBuildHTML(context, env) {
     ...htmlWebpackPluginOptions
   }
 
-  return entryNames.map(name => {
-    let sdk = sdks[name]
+  return entryNames.map(entryName => {
+    let sdk = sdks[entryName]
 
     if (typeof sdk === 'string') {
       sdk = [sdk]
     }
 
-    let paths0 = paths.slice(0)
+    let scripts = paths.slice(0)
 
     if (sdk) {
-      paths0.push(...sdk)
+      scripts.push(...sdk)
     }
 
     if (DLL_FILENAME) {
-      paths0.push(DLL_FILENAME)
+      scripts.push(DLL_FILENAME)
     }
 
     return {
-      PATHS: paths0,
-      filename: `${name}.html`,
-      chunks: ['common', name],
+
+      PATHS: scripts,
+      scripts,
+      entryName: entryName,
+      filename: `${entryName}.html`,
+      chunks: [entryName],
       chunksSortMode: 'dependency',
+      inject: true,
+      hash: true,
+
       ...options
     }
   })
@@ -184,3 +190,25 @@ export function fnBuildSourceMap(devtool = false, ENV) {
 
   return devtool
 }
+
+function templateParameters(compilation, assets, options) {
+  const entryName = options.entryName
+  const stats = compilation.getStats().toJson()
+  const currentAssets = stats.entrypoints[entryName].assets
+
+  const js = currentAssets.filter(n => path.extname(n) === '.js')
+  const css = currentAssets.filter(n => path.extname(n) === '.css')
+
+  return {
+    compilation: compilation,
+    webpack: compilation.getStats().toJson(),
+    webpackConfig: compilation.options,
+    htmlWebpackPlugin: {
+      files: assets,
+      options: options,
+      scripts: js,
+      styles: css,
+    }
+  }
+}
+

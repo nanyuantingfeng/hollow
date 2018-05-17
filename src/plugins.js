@@ -17,6 +17,10 @@ const {
         DllPlugin,
         DllReferencePlugin,
         HashedModuleIdsPlugin,
+        WatchIgnorePlugin,
+        optimize: {
+          AggressiveSplittingPlugin
+        }
       } = webpack
 
 export {
@@ -34,4 +38,6 @@ export {
   HashedModuleIdsPlugin,
   WebpackOptionsValidationError,
   ForkTsCheckerWebpackPlugin,
+  WatchIgnorePlugin,
+  AggressiveSplittingPlugin,
 }
