@@ -3,10 +3,11 @@
  **************************************************/
 import webpack from 'webpack'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import HappyPack from 'happypack'
 
 const {
         DefinePlugin,
@@ -29,7 +30,7 @@ export {
   ProgressPlugin,
   ProvidePlugin,
   HotModuleReplacementPlugin,
-  ExtractTextPlugin,
+  MiniCssExtractPlugin,
   HTMLWebpackPlugin,
   FriendlyErrorsWebpackPlugin,
   CopyWebpackPlugin,
@@ -40,4 +41,5 @@ export {
   ForkTsCheckerWebpackPlugin,
   WatchIgnorePlugin,
   AggressiveSplittingPlugin,
+  HappyPack,
 }

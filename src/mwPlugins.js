@@ -4,7 +4,7 @@
 import path from 'path'
 
 import {
-  ExtractTextPlugin,
+  MiniCssExtractPlugin,
   FriendlyErrorsWebpackPlugin,
   ProgressPlugin,
   HashedModuleIdsPlugin,
@@ -42,9 +42,7 @@ export default async function (context, next) {
 
   next()
 
-  const { hash, compress, plugins, dll, DLL_FILENAME } = context
-  const cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
-
+  const { hash, compress, plugins, dll } = context
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization.splitChunks = {
       chunks: 'async',
@@ -67,9 +65,12 @@ export default async function (context, next) {
     }
   }
 
-  plugins.push(new ExtractTextPlugin({
-    filename: cssFileName,
-    allChunks: true
+  const filename = hash ? '[name]-[hash].css' : '[name].css'
+  const chunkFilename = hash ? '[id]-[hash].css' : '[id].css'
+
+  plugins.push(new MiniCssExtractPlugin({
+    filename,
+    chunkFilename,
   }))
 
   context.webpackConfig.optimization.minimize = !!compress
@@ -78,7 +79,7 @@ export default async function (context, next) {
   if (!Array.isArray(dll)) {
     plugins.push(new AggressiveSplittingPlugin({
       minSize: 244 * 1024,
-      maxSize: 1024 * 1024,
+      maxSize: 800 * 1024,
       chunkOverhead: 0,
       entryChunkMultiplicator: 1,
     }))

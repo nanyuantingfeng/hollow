@@ -3,26 +3,18 @@
  **************************************************/
 import os from 'os'
 import path from 'path'
-import { ExtractTextPlugin, ForkTsCheckerWebpackPlugin, WatchIgnorePlugin } from './plugins'
-import HappyPack, { ThreadPool } from 'happypack'
+import {
+  MiniCssExtractPlugin,
+  ForkTsCheckerWebpackPlugin,
+  HappyPack,
+  WatchIgnorePlugin
+} from './plugins'
 
-function fnUseExtractTextPlugin(styleRules, ENV) {
-
-  if (ENV.isProduction || ENV.isBeta) {
-    styleRules = styleRules.map(rule => {
-      rule.use.shift()
-      const use = rule.use
-      rule.use = ExtractTextPlugin.extract({ fallback: 'style-loader', use })
-      return rule
-    })
-  }
-
-  return styleRules
-
-}
+const THREAD_POOL_CPU_SIZE = os.cpus().length / 2
 
 function fnGetThemeMap(packageMap, cwd) {
   let theme = {}
+
   const packageMapTheme = packageMap.theme
 
   if (packageMapTheme && typeof packageMapTheme === 'string') {
@@ -206,14 +198,21 @@ export default async function (context, next) {
     },
   ]
 
+  let styleRulesFixed = stylesRules
+
+  if (ENV.isProduction || ENV.isBeta) {
+    styleRulesFixed = stylesRules.map(rule => {
+      rule.use[0] = MiniCssExtractPlugin.loader
+      return rule
+    })
+  }
+
   context.rules = scriptRules
-    .concat(fnUseExtractTextPlugin(stylesRules, ENV))
+    .concat(styleRulesFixed)
     .concat(othersRules)
     .concat(rules)
 
-  const size = os.cpus().length >= 4 ? 4 : 2
-
-  const threadPool = ThreadPool({ size })
+  const threadPool = HappyPack.ThreadPool({ size: THREAD_POOL_CPU_SIZE })
 
   plugins.push(new HappyPack({
     id: 'jsx',
