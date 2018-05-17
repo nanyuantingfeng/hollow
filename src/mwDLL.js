@@ -6,12 +6,16 @@ import path from 'path'
 
 export default async function (context, next) {
   context.dll = false
+  context.DLL_FILENAME = false
 
   next()
 
   const { dll, plugins, DIRs } = context
   const libraryName = '[name]_[chunkhash]'
+
+  //is build DLL
   if (Array.isArray(dll)) {
+
     plugins.push(new DllPlugin({
       path: path.resolve(DIRs.build, 'manifest.json'),
       name: libraryName,
@@ -27,6 +31,7 @@ export default async function (context, next) {
     context.entry = { dll }
   }
 
+  //is Ref DLL Plugin
   if (typeof dll === 'string' || dll === true) {
     const dllPath = dll === true ? path.resolve(DIRs.root, 'dll') : dll
     const manifest = require(path.join(dllPath, 'manifest.json'))

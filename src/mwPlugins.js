@@ -38,23 +38,17 @@ export default async function (context, next) {
     }),
     new ProgressPlugin(fnProgressHandler),
     new HashedModuleIdsPlugin(),
-    /*    new AggressiveSplittingPlugin({
-     minSize: 100 * 1024, // 字节，分割点。默认：30720
-     maxSize: 200 * 1024, // 字节，每个文件最大字节。默认：51200
-     chunkOverhead: 0, // 默认：0
-     entryChunkMultiplicator: 1, // 默认：1
-     }),*/
   ]
 
   next()
 
-  const { hash, compress, plugins, dll } = context
+  const { hash, compress, plugins, dll, DLL_FILENAME } = context
   const cssFileName = hash ? '[name]-[chunkhash].css' : '[name].css'
 
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization.splitChunks = {
       chunks: 'async',
-      minSize: 30000,
+      minSize: 244 * 1024,
       minChunks: 1,
       maxAsyncRequests: 5,
       maxInitialRequests: 3,
@@ -79,7 +73,18 @@ export default async function (context, next) {
   }))
 
   context.webpackConfig.optimization.minimize = !!compress
+
+  // dll 模式下不能使用当前插件
+  if (!Array.isArray(dll)) {
+    plugins.push(new AggressiveSplittingPlugin({
+      minSize: 244 * 1024,
+      maxSize: 1024 * 1024,
+      chunkOverhead: 0,
+      entryChunkMultiplicator: 1,
+    }))
+  }
+
   context.plugins = plugins
 
-  //context.webpackConfig.recordsOutputPath = path.join(cwd, 'dist', 'records.json')
+  //context.webpackConfig.recordsOutputPath = path.join(cwd, 'build', 'records.json')
 }

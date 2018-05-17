@@ -137,7 +137,6 @@ export function fnBuildHTML(context, env) {
     }
 
     return {
-
       PATHS: scripts,
       scripts,
       entryName: entryName,
@@ -145,8 +144,7 @@ export function fnBuildHTML(context, env) {
       chunks: [entryName],
       chunksSortMode: 'dependency',
       inject: true,
-      hash: true,
-
+      templateParameters: fnBuildTemplateParametersWithScripts(scripts),
       ...options
     }
   })
@@ -191,24 +189,33 @@ export function fnBuildSourceMap(devtool = false, ENV) {
   return devtool
 }
 
-function templateParameters(compilation, assets, options) {
-  const entryName = options.entryName
-  const stats = compilation.getStats().toJson()
-  const currentAssets = stats.entrypoints[entryName].assets
+export function fnBuildTemplateParametersWithScripts(scripts) {
+  return (compilation, assets, options) => {
 
-  const js = currentAssets.filter(n => path.extname(n) === '.js')
-  const css = currentAssets.filter(n => path.extname(n) === '.css')
+    const entryName = options.entryName
+    const stats = compilation.getStats().toJson()
+    const currentAssets = stats.entrypoints[entryName].assets
 
-  return {
-    compilation: compilation,
-    webpack: compilation.getStats().toJson(),
-    webpackConfig: compilation.options,
-    htmlWebpackPlugin: {
-      files: assets,
-      options: options,
-      scripts: js,
-      styles: css,
+    const js = currentAssets.filter(n => path.extname(n) === '.js')
+    const css = currentAssets.filter(n => path.extname(n) === '.css')
+
+    assets.js = unique(scripts.concat(assets.js).concat(js))
+    assets.css = unique(assets.css.concat(css))
+
+    return {
+      compilation: compilation,
+      webpack: compilation.getStats().toJson(),
+      webpackConfig: compilation.options,
+      htmlWebpackPlugin: {
+        files: assets,
+        options: options,
+        scripts: js,
+        styles: css,
+      }
     }
   }
 }
 
+function unique(array) {
+  return array.filter((item, index, array) => array.indexOf(item) === index)
+}
