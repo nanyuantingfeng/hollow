@@ -15,6 +15,7 @@ export default async function (context, next) {
   const {
           cwd, devtool, rules, ENV, packageMap,
           outputPath, publicPath, hash, output,
+          unknownContextCritical = false,
         } = context
 
   const jsChunkFileName = hash ? '[name]-[chunkhash].js' : '[name].js'
@@ -52,6 +53,7 @@ export default async function (context, next) {
     module: {
       noParse: [/moment.js/],
       rules,
+      unknownContextCritical,
     },
 
     plugins: context.plugins,
