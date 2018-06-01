@@ -58,27 +58,42 @@
 * Lazy [*.lazy.js, *.lazy.jsx]
 
 * TypeScript [ *.ts ,*.tsx ]
-```javascript
-    context.tsOptions = {
-        transpileOnly: true,
-        compilerOptions: {
-          target: 'es2016',
-          module: 'es2015',
-          jsx: 'preserve',
-          moduleResolution: 'node',
-          declaration: false,
-          sourceMap: false,
-    
-          allowSyntheticDefaultImports: true,
-          lib: ['dom', 'es2015', 'es2016'],
-          noImplicitAny: true,
-          noUnusedLocals: true,
-          noUnusedParameters: true,
-          removeComments: false,
-          preserveConstEnums: true,
-          skipLibCheck: true
-        }
+```json
+    {
+      "compilerOptions": {
+        "target": "es5",
+        "module": "es2015",
+        "jsx": "react",
+        "lib": [
+          "es5",
+          "es6",
+          "es7",
+          "dom",
+          "webworker"
+        ],
+        "moduleResolution": "node",
+        "declaration": false,
+        "sourceMap": false,
+        "allowJs": false,
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": true,
+        "noUnusedParameters": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "skipLibCheck": true,
+        "strictNullChecks": true,
+        "experimentalDecorators": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noEmitOnError": true
       }
+    }
+
 ```
 
 * Less  [ *.less ]
@@ -160,7 +175,7 @@ module.exports = async function (context) {
 ```javascript
  context.externals = {
   'react': {name: 'React', path: 'node_modules/react/dist/react-with-addons.js'},
-   'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
+  'react-dom': {name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js'},
    //...
  }
 ```
