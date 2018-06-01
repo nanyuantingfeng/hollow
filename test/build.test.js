@@ -7,7 +7,6 @@ import glob from 'glob'
 import build from '../src/fnBuild'
 import buildDll from '../src/fnBuildDLL'
 import shell from 'shelljs'
-import leven from 'leven'
 
 function similarity(a, b) {
   if (!a || !b || !a.length || !b.length) return 0

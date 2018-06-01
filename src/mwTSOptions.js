@@ -7,11 +7,13 @@ import path from 'path'
 export default async function (context, next) {
   const { cwd } = context
 
-  let options = require('../tsconfig.json')
+  let typescriptConfigPath = path.join(__dirname, '../tsconfig.json')
+  let options = require(typescriptConfigPath)
   const tsconfigPath = path.resolve(cwd, 'tsconfig.json')
 
   if (fs.existsSync(tsconfigPath)) {
     options = require(tsconfigPath)
+    typescriptConfigPath = tsconfigPath
   }
 
   context.typescriptOptions = context.tsOptions = {
@@ -19,6 +21,8 @@ export default async function (context, next) {
     happyPackMode: true,
     ...options
   }
+
+  context.typescriptConfigPath = context.tsConfigPath = typescriptConfigPath
 
   next()
 }

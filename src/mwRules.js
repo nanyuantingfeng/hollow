@@ -43,7 +43,7 @@ export default async function (context, next) {
 
   const { cwd, limit = 10000, ENV, packageMap, hash, plugins } = context
   const theme = fnGetThemeMap(packageMap, cwd)
-  const { babelOptions, postcssOptions, tsOptions, rules } = context
+  const { babelOptions, postcssOptions, tsOptions, tsConfigPath, rules } = context
   const workerFileName = hash ? '[hash].worker.js' : '[name].worker.js'
 
   const scriptRules = [
@@ -70,12 +70,11 @@ export default async function (context, next) {
         return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
       exclude: /node_modules/,
-      include: /src/,
       use: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
     },
     {
       test: /\.tsx?$/,
-      exclude: /node_modules|typings|.*\.js/,
+      exclude: /node_modules/,
       use: [
         { loader: 'happypack/loader', options: { id: 'tsx' } }
       ],
@@ -223,14 +222,16 @@ export default async function (context, next) {
   plugins.push(new HappyPack({
     id: 'tsx',
     threadPool,
-    loaders: [{ loader: 'ts-loader', options: tsOptions }]
+    loaders: [
+      { loader: 'babel-loader', options: babelOptions },
+      { loader: 'ts-loader', options: tsOptions }]
   }))
 
   plugins.push(new ForkTsCheckerWebpackPlugin({
+    tsconfig: tsConfigPath,
     checkSyntacticErrors: true,
     colors: true,
     async: true,
-    tslint: true,
   }))
 
   plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]))

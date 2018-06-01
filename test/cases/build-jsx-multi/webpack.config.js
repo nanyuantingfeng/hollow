@@ -39,4 +39,6 @@ module.exports = async function (context, next) {
   context.files = files
   context.sdks = sdks
   context.defines = defines
+  
+  console.log("----------------->>>>>>>>>>>>>>>>>>");
 }

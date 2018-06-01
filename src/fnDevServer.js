@@ -6,7 +6,7 @@ import compose from 'koa-compose'
 import { mwsDevServer } from './mws'
 import { startDevServer } from './devServerCore'
 
-export default function (args) {
+export function createDevServerContext(args) {
   const context = {
     cwd: process.cwd(),
     files: {},
@@ -19,10 +19,12 @@ export default function (args) {
     cache: {},
     ...args,
   }
-
   const { cwd, config } = context
-
   return compose(mwsDevServer(cwd, config))(context)
+}
+
+export default function (args) {
+  return createDevServerContext(args)
     .then(startDevServer)
     .catch(e => {
       //throw e

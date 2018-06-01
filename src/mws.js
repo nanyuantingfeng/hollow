@@ -19,6 +19,11 @@ async function noop() {
 }
 
 function getCustomConfig(cwd, config) {
+
+  if ('function' === typeof config) {
+    return config
+  }
+
   let paths = []
 
   switch (process.env.NODE_ENV) {
@@ -54,6 +59,8 @@ function getCustomConfig(cwd, config) {
       break
     }
   }
+  
+  
   return cc
 }
 

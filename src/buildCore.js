@@ -74,11 +74,10 @@ export default function (context) {
   let compiler = webpack(webpackConfig)
 
   if (!context.verbose) {
-    compiler.plugin('done', (stats) => {
+    compiler.hooks.done.tap('mini-css-extract-plugin', (stats) => {
       stats.stats.forEach((stat) => {
-        stat.compilation.children = stat.compilation.children.filter((child) => {
-          return child.name !== 'extract-text-webpack-plugin'
-        })
+        stat.compilation.children =
+          stat.compilation.children.filter(child => !child.name.startsWith('mini-css-extract-plugin'))
       })
     })
   }
