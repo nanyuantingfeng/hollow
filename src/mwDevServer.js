@@ -42,7 +42,7 @@ export default async function (context, next) {
     disableHostCheck: true,
     overlay: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
-    historyApiFallback: { verbose: true, disableDotRule: false, },
+    historyApiFallback: true,
     proxy: proxyObj,
     stats,
     ...devServer,
