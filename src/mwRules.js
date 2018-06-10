@@ -124,7 +124,7 @@ export default async function (context, next) {
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
-        { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
+        { loader: 'less-loader', options: { javascriptEnabled: true, sourceMap: true, modifyVars: theme } },
       ]
     },
     {
@@ -140,7 +140,7 @@ export default async function (context, next) {
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
-        { loader: 'less-loader', options: { sourceMap: true, modifyVars: theme } },
+        { loader: 'less-loader', options: { javascriptEnabled: true, sourceMap: true, modifyVars: theme } },
       ]
     },
   ]
