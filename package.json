@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -74,5 +74,20 @@
     "webpack-dev-server": "^3.1.4",
     "worker-loader": "^2.0.0",
     "yargs": "^11.0.0"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nanyuantingfeng/hollow-cli.git"
+  },
+  "keywords": [
+    "hollow"
+  ],
+  "bugs": {
+    "url": "https://github.com/nanyuantingfeng/hollow-cli/issues"
+  },
+  "homepage": "https://github.com/nanyuantingfeng/hollow-cli#readme"
 }
