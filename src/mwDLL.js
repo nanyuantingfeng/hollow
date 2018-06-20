@@ -11,7 +11,7 @@ export default async function (context, next) {
   next()
 
   const { dll, plugins, DIRs } = context
-  const libraryName = '[name]_[chunkhash]'
+  const libraryName = '[name]_[hash]'
 
   //is build DLL
   if (Array.isArray(dll)) {
