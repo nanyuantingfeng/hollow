@@ -65,8 +65,8 @@ export default async function (context, next) {
     }
   }
 
-  const filename = hash ? '[name]-[hash].css' : '[name].css'
-  const chunkFilename = hash ? '[id]-[hash].css' : '[id].css'
+  const filename = hash ? '[hash]-[name].css' : '[name].css'
+  const chunkFilename = hash ? '[hash]-[id].css' : '[id].css'
 
   plugins.push(new MiniCssExtractPlugin({
     filename,

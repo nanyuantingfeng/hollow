@@ -18,7 +18,7 @@ export default async function (context, next) {
           unknownContextCritical = false,
         } = context
 
-  const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js'
+  const jsChunkFileName = hash ? '[hash]-[name].js' : '[name].js'
   const webpackConfig = context.webpackConfig = {
 
     cache: true,
