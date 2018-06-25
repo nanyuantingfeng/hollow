@@ -44,7 +44,7 @@ export default async function (context, next) {
   const {cwd, limit = 10000, ENV, packageMap, hash, plugins} = context;
   const theme = fnGetThemeMap(packageMap, cwd);
   const {babelOptions, postcssOptions, tsOptions, tsConfigPath, rules} = context;
-  const workerFileName = hash ? '[hash]-[name].worker.js' : '[name].worker.js';
+  const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js';
 
   const scriptRules = [
     {

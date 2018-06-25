@@ -13,7 +13,7 @@ import {
 
 import { notifier, fnProgressHandler } from './util';
 
-export default async function (context, next) {
+export default async function mwPlugins(context, next) {
   context.plugins = [
     new FriendlyErrorsWebpackPlugin({
       onErrors: (severity, errors) => {
@@ -44,11 +44,11 @@ export default async function (context, next) {
 
   const {hash, compress, plugins, dll} = context;
   if (!Array.isArray(dll)) {
-/*    context.webpackConfig.optimization.splitChunks = {
-      chunks: 'async',
-      minSize: 30000,
+    context.webpackConfig.optimization.splitChunks = {
+      chunks: 'all',
+      minSize: 100,
       minChunks: 1,
-      maxAsyncRequests: 5,
+      maxAsyncRequests: 6,
       maxInitialRequests: 3,
       automaticNameDelimiter: '~',
       name: true,
@@ -58,16 +58,17 @@ export default async function (context, next) {
           priority: -10
         },
         default: {
-          minChunks: 2,
+          minChunks: 1,
           priority: -20,
           reuseExistingChunk: true
         }
       }
-    };*/
+    };
+
   }
 
-  const filename = hash ? '[hash]-[name].css' : '[name].css';
-  const chunkFilename = hash ? '[hash]-[id].css' : '[id].css';
+  const filename = hash ? '[name]-[hash].css' : '[name].css';
+  const chunkFilename = hash ? '[id]-[hash].css' : '[id].css';
 
   plugins.push(new MiniCssExtractPlugin({
     filename,
@@ -79,10 +80,10 @@ export default async function (context, next) {
   // dll 模式下不能使用当前插件
   if (!Array.isArray(dll)) {
     plugins.push(new AggressiveSplittingPlugin({
-      minSize: 244 * 1024,
-      maxSize: 800 * 1024,
+      minSize: 1024,
+      maxSize: 244 * 1024,
       chunkOverhead: 0,
-      entryChunkMultiplicator: 1,
+      entryChunkMultiplicator: 6,
     }));
   }
 
