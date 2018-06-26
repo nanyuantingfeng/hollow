@@ -80,14 +80,15 @@ export default async function mwPlugins(context, next) {
   // dll 模式下不能使用当前插件
   if (!Array.isArray(dll)) {
     plugins.push(new AggressiveSplittingPlugin({
-      minSize: 1024,
+      minSize: 1,
       maxSize: 244 * 1024,
       chunkOverhead: 0,
-      entryChunkMultiplicator: 6,
+      entryChunkMultiplicator: 1,
     }));
   }
 
   context.plugins = plugins;
 
-  //context.webpackConfig.recordsOutputPath = path.join(cwd, 'build', 'records.json')
+//  const {cwd, outputPath} = context;
+//  context.webpackConfig.recordsOutputPath = path.join(cwd, outputPath, 'records.json');
 }
