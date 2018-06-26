@@ -89,6 +89,8 @@ export default async function mwPlugins(context, next) {
 
   context.plugins = plugins;
 
-//  const {cwd, outputPath} = context;
-//  context.webpackConfig.recordsOutputPath = path.join(cwd, outputPath, 'records.json');
+  const {cwd, outputPath, records = false} = context;
+  if (records === true) {
+    context.webpackConfig.recordsOutputPath = path.join(cwd, outputPath, 'records.json');
+  }
 }
