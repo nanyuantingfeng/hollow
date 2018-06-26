@@ -81,7 +81,7 @@ export default async function mwPlugins(context, next) {
   if (!Array.isArray(dll)) {
     plugins.push(new AggressiveSplittingPlugin({
       minSize: 1,
-      maxSize: 244 * 1024,
+      maxSize: 1024 * 1024,
       chunkOverhead: 0,
       entryChunkMultiplicator: 1,
     }));
