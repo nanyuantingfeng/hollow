@@ -77,8 +77,10 @@ export default async function mwPlugins(context, next) {
 
   context.webpackConfig.optimization.minimize = !!compress;
 
+  const {cwd, outputPath, records = false, aggressive = true} = context;
+
   // dll 模式下不能使用当前插件
-  if (!Array.isArray(dll)) {
+  if (!Array.isArray(dll) && aggressive === true) {
     plugins.push(new AggressiveSplittingPlugin({
       minSize: 1,
       maxSize: 1024 * 1024,
@@ -89,7 +91,6 @@ export default async function mwPlugins(context, next) {
 
   context.plugins = plugins;
 
-  const {cwd, outputPath, records = false} = context;
   if (records === true) {
     context.webpackConfig.recordsOutputPath = path.join(cwd, outputPath, 'records.json');
   }
