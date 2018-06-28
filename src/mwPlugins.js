@@ -70,10 +70,7 @@ export default async function mwPlugins(context, next) {
   const filename = hash ? '[name]-[hash].css' : '[name].css';
   const chunkFilename = hash ? '[id]-[hash].css' : '[id].css';
 
-  plugins.push(new MiniCssExtractPlugin({
-    filename,
-    chunkFilename,
-  }));
+  plugins.push(new MiniCssExtractPlugin({filename, chunkFilename,}));
 
   context.webpackConfig.optimization.minimize = !!compress;
 
