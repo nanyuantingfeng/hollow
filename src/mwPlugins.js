@@ -42,7 +42,7 @@ export default async function mwPlugins(context, next) {
 
   next();
 
-  const {hash, compress, plugins, dll} = context;
+  const {hash, compress, plugins, dll, ENV} = context;
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization.splitChunks = {
       chunks: 'all',
@@ -50,18 +50,16 @@ export default async function mwPlugins(context, next) {
       minChunks: 1,
       maxAsyncRequests: 6,
       maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      name: true,
+      name: !ENV.isProduction,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          name: 'dependencies',
+          priority: -100,
+          reuseExistingChunk: true,
+          chunks: 'all',
         },
-        default: {
-          minChunks: 1,
-          priority: -20,
-          reuseExistingChunk: true
-        }
+        default: false,
       }
     };
 
