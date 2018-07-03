@@ -9,6 +9,7 @@ import {
   ProgressPlugin,
   HashedModuleIdsPlugin,
   AggressiveSplittingPlugin,
+  HardSourceWebpackPlugin,
 } from './plugins';
 
 import { notifier, fnProgressHandler } from './util';
@@ -43,6 +44,7 @@ export default async function mwPlugins(context, next) {
   next();
 
   const {hash, compress, plugins, dll, ENV} = context;
+
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization.splitChunks = {
       chunks: 'all',
@@ -62,7 +64,6 @@ export default async function mwPlugins(context, next) {
         default: false,
       }
     };
-
   }
 
   const filename = hash ? '[name]-[hash].css' : '[name].css';
@@ -83,6 +84,8 @@ export default async function mwPlugins(context, next) {
       entryChunkMultiplicator: 1,
     }));
   }
+
+  plugins.push(new HardSourceWebpackPlugin());
 
   context.plugins = plugins;
 
