@@ -10,8 +10,6 @@ import {
   WatchIgnorePlugin
 } from './plugins';
 
-const THREAD_POOL_CPU_SIZE = os.cpus().length / 2;
-
 function fnGetThemeMap(packageMap, cwd) {
   let theme = {};
 
@@ -41,10 +39,12 @@ export default async function (context, next) {
 
   next();
 
-  const {cwd, limit = 10000, ENV, packageMap, hash, plugins} = context;
+  const {cwd, limit = 10000, ENV, packageMap, hash, plugins, enableHappypack = true} = context;
   const theme = fnGetThemeMap(packageMap, cwd);
-  const {babelOptions, postcssOptions, tsOptions, tsConfigPath, rules} = context;
+  const {postcssOptions, tsConfigPath, rules} = context;
   const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js';
+
+  const {JSX_LOADER, TSX_LOADER} = enableHappypack ? happypackL(context) : commonL(context);
 
   const scriptRules = [
     {
@@ -52,7 +52,7 @@ export default async function (context, next) {
       exclude: /node_modules/,
       use: [
         {loader: 'worker-loader', options: {name: workerFileName}},
-        {loader: 'happypack/loader', options: {id: 'jsx'}}
+        ...JSX_LOADER
       ]
     },
     {
@@ -62,7 +62,7 @@ export default async function (context, next) {
       exclude: /node_modules/,
       use: [
         {loader: 'bundle-loader', options: {lazy: true}},
-        {loader: 'happypack/loader', options: {id: 'jsx'}},
+        ...JSX_LOADER
       ]
     },
     {
@@ -70,14 +70,12 @@ export default async function (context, next) {
         return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath);
       },
       exclude: /node_modules/,
-      use: [{loader: 'happypack/loader', options: {id: 'jsx'}}],
+      use: JSX_LOADER,
     },
     {
       test: /\.tsx?$/,
       exclude: /node_modules/,
-      use: [
-        {loader: 'happypack/loader', options: {id: 'tsx'}}
-      ],
+      use: TSX_LOADER,
     },
   ];
   const stylesRules = [
@@ -217,22 +215,6 @@ export default async function (context, next) {
     .concat(othersRules)
     .concat(rules);
 
-  const threadPool = HappyPack.ThreadPool({size: THREAD_POOL_CPU_SIZE});
-
-  plugins.push(new HappyPack({
-    id: 'jsx',
-    threadPool,
-    loaders: [{loader: 'babel-loader', options: babelOptions}],
-  }));
-
-  plugins.push(new HappyPack({
-    id: 'tsx',
-    threadPool,
-    loaders: [
-      {loader: 'babel-loader', options: babelOptions},
-      {loader: 'ts-loader', options: tsOptions}]
-  }));
-
   plugins.push(new ForkTsCheckerWebpackPlugin({
     tsconfig: tsConfigPath,
     checkSyntacticErrors: true,
@@ -241,4 +223,43 @@ export default async function (context, next) {
   }));
 
   plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]));
+}
+
+function happypackL(context) {
+  const commonX = commonL(context);
+
+  const THREAD_POOL_CPU_SIZE = os.cpus().length / 2;
+
+  const threadPool = HappyPack.ThreadPool({size: THREAD_POOL_CPU_SIZE});
+
+  const {plugins} = context;
+
+  plugins.push(new HappyPack({
+    id: 'jsx',
+    threadPool,
+    loaders: commonX.JSX_LOADER,
+  }));
+
+  plugins.push(new HappyPack({
+    id: 'tsx',
+    threadPool,
+    loaders: commonX.TSX_LOADER
+  }));
+
+  const JSX_LOADER = [{loader: 'happypack/loader', options: {id: 'jsx'}}];
+  const TSX_LOADER = [{loader: 'happypack/loader', options: {id: 'tsx'}}];
+
+  return {JSX_LOADER, TSX_LOADER};
+}
+
+function commonL(context) {
+  const {babelOptions, tsOptions} = context;
+  const JSX_LOADER = [{loader: 'babel-loader', options: babelOptions}];
+
+  const TSX_LOADER = [
+    JSX_LOADER[0],
+    {loader: 'ts-loader', options: tsOptions}
+  ];
+
+  return {JSX_LOADER, TSX_LOADER};
 }
