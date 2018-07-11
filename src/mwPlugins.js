@@ -10,6 +10,8 @@ import {
   HashedModuleIdsPlugin,
   AggressiveSplittingPlugin,
   HardSourceWebpackPlugin,
+  UglifyJsPlugin,
+  OptimizeCSSAssetsPlugin,
 } from './plugins';
 
 import { notifier, fnProgressHandler } from './util';
@@ -72,6 +74,17 @@ export default async function mwPlugins(context, next) {
   plugins.push(new MiniCssExtractPlugin({filename, chunkFilename,}));
 
   context.webpackConfig.optimization.minimize = !!compress;
+
+  if (compress) {
+    context.webpackConfig.optimization.minimizer = [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false,
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ];
+  }
 
   const {cwd, outputPath, records = false, aggressive = true} = context;
 

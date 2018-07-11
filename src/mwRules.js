@@ -88,7 +88,6 @@ export default async function (context, next) {
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            minimize: !ENV.isDevelopment,
           }
         },
         {loader: 'postcss-loader', options: postcssOptions},
@@ -102,7 +101,6 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: !ENV.isDevelopment,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },
@@ -118,7 +116,6 @@ export default async function (context, next) {
         {
           loader: 'css-loader', options: {
             sourceMap: true,
-            minimize: !ENV.isDevelopment,
           }
         },
         {loader: 'postcss-loader', options: postcssOptions},
@@ -136,7 +133,6 @@ export default async function (context, next) {
           loader: 'css-loader', options: {
             sourceMap: true,
             modules: true,
-            minimize: !ENV.isDevelopment,
             localIdentName: '[local]___[hash:base64:5]',
           }
         },

@@ -3,6 +3,8 @@
  **************************************************/
 
 body {
-    flex-direction: column;
-    -webkit-flex-direction: column;
+  flex-direction: column;
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }

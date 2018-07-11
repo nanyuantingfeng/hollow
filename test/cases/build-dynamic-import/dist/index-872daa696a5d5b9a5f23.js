@@ -54,21 +54,21 @@
 /******/
 /******/ 	// object to store loaded CSS chunks
 /******/ 	var installedCssChunks = {
-/******/ 		5: 0
+/******/ 		4: 0
 /******/ 	}
 /******/
 /******/ 	// object to store loaded and loading chunks
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		5: 0
+/******/ 		4: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + "-" + "abbefbb6681bea61d2a1" + ".js"
+/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + "-" + "872daa696a5d5b9a5f23" + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -102,11 +102,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"0":1,"1":1,"2":1,"3":1};
+/******/ 		var cssChunks = {"0":1,"1":1,"2":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + chunkId + "-" + "abbefbb6681bea61d2a1" + ".css";
+/******/ 				var href = "" + chunkId + "-" + "872daa696a5d5b9a5f23" + ".css";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {
@@ -160,11 +160,11 @@
 /******/
 /******/ 				script.charset = 'utf-8';
 /******/ 				script.timeout = 120;
-/******/
 /******/ 				if (__webpack_require__.nc) {
 /******/ 					script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 				}
 /******/ 				script.src = jsonpScriptSrc(chunkId);
+/******/
 /******/ 				onScriptComplete = function (event) {
 /******/ 					// avoid mem leaks in IE.
 /******/ 					script.onerror = script.onload = null;
@@ -256,7 +256,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["QfWi",4]);
+/******/ 	deferredModules.push(["QfWi",3]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -279,15 +279,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function demo(R, N) {
 
-  Promise.all(/* import() */[__webpack_require__.e(0), __webpack_require__.e(3)]).then(__webpack_require__.t.bind(null, "KpHw", 7)).then(function (A) {
+  __webpack_require__.e(/* import() */ 2).then(__webpack_require__.t.bind(null, "KpHw", 7)).then(function (A) {
     console.log(A);
   });
 
-  Promise.all(/* import() */[__webpack_require__.e(0), __webpack_require__.e(2)]).then(__webpack_require__.t.bind(null, "xEH0", 7)).then(function (B) {
+  __webpack_require__.e(/* import() */ 1).then(__webpack_require__.t.bind(null, "xEH0", 7)).then(function (B) {
     console.log(B);
   });
 
-  Promise.all(/* import() */[__webpack_require__.e(0), __webpack_require__.e(1)]).then(__webpack_require__.t.bind(null, "R8FN", 7)).then(function (D) {
+  __webpack_require__.e(/* import() */ 0).then(__webpack_require__.t.bind(null, "R8FN", 7)).then(function (D) {
     console.log(D);
   });
 

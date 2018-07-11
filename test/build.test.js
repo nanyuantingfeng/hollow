@@ -68,7 +68,7 @@ it('support add-module-exports', async () => {
   await testCase({}, 'build-add-module-exports')
 })
 it('support autoprefix', async () => {
-  await testCase({ compress: false }, 'build-autoprefix')
+  await testCase({ compress: true }, 'build-autoprefix')
 })
 
 it('support class-property', async () => {
@@ -166,4 +166,4 @@ it('should build-no-entry', async () => {
       return Promise.resolve()
     })
 })
- 
+

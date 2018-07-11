@@ -1,1 +1,1 @@
-body{-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-flex-direction:column}
+body{-ms-flex-direction:column;flex-direction:column;-ms-flex:1;flex:1;display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center}
