@@ -71,9 +71,6 @@ export default async function (context, next) {
     webpackConfig.output.publicPath = publicPath;
   }
 
-
-  console.log("=================>>>",JSON.stringify(webpackConfig.resolve, null, 2));
-
   fnCheckWebpackConfig(webpackConfig);
 
 }
