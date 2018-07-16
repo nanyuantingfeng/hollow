@@ -34,6 +34,8 @@ export default async function (context, next) {
         '.lazy.js', '.lazy.jsx',
         '.worker.js', '.worker.ts'
       ],
+
+      ...context.resolve,
     },
 
     output: {
@@ -68,6 +70,9 @@ export default async function (context, next) {
   if (publicPath) {
     webpackConfig.output.publicPath = publicPath;
   }
+
+
+  console.log("=================>>>",JSON.stringify(webpackConfig.resolve, null, 2));
 
   fnCheckWebpackConfig(webpackConfig);
 
