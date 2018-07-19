@@ -39,12 +39,12 @@ export default async function (context, next) {
 
   next();
 
-  const {cwd, limit = 10000, ENV, packageMap, hash, plugins, enableHappypack = true} = context;
+  const {cwd, limit = 10000, ENV, packageMap, hash, plugins} = context;
   const theme = fnGetThemeMap(packageMap, cwd);
   const {postcssOptions, tsConfigPath, rules} = context;
   const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js';
 
-  const {JSX_LOADER, TSX_LOADER} = enableHappypack ? happypackL(context) : commonL(context);
+  const {JSX_LOADER, TSX_LOADER} = XSX_LOADER(context);
 
   const scriptRules = [
     {
@@ -221,8 +221,13 @@ export default async function (context, next) {
   plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]));
 }
 
+function XSX_LOADER(context) {
+  const {enableHappypack = true} = context;
+  return enableHappypack ? happypackL(context) : commonL(context);
+}
+
 function happypackL(context) {
-  const commonX = commonL(context);
+  const commonX = commonL(context, true);
 
   const THREAD_POOL_CPU_SIZE = os.cpus().length / 2;
 
@@ -248,13 +253,20 @@ function happypackL(context) {
   return {JSX_LOADER, TSX_LOADER};
 }
 
-function commonL(context) {
+function commonL(context, happyPackMode = false) {
   const {babelOptions, tsOptions} = context;
+
   const JSX_LOADER = [{loader: 'babel-loader', options: babelOptions}];
+
+  let tsOptions2 = tsOptions;
+
+  if (happyPackMode) {
+    tsOptions2 = {happyPackMode: true, ...tsOptions};
+  }
 
   const TSX_LOADER = [
     JSX_LOADER[0],
-    {loader: 'ts-loader', options: tsOptions}
+    {loader: 'ts-loader', options: tsOptions2}
   ];
 
   return {JSX_LOADER, TSX_LOADER};
