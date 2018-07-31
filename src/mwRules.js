@@ -39,7 +39,7 @@ export default async function (context, next) {
 
   next();
 
-  const {cwd, limit = 10000, ENV, packageMap, hash, plugins} = context;
+  const {cwd, limit = 10000, ENV, packageMap, hash, plugins, isNeedTSChecker} = context;
   const theme = fnGetThemeMap(packageMap, cwd);
   const {postcssOptions, tsConfigPath, rules} = context;
   const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js';
@@ -211,14 +211,17 @@ export default async function (context, next) {
     .concat(othersRules)
     .concat(rules);
 
-  plugins.push(new ForkTsCheckerWebpackPlugin({
-    tsconfig: tsConfigPath,
-    checkSyntacticErrors: true,
-    colors: true,
-    async: true,
-  }));
+  if (isNeedTSChecker === true) {
+    plugins.push(new ForkTsCheckerWebpackPlugin({
+      tsconfig: tsConfigPath,
+      checkSyntacticErrors: true,
+      colors: true,
+      async: true,
+    }));
 
-  plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]));
+    plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]));
+  }
+
 }
 
 function XSX_LOADER(context) {

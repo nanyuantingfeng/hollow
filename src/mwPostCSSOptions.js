@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 16/08/2017 12:55.
  **************************************************/
-import autoprefixer from 'autoprefixer'
+import autoprefixer from 'autoprefixer';
 
 export default async function (context, next) {
 
@@ -18,7 +18,7 @@ export default async function (context, next) {
           'Android >= 4'],
       }),
     ]
-  }
+  };
 
-  next()
+  next();
 }

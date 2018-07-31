@@ -1,139 +1,139 @@
 /**************************************************
  * Created by nanyuantingfeng on 11/06/2017 10:21.
  **************************************************/
-import notifier from 'node-notifier'
-import chalk from 'chalk'
-import fs from 'fs'
-import path from 'path'
+import notifier from 'node-notifier';
+import chalk from 'chalk';
+import fs from 'fs';
+import path from 'path';
 
-export { notifier, chalk, }
+export { notifier, chalk, };
 
 export function fnProgressHandler(percent, msg1, msg2) {
-  let stream = process.stdout
+  let stream = process.stdout;
   if (stream.isTTY && percent < .70) {
-    stream.cursorTo(0)
-    stream.write(`\u231B  ${chalk.magenta(msg2)} ${msg1}`)
-    stream.clearLine(1)
+    stream.cursorTo(0);
+    stream.write(`\u231B  ${chalk.magenta(msg2)} ${msg1}`);
+    stream.clearLine(1);
   } else if (percent >= 1) {
-    console.log(chalk.green('\nwebpack: bundle build is now finished'))
+    console.log(chalk.green('\nwebpack: bundle build is now finished'));
   }
 }
 
 export function fnCheckWebpackConfig(webpackConfig) {
-  const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
-  const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0)
+  const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig];
+  const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0);
   if (hasEmptyEntry) {
-    let e = new Error('no webpack entry found')
-    e.name = 'NoEntry'
-    throw e
+    let e = new Error('no webpack entry found');
+    e.name = 'NoEntry';
+    throw e;
   }
 }
 
 export function fnGetValueByPath(path) {
-  return !fs.existsSync(path) ? {} : require(path)
+  return !fs.existsSync(path) ? {} : require(path);
 }
 
 export function fnBuildCopyFiles(files) {
   if (Array.isArray(files)) {
-    return files.map(from => ({ from }))
+    return files.map(from => ({from}));
   }
   return Object.keys(files).filter(key => {
-    let file = files[key]
-    return typeof file === 'string' || !!files[key].path
+    let file = files[key];
+    return typeof file === 'string' || !!files[key].path;
   }).map(key => {
-    let file = files[key]
+    let file = files[key];
     if (typeof file === 'string') {
-      return { from: file }
+      return {from: file};
     }
-    return { from: file.path, to: file.to }
-  })
+    return {from: file.path, to: file.to};
+  });
 }
 
 export function fnBuildExternals(files) {
-  let ret = {}
+  let ret = {};
   Object.keys(files).forEach(key => {
-    let file = files[key]
+    let file = files[key];
     if (typeof file === 'string') {
-      ret[key] = file
+      ret[key] = file;
     } else if (file.name) {
-      ret[key] = file.name
+      ret[key] = file.name;
     }
-  })
-  return ret
+  });
+  return ret;
 }
 
 export function fnBuild4DevelopmentENV(filesMap) {
-  let ret = []
+  let ret = [];
   Object.keys(filesMap).forEach(key => {
-    let line = filesMap[key]
-    let path = line.path
+    let line = filesMap[key];
+    let path = line.path;
     if (line.name && path) {
-      ret.push(path)
+      ret.push(path);
     }
-  })
-  return ret
+  });
+  return ret;
 }
 
 export function fnBuild4ProductionENV(filesMap) {
-  let ret = []
+  let ret = [];
   Object.keys(filesMap).forEach(key => {
-    let line = filesMap[key]
-    let path = line.path
+    let line = filesMap[key];
+    let path = line.path;
     if (line.name && path) {
-      let paths = path.split('/')
-      path = paths[paths.length - 1]
-      ret.push(path)
+      let paths = path.split('/');
+      path = paths[paths.length - 1];
+      ret.push(path);
     }
-  })
-  return ret
+  });
+  return ret;
 }
 
 export function fnBuildHTMLData(filesMap, env) {
   switch (env) {
     case 'production' :
     case 'beta' :
-      return fnBuild4ProductionENV(filesMap)
+      return fnBuild4ProductionENV(filesMap);
     default:
-      return fnBuild4DevelopmentENV(filesMap)
+      return fnBuild4DevelopmentENV(filesMap);
   }
 }
 
 export function fnBuildHTML(context, env) {
-  const { externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions } = context
+  const {externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions} = context;
 
-  let entry = context.entry || context.packageMap.entry
+  let entry = context.entry || context.packageMap.entry;
 
   if (!entry) {
-    throw new Error('entry is an invalid value')
+    throw new Error('entry is an invalid value');
   }
 
   if (typeof entry === 'string') {
-    context.entry = entry = { index: entry }
+    context.entry = entry = {index: entry};
   }
-  const paths = fnBuildHTMLData(externals, env)
-  const entryNames = Object.keys(entry)
+  const paths = fnBuildHTMLData(externals, env);
+  const entryNames = Object.keys(entry);
 
   const options = {
     template: path.join(__dirname, '../assets/index.hbs'),
     favicon: path.join(__dirname, '../assets/favicon.ico'),
     ...htmlWebpackPluginOptions
-  }
+  };
 
   return entryNames.map(entryName => {
-    let sdk = sdks[entryName]
+    let sdk = sdks[entryName];
 
     if (typeof sdk === 'string') {
-      sdk = [sdk]
+      sdk = [sdk];
     }
 
-    let scripts = paths.slice(0)
+    let scripts = paths.slice(0);
 
     if (sdk) {
-      scripts.push(...sdk)
+      scripts.push(...sdk);
     }
 
     if (DLL_FILENAME) {
-      scripts.push(DLL_FILENAME)
+      scripts.push(DLL_FILENAME);
     }
 
     return {
@@ -146,12 +146,12 @@ export function fnBuildHTML(context, env) {
       inject: true,
       templateParameters: fnBuildTemplateParametersWithScripts(scripts),
       ...options
-    }
-  })
+    };
+  });
 }
 
-export function createDomain({ host, port }) {
-  return `http://${host}:${port}`
+export function createDomain({host, port}) {
+  return `http://${host}:${port}`;
 }
 
 export function fnGetNode(packageMap) {
@@ -159,16 +159,16 @@ export function fnGetNode(packageMap) {
   const emptyBuildIns = [
     'child_process', 'cluster', 'dgram', 'dns', 'fs',
     'module', 'net', 'readline', 'repl', 'tls',
-  ]
+  ];
 
-  const browser = packageMap.browser || {}
+  const browser = packageMap.browser || {};
 
   return emptyBuildIns.reduce((obj, name) => {
     if (!(name in browser)) {
-      return { ...obj, ...{ [name]: 'empty' } }
+      return {...obj, ...{[name]: 'empty'}};
     }
-    return obj
-  }, {})
+    return obj;
+  }, {});
 
 }
 
@@ -183,24 +183,24 @@ export function fnBuildSourceMap(devtool = false, ENV) {
     devtool = ENV.isProduction ? false
       : ENV.isDevelopment ? '#cheap-module-source-map'
         : ENV.isBeta ? '#cheap-module-source-map'
-          : false
+          : false;
   }
 
-  return devtool
+  return devtool;
 }
 
 export function fnBuildTemplateParametersWithScripts(scripts) {
   return (compilation, assets, options) => {
 
-    const entryName = options.entryName
-    const stats = compilation.getStats().toJson()
-    const currentAssets = stats.entrypoints[entryName].assets
+    const entryName = options.entryName;
+    const stats = compilation.getStats().toJson();
+    const currentAssets = stats.entrypoints[entryName].assets;
 
-    const js = currentAssets.filter(n => path.extname(n) === '.js')
-    const css = currentAssets.filter(n => path.extname(n) === '.css')
+    const js = currentAssets.filter(n => path.extname(n) === '.js');
+    const css = currentAssets.filter(n => path.extname(n) === '.css');
 
-    assets.js = unique(scripts.concat(assets.js).concat(js))
-    assets.css = unique(assets.css.concat(css))
+    assets.js = unique(scripts.concat(assets.js).concat(js));
+    assets.css = unique(assets.css.concat(css));
 
     return {
       compilation: compilation,
@@ -212,10 +212,10 @@ export function fnBuildTemplateParametersWithScripts(scripts) {
         scripts: js,
         styles: css,
       }
-    }
-  }
+    };
+  };
 }
 
 function unique(array) {
-  return array.filter((item, index, array) => array.indexOf(item) === index)
+  return array.filter((item, index, array) => array.indexOf(item) === index);
 }

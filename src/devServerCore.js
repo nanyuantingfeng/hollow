@@ -1,78 +1,78 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
-import { webpack, WebpackOptionsValidationError } from './plugins'
-import { createDomain } from './util'
-import Server from 'webpack-dev-server/lib/Server'
-import createLog from 'webpack-dev-server/lib/createLog'
-import PromiseDefer from './PromiseDefer'
+import { webpack, WebpackOptionsValidationError } from './plugins';
+import { createDomain } from './util';
+import Server from 'webpack-dev-server/lib/Server';
+import createLog from 'webpack-dev-server/lib/createLog';
+import PromiseDefer from './PromiseDefer';
 
 function colorInfo(msg) {
-  return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`
+  return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
 }
 
 function colorError(msg) {
-  return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
+  return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`;
 }
 
 export function startDevServer(context) {
 
-  const { webpackConfig } = context
+  const {webpackConfig} = context;
 
-  const firstWpOpt = Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig
+  const firstWpOpt = Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig;
 
-  const options = webpackConfig.devServer || firstWpOpt.devServer || {}
+  const options = webpackConfig.devServer || firstWpOpt.devServer || {};
 
-  const log = createLog(options)
+  const log = createLog(options);
 
-  Server.addDevServerEntrypoints(webpackConfig, options)
+  Server.addDevServerEntrypoints(webpackConfig, options);
 
-  let defer = PromiseDefer()
+  let defer = PromiseDefer();
 
-  let compiler
+  let compiler;
 
   try {
 
-    compiler = webpack(webpackConfig)
+    compiler = webpack(webpackConfig);
 
   } catch (e) {
 
     if (e instanceof WebpackOptionsValidationError) {
-      log.error(colorError(e.message))
-      process.exit(1)
+      log.error(colorError(e.message));
+      process.exit(1);
     }
 
-    defer.reject(e)
+    defer.reject(e);
   }
 
-  let server
+  let server;
 
   try {
-    server = new Server(compiler, options, log)
+    server = new Server(compiler, options, log);
   } catch (e) {
-    const OptionsValidationError = require('webpack-dev-server/lib/OptionsValidationError')
+    const OptionsValidationError = require('webpack-dev-server/lib/OptionsValidationError');
 
     if (e instanceof OptionsValidationError) {
-      log.error(colorError(e.message))
-      process.exit(1)
+      log.error(colorError(e.message));
+      process.exit(1);
     }
 
-    defer.reject(e)
+    defer.reject(e);
   }
 
   ['SIGINT', 'SIGTERM'].forEach((sig) => {
     process.on(sig, () => {
       server.close(() => {
-        process.exit()
-      })
-    })
-  })
+        process.exit();
+      });
+    });
+  });
 
   server.listen(options.port, options.host, (err) => {
-    if (err) throw err
-    defer.resolve(server)
-    log.info(`\nService is running at ${colorInfo(createDomain(options))}`)
-  })
+    if (err) throw err;
+    defer.resolve(server);
+    log.info(`\nService is running at ${colorInfo(createDomain(options))}`);
+  });
 
-  return defer.promise
+  return defer.promise;
 }
