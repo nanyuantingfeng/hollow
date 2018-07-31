@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "1.1.0-beta.8",
+  "version": "1.1.0-beta.10",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -19,20 +19,22 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
-    "@types/react": "^16.4.6",
+    "@types/react": "^16.4.7",
     "copy-dir": "^0.4.0",
     "coveralls": "^3.0.2",
     "glob": "^7.1.2",
-    "jest": "^23.4.1",
+    "jest": "^23.4.2",
     "lodash": "^4.17.10",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-svg-loader": "^2.1.0",
-    "shelljs": "^0.8.2"
+    "shelljs": "^0.8.2",
+    "ts-jest": "^23.0.1"
   },
   "dependencies": {
-    "autoprefixer": "^9.0.0",
+    "autoprefixer": "^9.0.2",
     "babel-cli": "^6.26.0",
+    "babel-jest": "^23.4.2",
     "babel-loader": "^7.1.5",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
@@ -55,26 +57,26 @@
     "fork-ts-checker-webpack-plugin": "^0.4.3",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "happypack": "^5.0.0",
-    "hard-source-webpack-plugin": "^0.11.1",
+    "hard-source-webpack-plugin": "^0.12.0",
     "html-webpack-plugin": "^3.2.0",
     "koa-compose": "^4.1.0",
-    "less": "^3.7.1",
+    "less": "^3.8.0",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.4.1",
     "mustache-loader": "^1.4.1",
     "node-notifier": "^5.2.1",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
-    "postcss": "^7.0.0",
+    "postcss": "^7.0.2",
     "postcss-loader": "^2.1.6",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.4.2",
     "tslint": "^5.11.0",
-    "typescript": "^2.9.2",
+    "typescript": "^3.0.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": "^1.0.1",
-    "webpack": "^4.16.1",
+    "webpack": "^4.16.3",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.4",
+    "webpack-dev-server": "^3.1.5",
     "worker-loader": "^2.0.0",
     "yargs": "^12.0.1"
   },
@@ -92,5 +94,28 @@
   "bugs": {
     "url": "https://github.com/nanyuantingfeng/hollow-cli/issues"
   },
-  "homepage": "https://github.com/nanyuantingfeng/hollow-cli#readme"
+  "homepage": "https://github.com/nanyuantingfeng/hollow-cli#readme",
+  "jest": {
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "testMatch": [
+      "<rootDir>/test/**/*.test.{ts,tsx,js,jsx}"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/fixtures/"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest"
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/",
+      "/dist/"
+    ]
+  }
 }
