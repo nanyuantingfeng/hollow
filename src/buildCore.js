@@ -7,15 +7,14 @@ import { webpack } from './plugins';
 import { notifier } from './util';
 import PromiseDefer from './PromiseDefer';
 
-export default function (context) {
-
-  let {webpackConfig} = context;
+export default function(context) {
+  let { webpackConfig } = context;
 
   webpackConfig = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig];
 
   let fileOutputPath;
 
-  webpackConfig.forEach((config) => {
+  webpackConfig.forEach(config => {
     fileOutputPath = config.output.path;
   });
 
@@ -29,7 +28,7 @@ export default function (context) {
       console.log(`Generate JSON File: ${jsonPath}`);
     }
 
-    const {errors} = stats.toJson();
+    const { errors } = stats.toJson();
 
     if (errors && errors.length) {
       process.on('exit', () => {
@@ -38,7 +37,6 @@ export default function (context) {
     }
 
     if (!context.watch || stats.hasErrors()) {
-
       const buildInfo = stats.toString({
         colors: true,
         children: true,
@@ -46,7 +44,7 @@ export default function (context) {
         modules: !!context.verbose,
         chunkModules: !!context.verbose,
         hash: !!context.verbose,
-        version: !!context.verbose,
+        version: !!context.verbose
       });
 
       if (stats.hasErrors()) {
@@ -58,14 +56,16 @@ export default function (context) {
           message: 'done',
           subtitle: 'build successfully',
           contentImage: path.join(__dirname, '../assets/success.png'),
-          sound: 'Glass',
+          sound: 'Glass'
         });
       }
     }
 
     if (err) {
       defer.reject(err);
-      process.on('exit', () => {process.exit(1);});
+      process.on('exit', () => {
+        process.exit(1);
+      });
     }
 
     defer.resolve();
@@ -74,10 +74,11 @@ export default function (context) {
   let compiler = webpack(webpackConfig);
 
   if (!context.verbose) {
-    compiler.hooks.done.tap('mini-css-extract-plugin', (stats) => {
-      stats.stats.forEach((stat) => {
-        stat.compilation.children =
-          stat.compilation.children.filter(child => !child.name.startsWith('mini-css-extract-plugin'));
+    compiler.hooks.done.tap('mini-css-extract-plugin', stats => {
+      stats.stats.forEach(stat => {
+        stat.compilation.children = stat.compilation.children.filter(
+          child => !child.name.startsWith('mini-css-extract-plugin')
+        );
       });
     });
   }

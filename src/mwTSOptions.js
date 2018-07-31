@@ -4,8 +4,8 @@
 import fs from 'fs';
 import path from 'path';
 
-export default async function (context, next) {
-  const {cwd} = context;
+export default async function(context, next) {
+  const { cwd } = context;
 
   let typescriptConfigPath = path.join(__dirname, '../tsconfig.json');
   let options = require(typescriptConfigPath);

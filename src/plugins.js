@@ -8,7 +8,7 @@ import HTMLWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import HappyPack from 'happypack';
-import HardSourceWebpackPlugin from 'hard-source-webpack-plugin' ;
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
@@ -22,9 +22,7 @@ const {
   DllReferencePlugin,
   HashedModuleIdsPlugin,
   WatchIgnorePlugin,
-  optimize: {
-    AggressiveSplittingPlugin
-  }
+  optimize: { AggressiveSplittingPlugin }
 } = webpack;
 
 export {
@@ -47,5 +45,5 @@ export {
   HappyPack,
   HardSourceWebpackPlugin,
   UglifyJsPlugin,
-  OptimizeCSSAssetsPlugin,
+  OptimizeCSSAssetsPlugin
 };

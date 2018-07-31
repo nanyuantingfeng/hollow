@@ -3,20 +3,13 @@
  **************************************************/
 import autoprefixer from 'autoprefixer';
 
-export default async function (context, next) {
-
+export default async function(context, next) {
   context.postcssOptions = {
     sourceMap: true,
     plugins: [
       autoprefixer({
-        browsers: [
-          'last 2 versions',
-          'Firefox ESR',
-          '> 1%',
-          'ie >= 9',
-          'iOS >= 8',
-          'Android >= 4'],
-      }),
+        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 9', 'iOS >= 8', 'Android >= 4']
+      })
     ]
   };
 

@@ -15,10 +15,10 @@ export default function createBuildDLLContext(args) {
     outputPath: 'dll',
     default_node_env: 'production',
     cache: {},
-    ...args,
+    ...args
   };
 
-  const {cwd, config} = context;
+  const { cwd, config } = context;
 
   return compose(mwsDLL(cwd, config))(context);
 }

@@ -16,8 +16,7 @@ function colorError(msg) {
 }
 
 export function startDevServer(context) {
-
-  const {webpackConfig} = context;
+  const { webpackConfig } = context;
 
   const firstWpOpt = Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig;
 
@@ -32,11 +31,8 @@ export function startDevServer(context) {
   let compiler;
 
   try {
-
     compiler = webpack(webpackConfig);
-
   } catch (e) {
-
     if (e instanceof WebpackOptionsValidationError) {
       log.error(colorError(e.message));
       process.exit(1);
@@ -60,7 +56,7 @@ export function startDevServer(context) {
     defer.reject(e);
   }
 
-  ['SIGINT', 'SIGTERM'].forEach((sig) => {
+  ['SIGINT', 'SIGTERM'].forEach(sig => {
     process.on(sig, () => {
       server.close(() => {
         process.exit();
@@ -68,7 +64,7 @@ export function startDevServer(context) {
     });
   });
 
-  server.listen(options.port, options.host, (err) => {
+  server.listen(options.port, options.host, err => {
     if (err) throw err;
     defer.resolve(server);
     log.info(`\nService is running at ${colorInfo(createDomain(options))}`);

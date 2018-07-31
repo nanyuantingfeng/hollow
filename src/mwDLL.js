@@ -4,31 +4,32 @@
 import { DllPlugin, DllReferencePlugin, CopyWebpackPlugin } from './plugins';
 import path from 'path';
 
-export default async function (context, next) {
+export default async function(context, next) {
   context.dll = false;
   context.DLL_FILENAME = false;
 
   next();
 
-  const {dll, plugins, DIRs} = context;
+  const { dll, plugins, DIRs } = context;
   const libraryName = '[name]_[hash]';
 
   //is build DLL
   if (Array.isArray(dll)) {
-
-    plugins.push(new DllPlugin({
-      path: path.resolve(DIRs.build, 'manifest.json'),
-      name: libraryName,
-      context: context.context || context.cwd,
-    }));
+    plugins.push(
+      new DllPlugin({
+        path: path.resolve(DIRs.build, 'manifest.json'),
+        name: libraryName,
+        context: context.context || context.cwd
+      })
+    );
 
     context.output = {
       path: DIRs.build,
       filename: `${libraryName}.js`,
-      library: libraryName,
+      library: libraryName
     };
 
-    context.entry = {dll};
+    context.entry = { dll };
   }
 
   //is Ref DLL Plugin
@@ -37,17 +38,22 @@ export default async function (context, next) {
     const manifest = require(path.join(dllPath, 'manifest.json'));
     const dllFileName = `${manifest.name}.js`;
 
-    plugins.push(new DllReferencePlugin({
-      context: context.context || context.cwd,
-      manifest,
-    }));
+    plugins.push(
+      new DllReferencePlugin({
+        context: context.context || context.cwd,
+        manifest
+      })
+    );
 
-    plugins.push(new CopyWebpackPlugin([{
-      from: path.join(dllPath, dllFileName),
-      to: DIRs.build,
-    }]));
+    plugins.push(
+      new CopyWebpackPlugin([
+        {
+          from: path.join(dllPath, dllFileName),
+          to: DIRs.build
+        }
+      ])
+    );
 
     context.DLL_FILENAME = dllFileName;
   }
-
 }

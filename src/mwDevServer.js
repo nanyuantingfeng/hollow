@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 17:19.
  **************************************************/
-import { HotModuleReplacementPlugin, } from './plugins';
+import { HotModuleReplacementPlugin } from './plugins';
 import stats from './stats';
 
 const DEFAULT_PORT = 8080;
@@ -13,22 +13,22 @@ function parseProxyWithOptions(proxy, options) {
   keys.forEach(key => {
     const target = proxy[key];
     if (typeof target === 'string') {
-      oo[key] = {target, ...options};
+      oo[key] = { target, ...options };
     } else {
-      oo[key] = {...target, ...options};
+      oo[key] = { ...target, ...options };
     }
   });
   return oo;
 }
 
-export default async function (context, next) {
+export default async function(context, next) {
   context.devServer = {};
   context.proxy = {};
-  context.proxyOptions = {changeOrigin: true};
+  context.proxyOptions = { changeOrigin: true };
 
   next();
 
-  let {devServer, proxy, proxyOptions, plugins, DIRs} = context;
+  let { devServer, proxy, proxyOptions, plugins, DIRs } = context;
 
   const proxyObj = parseProxyWithOptions(proxy, proxyOptions);
 
@@ -41,13 +41,12 @@ export default async function (context, next) {
     compress: true,
     disableHostCheck: true,
     overlay: true,
-    headers: {'Access-Control-Allow-Origin': '*'},
+    headers: { 'Access-Control-Allow-Origin': '*' },
     historyApiFallback: true,
     proxy: proxyObj,
     stats,
-    ...devServer,
+    ...devServer
   };
 
   plugins.push(new HotModuleReplacementPlugin());
-
 }

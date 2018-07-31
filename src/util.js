@@ -6,11 +6,11 @@ import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 
-export { notifier, chalk, };
+export { notifier, chalk };
 
 export function fnProgressHandler(percent, msg1, msg2) {
   let stream = process.stdout;
-  if (stream.isTTY && percent < .70) {
+  if (stream.isTTY && percent < 0.7) {
     stream.cursorTo(0);
     stream.write(`\u231B  ${chalk.magenta(msg2)} ${msg1}`);
     stream.clearLine(1);
@@ -35,18 +35,20 @@ export function fnGetValueByPath(path) {
 
 export function fnBuildCopyFiles(files) {
   if (Array.isArray(files)) {
-    return files.map(from => ({from}));
+    return files.map(from => ({ from }));
   }
-  return Object.keys(files).filter(key => {
-    let file = files[key];
-    return typeof file === 'string' || !!files[key].path;
-  }).map(key => {
-    let file = files[key];
-    if (typeof file === 'string') {
-      return {from: file};
-    }
-    return {from: file.path, to: file.to};
-  });
+  return Object.keys(files)
+    .filter(key => {
+      let file = files[key];
+      return typeof file === 'string' || !!files[key].path;
+    })
+    .map(key => {
+      let file = files[key];
+      if (typeof file === 'string') {
+        return { from: file };
+      }
+      return { from: file.path, to: file.to };
+    });
 }
 
 export function fnBuildExternals(files) {
@@ -90,8 +92,8 @@ export function fnBuild4ProductionENV(filesMap) {
 
 export function fnBuildHTMLData(filesMap, env) {
   switch (env) {
-    case 'production' :
-    case 'beta' :
+    case 'production':
+    case 'beta':
       return fnBuild4ProductionENV(filesMap);
     default:
       return fnBuild4DevelopmentENV(filesMap);
@@ -99,7 +101,7 @@ export function fnBuildHTMLData(filesMap, env) {
 }
 
 export function fnBuildHTML(context, env) {
-  const {externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions} = context;
+  const { externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions } = context;
 
   let entry = context.entry || context.packageMap.entry;
 
@@ -108,7 +110,7 @@ export function fnBuildHTML(context, env) {
   }
 
   if (typeof entry === 'string') {
-    context.entry = entry = {index: entry};
+    context.entry = entry = { index: entry };
   }
   const paths = fnBuildHTMLData(externals, env);
   const entryNames = Object.keys(entry);
@@ -150,26 +152,21 @@ export function fnBuildHTML(context, env) {
   });
 }
 
-export function createDomain({host, port}) {
+export function createDomain({ host, port }) {
   return `http://${host}:${port}`;
 }
 
 export function fnGetNode(packageMap) {
-
-  const emptyBuildIns = [
-    'child_process', 'cluster', 'dgram', 'dns', 'fs',
-    'module', 'net', 'readline', 'repl', 'tls',
-  ];
+  const emptyBuildIns = ['child_process', 'cluster', 'dgram', 'dns', 'fs', 'module', 'net', 'readline', 'repl', 'tls'];
 
   const browser = packageMap.browser || {};
 
   return emptyBuildIns.reduce((obj, name) => {
     if (!(name in browser)) {
-      return {...obj, ...{[name]: 'empty'}};
+      return { ...obj, ...{ [name]: 'empty' } };
     }
     return obj;
   }, {});
-
 }
 
 export function fnBuildSourceMap(devtool = false, ENV) {
@@ -180,9 +177,12 @@ export function fnBuildSourceMap(devtool = false, ENV) {
    */
 
   if (devtool === true) {
-    devtool = ENV.isProduction ? false
-      : ENV.isDevelopment ? '#cheap-module-source-map'
-        : ENV.isBeta ? '#cheap-module-source-map'
+    devtool = ENV.isProduction
+      ? false
+      : ENV.isDevelopment
+        ? '#cheap-module-source-map'
+        : ENV.isBeta
+          ? '#cheap-module-source-map'
           : false;
   }
 
@@ -191,7 +191,6 @@ export function fnBuildSourceMap(devtool = false, ENV) {
 
 export function fnBuildTemplateParametersWithScripts(scripts) {
   return (compilation, assets, options) => {
-
     const entryName = options.entryName;
     const stats = compilation.getStats().toJson();
     const currentAssets = stats.entrypoints[entryName].assets;
@@ -210,7 +209,7 @@ export function fnBuildTemplateParametersWithScripts(scripts) {
         files: assets,
         options: options,
         scripts: js,
-        styles: css,
+        styles: css
       }
     };
   };

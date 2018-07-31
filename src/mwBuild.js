@@ -2,9 +2,9 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path';
-import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap, } from './util';
+import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap } from './util';
 
-export default async function (context, next) {
+export default async function(context, next) {
   context.output = {};
   context.webpackConfig = {
     optimization: {}
@@ -13,14 +13,20 @@ export default async function (context, next) {
   next();
 
   const {
-    cwd, devtool, rules, ENV, packageMap,
-    outputPath, publicPath, hash, output,
-    unknownContextCritical = false,
+    cwd,
+    devtool,
+    rules,
+    ENV,
+    packageMap,
+    outputPath,
+    publicPath,
+    hash,
+    output,
+    unknownContextCritical = false
   } = context;
 
   const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js';
-  const webpackConfig = context.webpackConfig = {
-
+  const webpackConfig = (context.webpackConfig = {
     cache: true,
 
     entry: context.entry || packageMap.entry,
@@ -28,20 +34,28 @@ export default async function (context, next) {
     resolve: {
       modules: ['node_modules', path.join(__dirname, '../node_modules')],
       extensions: [
-        '.web.tsx', '.web.ts', '.web.jsx', '.web.js',
-        '.ts', '.tsx', '.js', '.jsx',
+        '.web.tsx',
+        '.web.ts',
+        '.web.jsx',
+        '.web.js',
+        '.ts',
+        '.tsx',
+        '.js',
+        '.jsx',
         '.json',
-        '.lazy.js', '.lazy.jsx',
-        '.worker.js', '.worker.ts'
+        '.lazy.js',
+        '.lazy.jsx',
+        '.worker.js',
+        '.worker.ts'
       ],
 
-      ...context.resolve,
+      ...context.resolve
     },
 
     output: {
       filename: jsChunkFileName,
       chunkFilename: jsChunkFileName,
-      ...output,
+      ...output
     },
 
     context: context.context || cwd,
@@ -55,13 +69,13 @@ export default async function (context, next) {
     module: {
       noParse: [/moment.js/],
       rules,
-      unknownContextCritical,
+      unknownContextCritical
     },
 
     plugins: context.plugins,
 
-    ...context.webpackConfig,
-  };
+    ...context.webpackConfig
+  });
 
   if (outputPath) {
     webpackConfig.output.path = path.join(cwd, outputPath);
@@ -72,6 +86,4 @@ export default async function (context, next) {
   }
 
   fnCheckWebpackConfig(webpackConfig);
-
 }
-

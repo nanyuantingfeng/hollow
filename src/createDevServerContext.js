@@ -15,8 +15,8 @@ export default function createDevServerContext(args) {
     outputPath: 'dist',
     default_node_env: 'development',
     cache: {},
-    ...args,
+    ...args
   };
-  const {cwd, config} = context;
+  const { cwd, config } = context;
   return compose(mwsDevServer(cwd, config))(context);
 }

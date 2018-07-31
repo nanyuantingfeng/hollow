@@ -4,7 +4,7 @@
 import startBuild from './buildCore';
 import createBuildDLLContext from './createBuildDLLContext';
 
-export default function (args) {
+export default function(args) {
   return createBuildDLLContext(args)
     .then(startBuild)
     .catch(e => {

@@ -14,12 +14,9 @@ import mwRules from './mwRules';
 import mwENV from './mwENV';
 import mwDLL from './mwDLL';
 
-async function noop() {
-
-}
+async function noop() {}
 
 function getCustomConfig(cwd, config) {
-
   if ('function' === typeof config) {
     return config;
   }
@@ -27,16 +24,14 @@ function getCustomConfig(cwd, config) {
   let paths = [];
 
   switch (process.env.NODE_ENV) {
-    case 'production' :
+    case 'production':
       paths.push(...['build', 'production', 'prod']);
       break;
     case 'development':
       paths.push(...['development', 'develop', 'dev']);
       break;
     case 'beta':
-      paths.push(...['beta',
-        'build', 'production', 'prod',
-        'development', 'develop', 'dev']);
+      paths.push(...['beta', 'build', 'production', 'prod', 'development', 'develop', 'dev']);
       break;
     default:
       paths.push(process.env.NODE_ENV);
@@ -76,7 +71,7 @@ export function mwsBuild(cwd, config) {
     mwBabelOptions,
     mwPostCSSOptions,
     mwTSOptions,
-    mwConfig,
+    mwConfig
   ];
 }
 
@@ -94,21 +89,11 @@ export function mwsDevServer(cwd, config) {
     mwPostCSSOptions,
     mwTSOptions,
     mwDevServer,
-    mwConfig,
+    mwConfig
   ];
 }
 
 export function mwsDLL(cwd, config) {
   const mwConfig = getCustomConfig(cwd, config);
-  return [
-    mwENV,
-    mwBuild,
-    mwDLL,
-    mwPlugins,
-    mwRules,
-    mwBabelOptions,
-    mwPostCSSOptions,
-    mwTSOptions,
-    mwConfig,
-  ];
+  return [mwENV, mwBuild, mwDLL, mwPlugins, mwRules, mwBabelOptions, mwPostCSSOptions, mwTSOptions, mwConfig];
 }

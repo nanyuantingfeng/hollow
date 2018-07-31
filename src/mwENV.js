@@ -6,8 +6,8 @@ import { DefinePlugin } from './plugins';
 
 import { fnGetValueByPath } from './util';
 
-export default async function (context, next) {
-  const {default_node_env, cwd, outputPath} = context;
+export default async function(context, next) {
+  const { default_node_env, cwd, outputPath } = context;
   const env = process.env.NODE_ENV || default_node_env || 'development';
 
   const isProduction = env === 'production';
@@ -18,7 +18,7 @@ export default async function (context, next) {
     isProduction,
     isDevelopment,
     isBeta,
-    env,
+    env
   };
 
   const root = cwd;
@@ -26,21 +26,23 @@ export default async function (context, next) {
   const build = path.resolve(root, outputPath);
 
   context.DIRs = {
-    root,  // 项目根目录
+    root, // 项目根目录
     cwd: root,
-    src,   // 项目业务代码根目录
+    src, // 项目业务代码根目录
     source: src,
-    build,    // 生成文件目录
-    dist: build,
+    build, // 生成文件目录
+    dist: build
   };
 
   context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'));
 
   next();
 
-  context.webpackConfig.plugins.push(new DefinePlugin({
-    ['process.env.NODE_ENV']: JSON.stringify(env),
-  }));
+  context.webpackConfig.plugins.push(
+    new DefinePlugin({
+      ['process.env.NODE_ENV']: JSON.stringify(env)
+    })
+  );
 
   context.webpackConfig.mode = isProduction ? 'production' : 'development';
 

@@ -2,15 +2,17 @@
  * Created by nanyuantingfeng on 16/08/2017 13:03.
  **************************************************/
 
-export default async function (context, next) {
-
+export default async function(context, next) {
   const commonPresets = [
-    ['env', {
-      'targets': {'browsers': ['last 2 versions', 'safari >= 7', 'ie >= 10']},
-      'modules': false,
-      'useBuiltIns': false,
-    }],
-    'react',
+    [
+      'env',
+      {
+        targets: { browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
+        modules: false,
+        useBuiltIns: false
+      }
+    ],
+    'react'
   ];
 
   const commonPlugins = [
@@ -24,13 +26,13 @@ export default async function (context, next) {
     'transform-decorators-legacy',
     'transform-class-properties',
     'transform-function-bind',
-    'lodash',
+    'lodash'
   ];
 
   context.babelOptions = {
     cacheDirectory: true,
     presets: commonPresets,
-    plugins: commonPlugins,
+    plugins: commonPlugins
   };
 
   next();

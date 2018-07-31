@@ -19,7 +19,7 @@ const stats = {
   chunkModules: false,
   modules: false,
 
-  exclude: /node_modules|typings/,
+  exclude: /node_modules|typings/
 };
 
 export default stats;
