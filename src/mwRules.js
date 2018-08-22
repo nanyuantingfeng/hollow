@@ -1,42 +1,47 @@
 /**************************************************
  * Created by nanyuantingfeng on 27/10/2017 16:28.
  **************************************************/
-import os from 'os';
-import path from 'path';
-import { MiniCssExtractPlugin, ForkTsCheckerWebpackPlugin, HappyPack, WatchIgnorePlugin } from './plugins';
+import os from 'os'
+import path from 'path'
+import {
+  MiniCssExtractPlugin,
+  ForkTsCheckerWebpackPlugin,
+  HappyPack,
+  WatchIgnorePlugin
+} from './plugins'
 
 function fnGetThemeMap(packageMap, cwd) {
-  let theme = {};
+  let theme = {}
 
-  const packageMapTheme = packageMap.theme;
+  const packageMapTheme = packageMap.theme
 
   if (packageMapTheme && typeof packageMapTheme === 'string') {
-    let pp = packageMapTheme;
+    let pp = packageMapTheme
 
     if (pp.charAt(0) === '.') {
-      pp = path.resolve(cwd, pp);
+      pp = path.resolve(cwd, pp)
     }
 
-    const fn = require(pp);
-    theme = fn();
+    const fn = require(pp)
+    theme = fn()
   } else if (packageMapTheme && typeof packageMapTheme === 'object') {
-    theme = packageMapTheme;
+    theme = packageMapTheme
   }
 
-  return theme;
+  return theme
 }
 
 export default async function(context, next) {
-  context.rules = [];
+  context.rules = []
 
-  next();
+  next()
 
-  const { cwd, limit = 10000, ENV, packageMap, hash, plugins, isNeedTSChecker } = context;
-  const theme = fnGetThemeMap(packageMap, cwd);
-  const { postcssOptions, tsConfigPath, rules } = context;
-  const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js';
+  const { cwd, limit = 10000, ENV, packageMap, hash, plugins, isNeedTSChecker } = context
+  const theme = fnGetThemeMap(packageMap, cwd)
+  const { postcssOptions, tsConfigPath, rules } = context
+  const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js'
 
-  const { JSX_LOADER, TSX_LOADER } = XSX_LOADER(context);
+  const { JSX_LOADER, TSX_LOADER } = XSX_LOADER(context)
 
   const scriptRules = [
     {
@@ -46,14 +51,18 @@ export default async function(context, next) {
     },
     {
       test(filePath) {
-        return /\.lazy\.jsx?$/.test(filePath);
+        return /\.lazy\.jsx?$/.test(filePath)
       },
       exclude: /node_modules/,
       use: [{ loader: 'bundle-loader', options: { lazy: true } }, ...JSX_LOADER]
     },
     {
       test(filePath) {
-        return /\.jsx?$/.test(filePath) && !/\.lazy\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath);
+        return (
+          /\.jsx?$/.test(filePath) &&
+          !/\.lazy\.jsx?$/.test(filePath) &&
+          !/\.worker\.jsx?$/.test(filePath)
+        )
       },
       exclude: /node_modules/,
       use: JSX_LOADER
@@ -63,11 +72,11 @@ export default async function(context, next) {
       exclude: /node_modules/,
       use: TSX_LOADER
     }
-  ];
+  ]
   const stylesRules = [
     {
       test(filePath) {
-        return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath);
+        return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
       },
       use: [
         { loader: 'style-loader' },
@@ -97,7 +106,7 @@ export default async function(context, next) {
     },
     {
       test(filePath) {
-        return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath);
+        return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
       },
       use: [
         { loader: 'style-loader' },
@@ -141,7 +150,7 @@ export default async function(context, next) {
         }
       ]
     }
-  ];
+  ]
   const othersRules = [
     {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -207,21 +216,21 @@ export default async function(context, next) {
       test: /\.hbs?$/,
       use: [{ loader: 'mustache-loader' }]
     }
-  ];
+  ]
 
-  let styleRulesFixed = stylesRules;
+  let styleRulesFixed = stylesRules
 
   if (ENV.isProduction || ENV.isBeta) {
     styleRulesFixed = stylesRules.map(rule => {
-      rule.use[0] = MiniCssExtractPlugin.loader;
-      return rule;
-    });
+      rule.use[0] = MiniCssExtractPlugin.loader
+      return rule
+    })
   }
 
   context.rules = scriptRules
     .concat(styleRulesFixed)
     .concat(othersRules)
-    .concat(rules);
+    .concat(rules)
 
   if (isNeedTSChecker === true) {
     plugins.push(
@@ -231,25 +240,25 @@ export default async function(context, next) {
         colors: true,
         async: true
       })
-    );
+    )
 
-    plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]));
+    plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]))
   }
 }
 
 function XSX_LOADER(context) {
-  const { enableHappypack = true } = context;
-  return enableHappypack ? happypackL(context) : commonL(context);
+  const { enableHappypack = true } = context
+  return enableHappypack ? happypackL(context) : commonL(context)
 }
 
 function happypackL(context) {
-  const commonX = commonL(context, true);
+  const commonX = commonL(context, true)
 
-  const THREAD_POOL_CPU_SIZE = os.cpus().length / 2;
+  const THREAD_POOL_CPU_SIZE = os.cpus().length / 2
 
-  const threadPool = HappyPack.ThreadPool({ size: THREAD_POOL_CPU_SIZE });
+  const threadPool = HappyPack.ThreadPool({ size: THREAD_POOL_CPU_SIZE })
 
-  const { plugins } = context;
+  const { plugins } = context
 
   plugins.push(
     new HappyPack({
@@ -257,7 +266,7 @@ function happypackL(context) {
       threadPool,
       loaders: commonX.JSX_LOADER
     })
-  );
+  )
 
   plugins.push(
     new HappyPack({
@@ -265,26 +274,26 @@ function happypackL(context) {
       threadPool,
       loaders: commonX.TSX_LOADER
     })
-  );
+  )
 
-  const JSX_LOADER = [{ loader: 'happypack/loader', options: { id: 'jsx' } }];
-  const TSX_LOADER = [{ loader: 'happypack/loader', options: { id: 'tsx' } }];
+  const JSX_LOADER = [{ loader: 'happypack/loader', options: { id: 'jsx' } }]
+  const TSX_LOADER = [{ loader: 'happypack/loader', options: { id: 'tsx' } }]
 
-  return { JSX_LOADER, TSX_LOADER };
+  return { JSX_LOADER, TSX_LOADER }
 }
 
 function commonL(context, happyPackMode = false) {
-  const { babelOptions, tsOptions } = context;
+  const { babelOptions, tsOptions } = context
 
-  const JSX_LOADER = [{ loader: 'babel-loader', options: babelOptions }];
+  const JSX_LOADER = [{ loader: 'babel-loader', options: babelOptions }]
 
-  let tsOptions2 = tsOptions;
+  let tsOptions2 = tsOptions
 
   if (happyPackMode) {
-    tsOptions2 = { happyPackMode: true, ...tsOptions };
+    tsOptions2 = { happyPackMode: true, ...tsOptions }
   }
 
-  const TSX_LOADER = [JSX_LOADER[0], { loader: 'ts-loader', options: tsOptions2 }];
+  const TSX_LOADER = [JSX_LOADER[0], { loader: 'ts-loader', options: tsOptions2 }]
 
-  return { JSX_LOADER, TSX_LOADER };
+  return { JSX_LOADER, TSX_LOADER }
 }

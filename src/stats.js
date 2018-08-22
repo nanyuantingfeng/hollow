@@ -20,6 +20,6 @@ const stats = {
   modules: false,
 
   exclude: /node_modules|typings/
-};
+}
 
-export default stats;
+export default stats

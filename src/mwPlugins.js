@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 27/10/2017 16:25.
  **************************************************/
-import path from 'path';
+import path from 'path'
 
 import {
   MiniCssExtractPlugin,
@@ -11,10 +11,11 @@ import {
   AggressiveSplittingPlugin,
   HardSourceWebpackPlugin,
   UglifyJsPlugin,
-  OptimizeCSSAssetsPlugin
-} from './plugins';
+  OptimizeCSSAssetsPlugin,
+  BundleAnalyzerPlugin
+} from './plugins'
 
-import { notifier, fnProgressHandler } from './util';
+import { notifier, fnProgressHandler, getOptions } from './util'
 
 export default async function mwPlugins(context, next) {
   context.plugins = [
@@ -26,26 +27,26 @@ export default async function mwPlugins(context, next) {
             message: 'warn',
             contentImage: path.join(__dirname, '../assets/warn.png'),
             sound: 'Glass'
-          });
-          return;
+          })
+          return
         }
-        const error = errors[0];
+        const error = errors[0]
         notifier.notify({
           title: 'hollow cli',
           message: `${severity} : ${error ? error.name : error}`,
           subtitle: error ? error.file : error || '',
           contentImage: path.join(__dirname, '../assets/fail.png'),
           sound: 'Glass'
-        });
+        })
       }
     }),
     new ProgressPlugin(fnProgressHandler),
     new HashedModuleIdsPlugin()
-  ];
+  ]
 
-  next();
+  next()
 
-  const { hash, compress, plugins, dll, ENV } = context;
+  const { hash, compress, plugins, dll, ENV } = context
 
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization.splitChunks = {
@@ -65,15 +66,15 @@ export default async function mwPlugins(context, next) {
         },
         default: false
       }
-    };
+    }
   }
 
-  const filename = hash ? '[name]-[hash].css' : '[name].css';
-  const chunkFilename = hash ? '[id]-[hash].css' : '[id].css';
+  const filename = hash ? '[name]-[hash].css' : '[name].css'
+  const chunkFilename = hash ? '[id]-[hash].css' : '[id].css'
 
-  plugins.push(new MiniCssExtractPlugin({ filename, chunkFilename }));
+  plugins.push(new MiniCssExtractPlugin({ filename, chunkFilename }))
 
-  context.webpackConfig.optimization.minimize = !!compress;
+  context.webpackConfig.optimization.minimize = !!compress
 
   if (compress) {
     context.webpackConfig.optimization.minimizer = [
@@ -83,28 +84,38 @@ export default async function mwPlugins(context, next) {
         sourceMap: false
       }),
       new OptimizeCSSAssetsPlugin({})
-    ];
+    ]
   }
 
-  const { cwd, outputPath, records = false, aggressive = true } = context;
+  const { cwd, outputPath, records = false, aggressive = true, analyzer = false } = context
 
   // dll 模式下不能使用当前插件
   if (!Array.isArray(dll) && aggressive === true) {
     plugins.push(
-      new AggressiveSplittingPlugin({
-        minSize: 1,
-        maxSize: 1024 * 1024,
-        chunkOverhead: 0,
-        entryChunkMultiplicator: 1
-      })
-    );
+      new AggressiveSplittingPlugin(
+        getOptions(aggressive, {
+          minSize: 1,
+          maxSize: 1024 * 1024,
+          chunkOverhead: 0,
+          entryChunkMultiplicator: 1
+        })
+      )
+    )
   }
 
-  plugins.push(new HardSourceWebpackPlugin());
+  plugins.push(new HardSourceWebpackPlugin())
 
-  context.plugins = plugins;
+  context.plugins = plugins
 
-  if (records === true) {
-    context.webpackConfig.recordsOutputPath = path.join(cwd, outputPath, 'records.json');
+  if (records) {
+    context.webpackConfig.recordsOutputPath = path.join(
+      cwd,
+      outputPath,
+      getOptions(records, 'records.json')
+    )
+  }
+
+  if (analyzer) {
+    plugins.push(new BundleAnalyzerPlugin(getOptions(analyzer)))
   }
 }

@@ -13,7 +13,7 @@ export default async function(context, next) {
       }
     ],
     'react'
-  ];
+  ]
 
   const commonPlugins = [
     'external-helpers',
@@ -27,13 +27,13 @@ export default async function(context, next) {
     'transform-class-properties',
     'transform-function-bind',
     'lodash'
-  ];
+  ]
 
   context.babelOptions = {
     cacheDirectory: true,
     presets: commonPresets,
     plugins: commonPlugins
-  };
+  }
 
-  next();
+  next()
 }

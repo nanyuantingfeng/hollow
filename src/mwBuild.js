@@ -1,16 +1,16 @@
 /**************************************************
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
-import path from 'path';
-import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap } from './util';
+import path from 'path'
+import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap } from './util'
 
 export default async function(context, next) {
-  context.output = {};
+  context.output = {}
   context.webpackConfig = {
     optimization: {}
-  };
+  }
 
-  next();
+  next()
 
   const {
     cwd,
@@ -23,9 +23,9 @@ export default async function(context, next) {
     hash,
     output,
     unknownContextCritical = false
-  } = context;
+  } = context
 
-  const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js';
+  const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js'
   const webpackConfig = (context.webpackConfig = {
     cache: true,
 
@@ -48,7 +48,6 @@ export default async function(context, next) {
         '.worker.js',
         '.worker.ts'
       ],
-
       ...context.resolve
     },
 
@@ -75,15 +74,15 @@ export default async function(context, next) {
     plugins: context.plugins,
 
     ...context.webpackConfig
-  });
+  })
 
   if (outputPath) {
-    webpackConfig.output.path = path.join(cwd, outputPath);
+    webpackConfig.output.path = path.join(cwd, outputPath)
   }
 
   if (publicPath) {
-    webpackConfig.output.publicPath = publicPath;
+    webpackConfig.output.publicPath = publicPath
   }
 
-  fnCheckWebpackConfig(webpackConfig);
+  fnCheckWebpackConfig(webpackConfig)
 }

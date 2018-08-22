@@ -1,26 +1,26 @@
 /**************************************************
  * Created by nanyuantingfeng on 24/08/2017 18:42.
  **************************************************/
-import { CopyWebpackPlugin, DefinePlugin, ProvidePlugin, HTMLWebpackPlugin } from './plugins';
-import { fnBuildCopyFiles, fnBuildExternals, fnBuildHTML } from './util';
+import { CopyWebpackPlugin, DefinePlugin, ProvidePlugin, HTMLWebpackPlugin } from './plugins'
+import { fnBuildCopyFiles, fnBuildExternals, fnBuildHTML } from './util'
 
 export default async function(context, next) {
-  next();
+  next()
 
-  const { packageMap, plugins, ENV } = context;
+  const { packageMap, plugins, ENV } = context
 
   /***********************
    * copy文件到输出目录
    */
-  plugins.push(new CopyWebpackPlugin(fnBuildCopyFiles(context.files)));
+  plugins.push(new CopyWebpackPlugin(fnBuildCopyFiles(context.files)))
 
   /***********************
    * 配置忽略依赖
    */
-  context.externals = fnBuildExternals(context.externals);
+  context.externals = fnBuildExternals(context.externals)
 
-  const version = context.version || packageMap.version || '0.0.0';
-  const versionTail = ENV.isBeta ? '-beta' : ENV.isDevelopment ? '-dev' : '';
+  const version = context.version || packageMap.version || '0.0.0'
+  const versionTail = ENV.isBeta ? '-beta' : ENV.isDevelopment ? '-dev' : ''
 
   plugins.push(
     new DefinePlugin({
@@ -28,14 +28,14 @@ export default async function(context, next) {
       APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
       ...context.defines
     })
-  );
+  )
 
-  plugins.push(new ProvidePlugin(context.provides));
+  plugins.push(new ProvidePlugin(context.provides))
 
   /***********************
    * 多入口配置
    */
   fnBuildHTML(context, ENV.env).forEach(line => {
-    plugins.push(new HTMLWebpackPlugin(line));
-  });
+    plugins.push(new HTMLWebpackPlugin(line))
+  })
 }
