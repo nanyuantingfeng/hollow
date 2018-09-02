@@ -31,7 +31,6 @@
       }
     ],
 
-    "babel-plugin-add-module-exports",
     "babel-plugin-lodash"
   ]
 }

@@ -7,7 +7,9 @@ export default async function(context, next) {
     [
       '@babel/preset-env',
       {
-        targets: { browsers: ['last 2 versions', 'safari >= 7', 'IE >= 11'] },
+        targets: {
+          browsers: ['last 2 versions', 'safari >= 7', 'IE >= 11']
+        },
         modules: false,
         useBuiltIns: false
       }
@@ -38,7 +40,6 @@ export default async function(context, next) {
       }
     ],
 
-    'babel-plugin-add-module-exports',
     'babel-plugin-lodash'
   ]
 

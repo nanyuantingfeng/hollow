@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 17:52.
  **************************************************/
-var fn = require('../../lib/fnBuild')
+var fn = require('../../lib/fnBuild').default
 
 exports.command = 'build'
 
@@ -58,4 +58,4 @@ exports.handler = function (argv) {
 
 }
 
- 
+
