@@ -87,18 +87,14 @@
 /******/ ({
 
 /***/ "QfWi":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("kiQV");
+var _package_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t("kiQV", 1);
 
-
-var _package = __webpack_require__("kiQV");
-
-var _package2 = _interopRequireDefault(_package);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-console.log(_package2.default);
+console.log(_package_json__WEBPACK_IMPORTED_MODULE_0__);
 
 /***/ }),
 

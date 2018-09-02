@@ -56,7 +56,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		1: 0
+/******/ 		0: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -147,7 +147,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["QfWi",0]);
+/******/ 	deferredModules.push(["QfWi",1]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -155,75 +155,51 @@
 /******/ ({
 
 /***/ "QfWi":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: /Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/react/index.js
+var react = __webpack_require__("r0ML");
+var react_default = /*#__PURE__*/__webpack_require__.n(react);
+
+// CONCATENATED MODULE: ./demo.svgx
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
-var _demo = __webpack_require__("mxCB");
 
-var _demo2 = _interopRequireDefault(_demo);
+var _ref =
+/*#__PURE__*/
+react_default.a.createElement("g", {
+  fill: "currentColor",
+  fillRule: "evenodd"
+}, react_default.a.createElement("circle", {
+  cx: 2,
+  cy: 11,
+  r: 1
+}), react_default.a.createElement("circle", {
+  cx: 20,
+  cy: 11,
+  r: 1
+}), react_default.a.createElement("circle", {
+  cx: 11,
+  cy: 11,
+  r: 1
+}));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-ReactDOM.render(React.createElement(
-  'div',
-  null,
-  React.createElement(_demo2.default, null)
-));
-
-/***/ }),
-
-/***/ "mxCB":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends2 = __webpack_require__("p4we");
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _react = __webpack_require__("r0ML");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement(
-    "svg",
-    (0, _extends3.default)({ width: "22", height: "22", viewBox: "0 0 22 22", xmlns: "http://www.w3.org/2000/svg" }, props),
-    _react2.default.createElement(
-      "title",
-      null,
-      "ellipsis"
-    ),
-    _react2.default.createElement(
-      "g",
-      { fill: "currentColor", fillRule: "evenodd" },
-      _react2.default.createElement("circle", { cx: "2", cy: "11", r: "1" }),
-      _react2.default.createElement("circle", { cx: "20", cy: "11", r: "1" }),
-      _react2.default.createElement("circle", { cx: "11", cy: "11", r: "1" })
-    )
-  );
+var demo_SvgComponent = function SvgComponent(props) {
+  return react_default.a.createElement("svg", _extends({
+    width: 22,
+    height: 22
+  }, props), _ref);
 };
 
-module.exports = exports["default"];
+/* harmony default export */ var demo = (demo_SvgComponent);
+// CONCATENATED MODULE: ./index.js
+
+
+ReactDOM.render(react_default.a.createElement("div", null, react_default.a.createElement(demo, null)));
 
 /***/ })
 

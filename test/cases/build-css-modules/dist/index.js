@@ -87,18 +87,14 @@
 /******/ ({
 
 /***/ "QfWi":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _index_module_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("asIH");
+/* harmony import */ var _index_module_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_module_less__WEBPACK_IMPORTED_MODULE_0__);
 
-
-var _indexModule = __webpack_require__("asIH");
-
-var _indexModule2 = _interopRequireDefault(_indexModule);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-console.log(_indexModule2.default.index);
+console.log(_index_module_less__WEBPACK_IMPORTED_MODULE_0___default.a.index);
 
 /***/ }),
 

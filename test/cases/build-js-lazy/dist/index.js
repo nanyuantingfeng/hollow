@@ -56,7 +56,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		2: 0
+/******/ 		0: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -214,7 +214,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["QfWi",1]);
+/******/ 	deferredModules.push(["QfWi",2]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -222,24 +222,20 @@
 /******/ ({
 
 /***/ "QfWi":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("hRJb");
+/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
 
-
-var _typeof2 = __webpack_require__("7Bu7");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**************************************************
  * Created by nanyuantingfeng on 20/12/2017 14:34.
  **************************************************/
-
 var demo = __webpack_require__("xyCv");
 
-console.log(typeof demo === 'undefined' ? 'undefined' : (0, _typeof3.default)(demo));
+console.log(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(demo));
 
 /***/ }),
 
@@ -247,7 +243,7 @@ console.log(typeof demo === 'undefined' ? 'undefined' : (0, _typeof3.default)(de
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function(cb) {
-	__webpack_require__.e(/* require.ensure */ 0).then((function(require) {
+	__webpack_require__.e(/* require.ensure */ 1).then((function(require) {
 		cb(__webpack_require__("xCGA"));
 	}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 }

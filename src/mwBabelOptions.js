@@ -5,28 +5,41 @@
 export default async function(context, next) {
   const commonPresets = [
     [
-      'env',
+      '@babel/preset-env',
       {
-        targets: { browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
+        targets: { browsers: ['last 2 versions', 'safari >= 7', 'IE >= 11'] },
         modules: false,
         useBuiltIns: false
       }
     ],
-    'react'
+    '@babel/preset-react'
   ]
 
   const commonPlugins = [
-    'external-helpers',
-    'add-module-exports',
-    'syntax-export-extensions',
-    'syntax-dynamic-import',
-    'transform-object-rest-spread',
-    'transform-runtime',
-    'transform-regenerator',
-    'transform-decorators-legacy',
-    'transform-class-properties',
-    'transform-function-bind',
-    'lodash'
+    '@babel/plugin-external-helpers',
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-transform-object-assign',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-syntax-import-meta',
+    '@babel/plugin-syntax-export-extensions',
+    '@babel/plugin-proposal-async-generator-functions',
+    '@babel/plugin-transform-regenerator',
+    '@babel/plugin-syntax-function-bind',
+    [
+      '@babel/plugin-proposal-decorators',
+      {
+        legacy: true
+      }
+    ],
+    [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true
+      }
+    ],
+
+    'babel-plugin-add-module-exports',
+    'babel-plugin-lodash'
   ]
 
   context.babelOptions = {

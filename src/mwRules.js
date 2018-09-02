@@ -36,7 +36,7 @@ export default async function(context, next) {
 
   next()
 
-  const { cwd, limit = 10000, ENV, packageMap, hash, plugins, isNeedTSChecker } = context
+  const { cwd, limit = 10240, ENV, packageMap, hash, plugins, isNeedTSChecker } = context
   const theme = fnGetThemeMap(packageMap, cwd)
   const { postcssOptions, tsConfigPath, rules } = context
   const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js'
@@ -156,7 +156,7 @@ export default async function(context, next) {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
       use: [
         {
-          loader: 'url-loader',
+          loader: 'file-loader',
           options: { limit, mimetype: 'application/font-woff' }
         }
       ]
@@ -165,7 +165,7 @@ export default async function(context, next) {
       test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
       use: [
         {
-          loader: 'url-loader',
+          loader: 'file-loader',
           options: { limit, mimetype: 'application/font-woff' }
         }
       ]
@@ -174,7 +174,7 @@ export default async function(context, next) {
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
       use: [
         {
-          loader: 'url-loader',
+          loader: 'file-loader',
           options: { limit, mimetype: 'application/octet-stream' }
         }
       ]
@@ -183,7 +183,7 @@ export default async function(context, next) {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: [
         {
-          loader: 'url-loader',
+          loader: 'file-loader',
           options: { limit, mimetype: 'application/vnd.ms-fontobject' }
         }
       ]
@@ -192,14 +192,14 @@ export default async function(context, next) {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [
         {
-          loader: 'url-loader',
+          loader: 'file-loader',
           options: { limit, mimetype: 'image/svg+xml' }
         }
       ]
     },
     {
       test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
-      use: [{ loader: 'url-loader', options: { limit } }]
+      use: [{ loader: 'file-loader', options: { limit } }]
     },
     {
       test: /\.html?$/,

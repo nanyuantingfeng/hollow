@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 class Greeter {
     constructor(public greeting: string) {

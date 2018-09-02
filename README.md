@@ -3,31 +3,31 @@
 ![](./assets/hollow.svg)
 
 
-# hollow-cli 
+# hollow-cli
 >此工具是一个基于webpack 4.x 编写的一个零配置打包工具.
 
-## 背景 
+## 背景
 >webpack 4.x 已经做的相当完善,并没有一个通用的配置来简化操作,
 >此工具提供一个的默认的基础配置的以适应大部分的开发场合.
 
 
 ## 使用方式
 ```bash
-    npm i hollow-cli --save-dev 
+    npm i hollow-cli --save-dev
 ```
 ```CLI
-    hollow dev -p 9999 
-    hollow build  
-    hollow dll  
+    hollow dev -p 9999
+    hollow build
+    hollow dll
     =======================
-    > 其他参数详见 
-    > hollow dev -h 
+    > 其他参数详见
+    > hollow dev -h
     > hollow build -h
 ```
-    
- 
+
+
 ## 默认提供的能力
-    
+
 * Babel [*.js, *.jsx, *.ts, *.tsx]
 ```javascript
     context.babelOptions = {
@@ -115,19 +115,19 @@
       }
 ```
 * ModuleCSS [*.module.css, *.module.less]
-* Font (url-loader) [*.woff, *.woff2, *.ttf, *.eot]
-* IMG (url-loader) [*.svg, *.png, *.jpg, *.jpeg, *.gif] 
+* Font (file-loader) [*.woff, *.woff2, *.ttf, *.eot]
+* IMG (file-loader) [*.svg, *.png, *.jpg, *.jpeg, *.gif]
 * HTML (file-loader)
 * hbs (mustache-loader)
-    
+
 ## 扩展
 > 提供的默认配置表皆可修改.
 > 在package.json 的同级目录下创建一个 webpack.config.js 文件
 
 ```javascript
 module.exports = async function (context) {
- // do your need ... 
- //e. 
+ // do your need ...
+ //e.
  // context.babelOptions.plugins.push("babel-plugin-xxx")
 }
 ```
@@ -136,16 +136,16 @@ module.exports = async function (context) {
 ```javascript
  //Babel
  context.babelOptions = {}
- 
+
  //loaders
  context.rules = []
- 
+
  //postcss
  context.postcssOptions = {}
- 
+
  //typescript
  context.tsOptions = {}
- 
+
  //source-map
  context.devtool = ""
 
@@ -168,7 +168,7 @@ module.exports = async function (context) {
    'whatwg-fetch': {path: 'node_modules/whatwg-fetch/fetch.js'},
    'es6-promise': {path: 'node_modules/es6-promise/dist/es6-promise.auto.min.js'},
    //...
- }  
+ }
 ```
 
 * 排除的文件列表
@@ -196,14 +196,14 @@ module.exports = async function (context) {
    index2 : [ "a.js", "b,js", "d.js"],
  }
 ```
- 
+
 
 ## DLL Plugin 的支持
 
 ```javascript
     //webpack.dll.js
     context.dll = ['react', 'react-dom', 'moment', 'prop-types', /* ... */]
-    
+
     //webpack.config.js | webpack.build.js
     context.dll = true // === context.dll = './dll'
     context.dll = './src/dll'

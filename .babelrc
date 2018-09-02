@@ -1,22 +1,37 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "modules": "commonjs"
       }
     ],
-    "react"
+    "@babel/preset-react"
   ],
   "plugins": [
-    "add-module-exports",
-    "external-helpers",
-    "transform-runtime",
-    "transform-regenerator",
-    "transform-decorators-legacy",
-    "transform-regenerator",
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "lodash"
+    "@babel/plugin-external-helpers",
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-transform-object-assign",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-import-meta",
+    "@babel/plugin-syntax-export-extensions",
+    "@babel/plugin-proposal-async-generator-functions",
+    "@babel/plugin-transform-regenerator",
+    "@babel/plugin-syntax-function-bind",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ],
+
+    "babel-plugin-add-module-exports",
+    "babel-plugin-lodash"
   ]
 }

@@ -161,82 +161,67 @@
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.O = undefined;
 
-var _create = __webpack_require__("sTU8");
+var tslib_1 = __webpack_require__("UNrv");
 
-var _create2 = _interopRequireDefault(_create);
+var react_1 = tslib_1.__importDefault(__webpack_require__("r0ML"));
 
-var _setPrototypeOf = __webpack_require__("EeWi");
+var Greeter = function () {
+  function Greeter(greeting) {
+    this.greeting = greeting;
+  }
 
-var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
+  Greeter.prototype.greet = function () {
+    return "<h1>" + this.greeting + "</h1>";
+  };
+
+  return Greeter;
+}();
+
+var greeter = new Greeter('Hello, world!');
+var MMM = react_1.default.createElement("div", null, greeter.greet());
+
+function Hello(_a) {
+  var name = _a.name,
+      _b = _a.enthusiasmLevel,
+      enthusiasmLevel = _b === void 0 ? 1 : _b;
+
+  if (enthusiasmLevel <= 0) {
+    throw new Error('You could be a little more enthusiastic. :D');
+  }
+
+  return react_1.default.createElement("div", {
+    className: "hello"
+  }, react_1.default.createElement("div", {
+    className: "greeting"
+  }, "Hello ", name + getExclamationMarks(enthusiasmLevel)));
+}
 
 exports.Hello = Hello;
 
-var _react = __webpack_require__("r0ML");
-
-var React = _interopRequireWildcard(_react);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var __extends = undefined && undefined.__extends || function () {
-    var _extendStatics = function extendStatics(d, b) {
-        _extendStatics = _setPrototypeOf2.default || { __proto__: [] } instanceof Array && function (d, b) {
-            d.__proto__ = b;
-        } || function (d, b) {
-            for (var p in b) {
-                if (b.hasOwnProperty(p)) d[p] = b[p];
-            }
-        };
-        return _extendStatics(d, b);
-    };
-    return function (d, b) {
-        _extendStatics(d, b);
-        function __() {
-            this.constructor = d;
-        }
-        d.prototype = b === null ? (0, _create2.default)(b) : (__.prototype = b.prototype, new __());
-    };
-}();
-
-var Greeter = /** @class */function () {
-    function Greeter(greeting) {
-        this.greeting = greeting;
-    }
-    Greeter.prototype.greet = function () {
-        return "<h1>" + this.greeting + "</h1>";
-    };
-    return Greeter;
-}();
-var greeter = new Greeter('Hello, world!');
-var MMM = React.createElement("div", null, greeter.greet());
-function Hello(_a) {
-    var name = _a.name,
-        _b = _a.enthusiasmLevel,
-        enthusiasmLevel = _b === void 0 ? 1 : _b;
-    if (enthusiasmLevel <= 0) {
-        throw new Error('You could be a little more enthusiastic. :D');
-    }
-    return React.createElement("div", { className: "hello" }, React.createElement("div", { className: "greeting" }, "Hello ", name + getExclamationMarks(enthusiasmLevel)));
-}
 function getExclamationMarks(numChars) {
-    return Array(numChars + 1).join('!');
+  return Array(numChars + 1).join('!');
 }
-var LL = /** @class */function (_super) {
-    __extends(LL, _super);
-    function LL() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    LL.prototype.render = function () {
-        return React.createElement("div", null);
-    };
-    return LL;
-}(React.PureComponent);
-var O = exports.O = React.createElement(LL, { name: "x" });
+
+var LL = function (_super) {
+  tslib_1.__extends(LL, _super);
+
+  function LL() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  LL.prototype.render = function () {
+    return react_1.default.createElement("div", null);
+  };
+
+  return LL;
+}(react_1.default.PureComponent);
+
+exports.O = react_1.default.createElement(LL, {
+  name: "x"
+});
 exports.default = MMM;
 
 /***/ })

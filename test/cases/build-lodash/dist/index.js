@@ -155,26 +155,26 @@
 /******/ ({
 
 /***/ "QfWi":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_map__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("jJDv");
+/* harmony import */ var lodash_map__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_map__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_get__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("B42D");
+/* harmony import */ var lodash_get__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_get__WEBPACK_IMPORTED_MODULE_1__);
 
 
-var _map3 = __webpack_require__("jJDv");
 
-var _map4 = _interopRequireDefault(_map3);
+lodash_get__WEBPACK_IMPORTED_MODULE_1___default()({
+  a: {
+    b: 5
+  }
+}, 'a.b');
 
-var _get3 = __webpack_require__("B42D");
-
-var _get4 = _interopRequireDefault(_get3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**************************************************
- * Created by nanyuantingfeng on 29/10/2017 17:04.
- **************************************************/
-(0, _get4.default)({ a: { b: 5 } }, 'a.b');
-(0, _map4.default)({}, { a: 0 });
+lodash_map__WEBPACK_IMPORTED_MODULE_0___default()({}, {
+  a: 0
+});
 
 /***/ })
 

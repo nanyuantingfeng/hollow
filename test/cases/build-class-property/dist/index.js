@@ -56,7 +56,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		1: 0
+/******/ 		0: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -147,7 +147,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["zX1V",0]);
+/******/ 	deferredModules.push(["zX1V",1]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })
@@ -162,69 +162,64 @@ module.exports = __webpack_require__.p + "-1.html";
 /***/ }),
 
 /***/ "zX1V":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("/sAY");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Opd7");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("+9ix");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("bPvv");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("cvzg");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _1_html__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("jyMn");
+/* harmony import */ var _1_html__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_1_html__WEBPACK_IMPORTED_MODULE_5__);
 
 
-var _getPrototypeOf = __webpack_require__("nV0A");
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _createClass2 = __webpack_require__("Yjcn");
 
-var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _possibleConstructorReturn2 = __webpack_require__("ks7p");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__("foaz");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _classCallCheck2 = __webpack_require__("TBCP");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _class, _temp;
-
-__webpack_require__("jyMn");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Parent = function Parent() {
-  (0, _classCallCheck3.default)(this, Parent);
+  _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default()(this, Parent);
 
   console.log('Parent constructor');
   this.name = 'john';
 };
 
-var A = (_temp = _class = function (_Parent) {
-  (0, _inherits3.default)(A, _Parent);
+var A =
+/*#__PURE__*/
+function (_Parent) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default()(A, _Parent);
 
   function A() {
-    (0, _classCallCheck3.default)(this, A);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default()(this, A);
 
     console.log('Child constructor');
-    return (0, _possibleConstructorReturn3.default)(this, (A.__proto__ || (0, _getPrototypeOf2.default)(A)).call(this));
+    return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_1___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_2___default()(A).call(this));
   }
 
-  (0, _createClass3.default)(A, [{
-    key: 'foo',
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_0___default()(A, [{
+    key: "foo",
     value: function foo() {
       console.log('foo', this.name);
     }
   }], [{
-    key: 'method',
+    key: "method",
     value: function method(obj) {
       console.log('method', obj);
     }
   }]);
+
   return A;
-}(Parent), _class.propTypes = 1, _temp);
+}(Parent);
 
-
+A.propTypes = 1;
 var a = new A();
 a.foo();
 A.method('haha');

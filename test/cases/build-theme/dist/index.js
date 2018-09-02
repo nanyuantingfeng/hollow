@@ -89,10 +89,8 @@
 /***/ "QfWi":
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
 console.log(1);
+
 __webpack_require__("afj4");
 
 /***/ }),
