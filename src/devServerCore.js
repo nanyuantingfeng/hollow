@@ -4,7 +4,7 @@
 import { webpack, WebpackOptionsValidationError } from './plugins'
 import { createDomain } from './util'
 import Server from 'webpack-dev-server/lib/Server'
-import createLog from 'webpack-dev-server/lib/createLog'
+import createLogger from 'webpack-dev-server/lib/utils/createLogger'
 import PromiseDefer from './PromiseDefer'
 
 function colorInfo(msg) {
@@ -22,7 +22,7 @@ export function startDevServer(context) {
 
   const options = webpackConfig.devServer || firstWpOpt.devServer || {}
 
-  const log = createLog(options)
+  const log = createLogger(options)
 
   Server.addDevServerEntrypoints(webpackConfig, options)
 
