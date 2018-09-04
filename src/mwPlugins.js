@@ -57,6 +57,12 @@ export default async function mwPlugins(context, next) {
       maxInitialRequests: 3,
       name: !ENV.isProduction,
       cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'dependencies',
