@@ -198,6 +198,10 @@ export default async function(context, next) {
       ]
     },
     {
+      test: /\.svgx$/,
+      use: [{ loader: '@svgr/webpack' }]
+    },
+    {
       test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
       use: [{ loader: 'file-loader', options: { limit } }]
     },

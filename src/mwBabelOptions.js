@@ -27,6 +27,7 @@ export default async function(context, next) {
     '@babel/plugin-proposal-async-generator-functions',
     '@babel/plugin-transform-regenerator',
     '@babel/plugin-syntax-function-bind',
+    '@babel/plugin-proposal-function-bind',
     [
       '@babel/plugin-proposal-decorators',
       {

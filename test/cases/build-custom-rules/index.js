@@ -1,6 +1,4 @@
 
-
-
 import React from 'react';
 import DEMO from './demo.svgx'
 

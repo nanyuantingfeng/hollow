@@ -3,8 +3,5 @@
  **************************************************/
 
 module.exports = async function(context, next) {
-  context.rules.push({
-    test: /\.svgx$/,
-    use: [{ loader: '@svgr/webpack' }]
-  })
+
 }
