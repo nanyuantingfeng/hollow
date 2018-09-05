@@ -202,6 +202,10 @@ export default async function(context, next) {
       use: [{ loader: '@svgr/webpack' }]
     },
     {
+      test: /\.json5$/,
+      use: [{ loader: 'json5-loader' }]
+    },
+    {
       test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
       use: [{ loader: 'file-loader', options: { limit } }]
     },
