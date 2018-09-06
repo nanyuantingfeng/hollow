@@ -22,12 +22,10 @@ export default async function(context, next) {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-transform-object-assign',
     '@babel/plugin-syntax-dynamic-import',
-    '@babel/plugin-syntax-import-meta',
-    '@babel/plugin-syntax-export-extensions',
     '@babel/plugin-proposal-async-generator-functions',
     '@babel/plugin-transform-regenerator',
-    '@babel/plugin-syntax-function-bind',
     '@babel/plugin-proposal-function-bind',
+    '@babel/plugin-proposal-object-rest-spread',
     [
       '@babel/plugin-proposal-decorators',
       {
@@ -46,6 +44,8 @@ export default async function(context, next) {
 
   context.babelOptions = {
     cacheDirectory: true,
+    babelrc: false,
+    highlightCode: true,
     presets: commonPresets,
     plugins: commonPlugins
   }

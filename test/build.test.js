@@ -83,6 +83,7 @@ it('support css-modules', async () => {
 it('support custom-path', async () => {
   await testCase({ config: 'webpack.config.path.js' }, 'build-custom-path')
 })
+
 it('support custom-plugins', async () => {
   await testCase({ hash: true }, 'build-custom-plugins')
 })
@@ -121,7 +122,7 @@ it('support js-lazy', async () => {
   await testCase({ compress: false }, 'build-js-lazy')
 })
 
-it('support json', async () => {
+it('support json/json5', async () => {
   await testCase({}, 'build-json')
 })
 it('support jsx', async () => {

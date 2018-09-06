@@ -9,15 +9,15 @@ import {
   ProgressPlugin,
   HashedModuleIdsPlugin,
   AggressiveSplittingPlugin,
-  HardSourceWebpackPlugin,
   UglifyJsPlugin,
   OptimizeCSSAssetsPlugin,
-  BundleAnalyzerPlugin
+  BundleAnalyzerPlugin,
+  IgnorePlugin
 } from './plugins'
 
-import { notifier, fnProgressHandler, getOptions } from './util'
+import { notifier, fnProgressHandler, getOptions, nodeObjectHash } from './util'
 
-export default async function mwPlugins(context, next) {
+export default async function(context, next) {
   context.plugins = [
     new FriendlyErrorsWebpackPlugin({
       onErrors: (severity, errors) => {
@@ -46,27 +46,14 @@ export default async function mwPlugins(context, next) {
 
   next()
 
-  const { hash, compress, plugins, dll, ENV } = context
+  const { hash, compress, plugins, dll, ENV, DIRs } = context
 
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization.splitChunks = {
       chunks: 'all',
-      minSize: 100,
-      minChunks: 1,
-      maxAsyncRequests: 6,
-      maxInitialRequests: 3,
-      name: !ENV.isProduction,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'dependencies',
-          priority: -100,
-          reuseExistingChunk: true,
-          chunks: 'all'
-        },
-        default: false
-      }
+      name: 'vendors'
     }
+    context.webpackConfig.optimization.runtimeChunk = true
   }
 
   const filename = hash ? '[name]-[hash].css' : '[name].css'
@@ -79,15 +66,40 @@ export default async function mwPlugins(context, next) {
   if (compress) {
     context.webpackConfig.optimization.minimizer = [
       new UglifyJsPlugin({
+        uglifyOptions: {
+          parse: {
+            ecma: 8
+          },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false
+          },
+          mangle: {
+            safari10: true
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            ascii_only: true
+          }
+        },
         cache: true,
         parallel: true,
         sourceMap: false
       }),
-      new OptimizeCSSAssetsPlugin({})
+      new OptimizeCSSAssetsPlugin()
     ]
   }
 
-  const { cwd, outputPath, records = false, aggressive = true, analyzer = false } = context
+  const {
+    cwd,
+    outputPath,
+    isDevServer,
+    records = false,
+    aggressive = true,
+    analyzer = false
+  } = context
 
   // dll 模式下不能使用当前插件
   if (!Array.isArray(dll) && aggressive === true) {
@@ -103,8 +115,6 @@ export default async function mwPlugins(context, next) {
     )
   }
 
-  plugins.push(new HardSourceWebpackPlugin())
-
   context.plugins = plugins
 
   if (records) {
@@ -118,4 +128,6 @@ export default async function mwPlugins(context, next) {
   if (analyzer) {
     plugins.push(new BundleAnalyzerPlugin(getOptions(analyzer)))
   }
+
+  plugins.push(new IgnorePlugin(/^\.\/locale$/, /moment$/))
 }

@@ -12,11 +12,7 @@ function parseProxyWithOptions(proxy, options) {
   const keys = Object.keys(proxy)
   keys.forEach(key => {
     const target = proxy[key]
-    if (typeof target === 'string') {
-      oo[key] = { target, ...options }
-    } else {
-      oo[key] = { ...target, ...options }
-    }
+    oo[key] = typeof target === 'string' ? { target, ...options } : { ...target, ...options }
   })
   return oo
 }
@@ -25,6 +21,7 @@ export default async function(context, next) {
   context.devServer = {}
   context.proxy = {}
   context.proxyOptions = { changeOrigin: true }
+  context.isDevServer = true
 
   next()
 

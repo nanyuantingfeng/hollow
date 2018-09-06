@@ -7,6 +7,10 @@ import { webpack } from './plugins'
 import { notifier } from './util'
 import PromiseDefer from './PromiseDefer'
 
+process.on('unhandledRejection', err => {
+  throw err
+})
+
 export default function(context) {
   let { webpackConfig } = context
 

@@ -3,12 +3,9 @@
  **************************************************/
 import os from 'os'
 import path from 'path'
-import {
-  MiniCssExtractPlugin,
-  ForkTsCheckerWebpackPlugin,
-  HappyPack,
-  WatchIgnorePlugin
-} from './plugins'
+import { MiniCssExtractPlugin, HappyPack, WatchIgnorePlugin } from './plugins'
+
+const EXCLUDE_REG_NODE_MODULES = /[/\\\\]node_modules[/\\\\]/
 
 function fnGetThemeMap(packageMap, cwd) {
   let theme = {}
@@ -31,6 +28,55 @@ function fnGetThemeMap(packageMap, cwd) {
   return theme
 }
 
+function XSX_LOADER(context) {
+  const { enableHappypack = true } = context
+  return enableHappypack ? happypackLoaders(context) : commonLoaders(context, false)
+}
+
+function happypackLoaders(context) {
+  const { JSX_LOADER, TSX_LOADER } = commonLoaders(context, true)
+  const THREAD_POOL_CPU_SIZE = os.cpus().length
+  const threadPool = HappyPack.ThreadPool({ size: THREAD_POOL_CPU_SIZE })
+  const { plugins } = context
+
+  plugins.push(
+    new HappyPack({
+      id: 'jsx',
+      threadPool,
+      loaders: JSX_LOADER
+    })
+  )
+
+  plugins.push(
+    new HappyPack({
+      id: 'tsx',
+      threadPool,
+      loaders: TSX_LOADER
+    })
+  )
+
+  return {
+    JSX_LOADER: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
+    TSX_LOADER: [{ loader: 'happypack/loader', options: { id: 'tsx' } }]
+  }
+}
+
+function commonLoaders(context, enableHappypack) {
+  const { babelOptions, tsOptions } = context
+
+  const JSX_LOADER = [{ loader: 'babel-loader', options: babelOptions }]
+
+  let tsOptions2 = tsOptions
+
+  if (enableHappypack) {
+    tsOptions2 = { happyPackMode: true, ...tsOptions }
+  }
+
+  const TSX_LOADER = [{ loader: 'ts-loader', options: tsOptions2 }]
+
+  return { JSX_LOADER, TSX_LOADER }
+}
+
 export default async function(context, next) {
   context.rules = []
 
@@ -46,14 +92,14 @@ export default async function(context, next) {
   const scriptRules = [
     {
       test: /\.worker\.jsx?$/,
-      exclude: /node_modules/,
+      exclude: [EXCLUDE_REG_NODE_MODULES],
       use: [{ loader: 'worker-loader', options: { name: workerFileName } }, ...JSX_LOADER]
     },
     {
       test(filePath) {
         return /\.lazy\.jsx?$/.test(filePath)
       },
-      exclude: /node_modules/,
+      exclude: [EXCLUDE_REG_NODE_MODULES],
       use: [{ loader: 'bundle-loader', options: { lazy: true } }, ...JSX_LOADER]
     },
     {
@@ -64,12 +110,12 @@ export default async function(context, next) {
           !/\.worker\.jsx?$/.test(filePath)
         )
       },
-      exclude: /node_modules/,
+      exclude: [EXCLUDE_REG_NODE_MODULES],
       use: JSX_LOADER
     },
     {
       test: /\.tsx?$/,
-      exclude: /node_modules/,
+      exclude: [EXCLUDE_REG_NODE_MODULES],
       use: TSX_LOADER
     }
   ]
@@ -240,68 +286,5 @@ export default async function(context, next) {
     .concat(othersRules)
     .concat(rules)
 
-  if (isNeedTSChecker === true) {
-    plugins.push(
-      new ForkTsCheckerWebpackPlugin({
-        tsconfig: tsConfigPath,
-        checkSyntacticErrors: true,
-        colors: true,
-        async: true
-      })
-    )
-
-    plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]))
-  }
-}
-
-function XSX_LOADER(context) {
-  const { enableHappypack = true } = context
-  return enableHappypack ? happypackL(context) : commonL(context)
-}
-
-function happypackL(context) {
-  const commonX = commonL(context, true)
-
-  const THREAD_POOL_CPU_SIZE = os.cpus().length / 2
-
-  const threadPool = HappyPack.ThreadPool({ size: THREAD_POOL_CPU_SIZE })
-
-  const { plugins } = context
-
-  plugins.push(
-    new HappyPack({
-      id: 'jsx',
-      threadPool,
-      loaders: commonX.JSX_LOADER
-    })
-  )
-
-  plugins.push(
-    new HappyPack({
-      id: 'tsx',
-      threadPool,
-      loaders: commonX.TSX_LOADER
-    })
-  )
-
-  const JSX_LOADER = [{ loader: 'happypack/loader', options: { id: 'jsx' } }]
-  const TSX_LOADER = [{ loader: 'happypack/loader', options: { id: 'tsx' } }]
-
-  return { JSX_LOADER, TSX_LOADER }
-}
-
-function commonL(context, happyPackMode = false) {
-  const { babelOptions, tsOptions } = context
-
-  const JSX_LOADER = [{ loader: 'babel-loader', options: babelOptions }]
-
-  let tsOptions2 = tsOptions
-
-  if (happyPackMode) {
-    tsOptions2 = { happyPackMode: true, ...tsOptions }
-  }
-
-  const TSX_LOADER = [JSX_LOADER[0], { loader: 'ts-loader', options: tsOptions2 }]
-
-  return { JSX_LOADER, TSX_LOADER }
+  plugins.push(new WatchIgnorePlugin([/\.d\.ts$/]))
 }

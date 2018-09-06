@@ -1,6 +1,6 @@
 {
   "entry": {
-    "index": "./index.tsx"
+    "index": "./index.ts"
   },
   "dependencies": {"react": "latest"}
 }

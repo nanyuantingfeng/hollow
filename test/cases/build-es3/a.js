@@ -1,4 +1,5 @@
-
-export default {
-  shout() { console.log('a'); }
+module.exports = {
+  shout() {
+    console.log('a')
+  }
 }

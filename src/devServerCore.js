@@ -15,6 +15,10 @@ function colorError(msg) {
   return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
 }
 
+process.on('unhandledRejection', err => {
+  throw err
+})
+
 export function startDevServer(context) {
   const { webpackConfig } = context
 
@@ -37,7 +41,6 @@ export function startDevServer(context) {
       log.error(colorError(e.message))
       process.exit(1)
     }
-
     defer.reject(e)
   }
 
@@ -58,9 +61,8 @@ export function startDevServer(context) {
 
   ;['SIGINT', 'SIGTERM'].forEach(sig => {
     process.on(sig, () => {
-      server.close(() => {
-        process.exit()
-      })
+      server.close()
+      process.exit()
     })
   })
 

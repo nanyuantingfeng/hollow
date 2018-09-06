@@ -1,4 +1,3 @@
+import { shout } from './a'
 
-import { shout } from './a';
-shout();
-
+shout()

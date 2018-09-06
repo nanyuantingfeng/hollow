@@ -6,6 +6,7 @@ import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap } from './util'
 
 export default async function(context, next) {
   context.output = {}
+
   context.webpackConfig = {
     optimization: {}
   }
@@ -26,6 +27,7 @@ export default async function(context, next) {
   } = context
 
   const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js'
+
   const webpackConfig = (context.webpackConfig = {
     cache: true,
 
@@ -33,6 +35,7 @@ export default async function(context, next) {
 
     resolve: {
       modules: ['node_modules', path.join(__dirname, '../node_modules')],
+
       extensions: [
         '.web.tsx',
         '.web.ts',
@@ -48,6 +51,13 @@ export default async function(context, next) {
         '.worker.js',
         '.worker.ts'
       ],
+
+      alias: {
+        '@babel/runtime': path.dirname(require.resolve('@babel/runtime/package.json')),
+        'react-native': 'react-native-web',
+        tslib: path.dirname(require.resolve('tslib/package.json'))
+      },
+
       ...context.resolve
     },
 
@@ -66,6 +76,7 @@ export default async function(context, next) {
     devtool: fnBuildSourceMap(devtool, ENV),
 
     module: {
+      strictExportPresence: true,
       noParse: [/moment.js/],
       rules,
       unknownContextCritical
