@@ -24,6 +24,19 @@ export default function(context) {
   let defer = PromiseDefer()
 
   function compileDoneHandler(err, stats) {
+    if (err) {
+      console.error(err)
+      defer.reject(err)
+      process.on('exit', () => {
+        process.exit(1)
+      })
+    }
+
+    if (!stats) {
+      defer.resolve()
+      return
+    }
+
     try {
       const { errors } = stats.toJson()
       if (errors && errors.length) {
@@ -32,6 +45,7 @@ export default function(context) {
         })
       }
     } catch (e) {
+      console.error(e)
       process.on('exit', () => {
         process.exit(1)
       })
@@ -60,13 +74,6 @@ export default function(context) {
           sound: 'Glass'
         })
       }
-    }
-
-    if (err) {
-      defer.reject(err)
-      process.on('exit', () => {
-        process.exit(1)
-      })
     }
 
     defer.resolve()

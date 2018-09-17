@@ -64,105 +64,105 @@ beforeEach(() => {
   process.env.NODE_ENV = 'production'
 })
 
-it('support add-module-exports', async () => {
+test('support add-module-exports', async () => {
   await testCase({}, 'build-add-module-exports')
 })
-it('support autoprefix', async () => {
+test('support autoprefix', async () => {
   await testCase({ compress: true }, 'build-autoprefix')
 })
 
-it('support class-property', async () => {
+test('support class-property', async () => {
   await testCase({}, 'build-class-property')
 })
-it('support common', async () => {
+test('support common', async () => {
   await testCase({}, 'build-common')
 })
-it('support css-modules', async () => {
+test('support css-modules', async () => {
   await testCase({}, 'build-css-modules')
 })
-it('support custom-path', async () => {
+test('support custom-path', async () => {
   await testCase({ config: 'webpack.config.path.js' }, 'build-custom-path')
 })
 
-it('support custom-plugins', async () => {
+test('support custom-plugins', async () => {
   await testCase({ hash: true }, 'build-custom-plugins')
 })
-it('support custom-rules', async () => {
+test('support custom-rules', async () => {
   await testCase({ hash: false }, 'build-custom-rules')
 })
 
-it('support decorator', async () => {
+test('support decorator', async () => {
   await testCase({}, 'build-decorator')
 })
-it('support dynamic import()', async () => {
+test('support dynamic import()', async () => {
   await testCase({ hash: true, compress: false }, 'build-dynamic-import')
 })
-it('support dynamic import() sync', async () => {
+test('support dynamic import() sync', async () => {
   await testCase({ hash: true, compress: false }, 'build-dynamic-import-sync')
 })
 
-it('support environment-development', async () => {
+test('support environment-development', async () => {
   process.env.NODE_ENV = 'development'
   await testCase({}, 'build-env-development')
 })
-it('support environment-dll', async () => {
+test('support environment-dll', async () => {
   await testCaseDll({ compress: true }, 'build-env-dll')
 })
-it('support environment-production', async () => {
+test('support environment-production', async () => {
   await testCase({ compress: true }, 'build-env-production')
 })
-it('support es3', async () => {
+test('support es3', async () => {
   await testCase({}, 'build-es3')
 })
 
-it('support font', async () => {
+test('support font', async () => {
   await testCase({}, 'build-font')
 })
-it('support hash-map', async () => {
+test('support hash-map', async () => {
   await testCase({ hash: true }, 'build-hash-map')
 })
-it('support js-lazy', async () => {
+test('support js-lazy', async () => {
   await testCase({ compress: false }, 'build-js-lazy')
 })
 
-it('support json/json5', async () => {
+test('support json/json5', async () => {
   await testCase({}, 'build-json')
 })
-it('support jsx', async () => {
+test('support jsx', async () => {
   await testCase({}, 'build-jsx')
 })
-it('support jsx-multi', async () => {
+test('support jsx-multi', async () => {
   await testCase({}, 'build-jsx-multi')
 })
 
-it('support less', async () => {
+test('support less', async () => {
   await testCase({}, 'build-less')
 })
-it('support lodash', async () => {
+test('support lodash', async () => {
   await testCase({ hash: false }, 'build-lodash')
 })
 
-it('support normal', async () => {
+test('support normal', async () => {
   await testCase({ hash: true }, 'build-normal')
 })
-it('support source-map', async () => {
+test('support source-map', async () => {
   await testCase({}, 'build-source-map')
 })
-it('support svg', async () => {
+test('support svg', async () => {
   await testCase({}, 'build-svg')
 })
 
-it('support theme', async () => {
+test('support theme', async () => {
   await testCase({}, 'build-theme')
 })
-it('support typescript', async () => {
+test('support typescript', async () => {
   await testCase({}, 'build-typescript')
 })
-it('support web-worker', async () => {
+test('support web-worker', async () => {
   await testCase({ hash: true }, 'build-web-worker')
 })
 
-it('should build-no-entry', async () => {
+test('should build-no-entry', async () => {
   await testCase({}, 'build-no-entry').catch(e => {
     expect(e.name).toEqual('NoEntry')
     expect(e.message).toEqual('no webpack entry found')
