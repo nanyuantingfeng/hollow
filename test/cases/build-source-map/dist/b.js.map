@@ -1,1 +1,1 @@
-{"version":3,"file":"b.js","sources":["webpack:///./index.css?7bfe","webpack:///./b.js"],"sourcesContent":["// extracted by mini-css-extract-plugin","import './index.css';\nconsole.log('b');"],"mappings":";;;;;AAAA;;;;;;;;ACAA;AAAA;AAAA;AAAA;AACA;;;;A","sourceRoot":""}
+{"version":3,"file":"b.js","sources":["webpack:///./b.js"],"sourcesContent":["import './index.css';\nconsole.log('b');"],"mappings":";;;;;;AAAA;AAAA;AAAA;AAAA;AACA;;;;A","sourceRoot":""}

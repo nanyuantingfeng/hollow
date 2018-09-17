@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[0],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[1],{
 
 /***/ "KpHw":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -14,14 +14,7 @@ function AAX() {}
 
 AAX.prototype.demo = function () {};
 
-/***/ }),
-
-/***/ "pyAK":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
 /***/ })
 
-},[["KpHw",2]]]);
+},[["KpHw",3,0]]]);
 //# sourceMappingURL=a.js.map

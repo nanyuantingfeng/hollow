@@ -4,7 +4,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function() {
-  return new Worker(__webpack_require__.p + "a.worker-ceb36097877aa263115f.worker.js");
+  return new Worker(__webpack_require__.p + "a.worker-0543ab5eca9a09de1d0f.worker.js");
 };
 
 /***/ }),

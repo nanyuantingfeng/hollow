@@ -1,11 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[1],{
-
-/***/ "pyAK":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[2],{
 
 /***/ "xEH0":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -19,5 +12,5 @@ console.log('b');
 
 /***/ })
 
-},[["xEH0",3]]]);
+},[["xEH0",4,0]]]);
 //# sourceMappingURL=b.js.map
