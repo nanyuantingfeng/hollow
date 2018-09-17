@@ -3,6 +3,7 @@
  **************************************************/
 import path from 'path'
 import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap } from './util'
+import { SpeedMeasurePlugin } from './plugins'
 
 export default async function(context, next) {
   context.output = {}
@@ -23,12 +24,13 @@ export default async function(context, next) {
     publicPath,
     hash,
     output,
-    unknownContextCritical = false
+    unknownContextCritical = false,
+    speedMeasure = false
   } = context
 
   const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js'
 
-  const webpackConfig = (context.webpackConfig = {
+  let config = {
     cache: true,
 
     entry: context.entry || packageMap.entry,
@@ -85,7 +87,14 @@ export default async function(context, next) {
     plugins: context.plugins,
 
     ...context.webpackConfig
-  })
+  }
+
+  if (speedMeasure) {
+    const smp = new SpeedMeasurePlugin()
+    config = smp.wrap(config)
+  }
+
+  const webpackConfig = (context.webpackConfig = config)
 
   if (outputPath) {
     webpackConfig.output.path = path.join(cwd, outputPath)

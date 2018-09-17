@@ -10,6 +10,7 @@ import HappyPack from 'happypack'
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 
 const {
   DefinePlugin,
@@ -45,5 +46,6 @@ export {
   HappyPack,
   UglifyJsPlugin,
   OptimizeCSSAssetsPlugin,
-  BundleAnalyzerPlugin
+  BundleAnalyzerPlugin,
+  SpeedMeasurePlugin
 }

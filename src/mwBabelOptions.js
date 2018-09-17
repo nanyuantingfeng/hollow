@@ -51,4 +51,10 @@ export default async function(context, next) {
   }
 
   next()
+
+  const { importSync = false } = context
+
+  if (importSync) {
+    commonPlugins.push('babel-plugin-dynamic-import-node-sync')
+  }
 }

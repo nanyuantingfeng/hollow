@@ -97,6 +97,9 @@ it('support decorator', async () => {
 it('support dynamic import()', async () => {
   await testCase({ hash: true, compress: false }, 'build-dynamic-import')
 })
+it('support dynamic import() sync', async () => {
+  await testCase({ hash: true, compress: false }, 'build-dynamic-import-sync')
+})
 
 it('support environment-development', async () => {
   process.env.NODE_ENV = 'development'
@@ -160,11 +163,9 @@ it('support web-worker', async () => {
 })
 
 it('should build-no-entry', async () => {
-  await testCase({}, 'build-no-entry')
-    .catch((e) => {
-      expect(e.name).toEqual('NoEntry')
-      expect(e.message).toEqual('no webpack entry found')
-      return Promise.resolve()
-    })
+  await testCase({}, 'build-no-entry').catch(e => {
+    expect(e.name).toEqual('NoEntry')
+    expect(e.message).toEqual('no webpack entry found')
+    return Promise.resolve()
+  })
 })
-

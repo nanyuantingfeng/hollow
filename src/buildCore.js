@@ -2,7 +2,6 @@
  * Created by nanyuantingfeng on 23/08/2017 17:29.
  **************************************************/
 import path from 'path'
-import fs from 'fs'
 import { webpack } from './plugins'
 import { notifier } from './util'
 import PromiseDefer from './PromiseDefer'
@@ -25,16 +24,14 @@ export default function(context) {
   let defer = PromiseDefer()
 
   function compileDoneHandler(err, stats) {
-    if (context.json) {
-      const filename = typeof context.json === 'boolean' ? 'build-bundle.json' : context.json
-      const jsonPath = path.join(fileOutputPath, filename)
-      fs.writeFileSync(jsonPath, JSON.stringify(stats.toJson()), 'utf-8')
-      console.log(`Generate JSON File: ${jsonPath}`)
-    }
-
-    const { errors } = stats.toJson()
-
-    if (errors && errors.length) {
+    try {
+      const { errors } = stats.toJson()
+      if (errors && errors.length) {
+        process.on('exit', () => {
+          process.exit(1)
+        })
+      }
+    } catch (e) {
       process.on('exit', () => {
         process.exit(1)
       })
