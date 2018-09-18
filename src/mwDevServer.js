@@ -48,11 +48,11 @@ export default async function(context, next) {
     // Enable gzip compression of generated files.
     compress: true,
 
-    quiet: true,
+    quiet: false,
 
     disableHostCheck: true,
 
-    clientLogLevel: 'none',
+    clientLogLevel: 'info',
 
     overlay: false,
 
