@@ -4,7 +4,7 @@
 import compose from 'koa-compose'
 import { mwsDLL } from './mws'
 
-export default function createBuildDLLContext(args) {
+export default function(args) {
   const context = {
     cwd: process.cwd(),
     files: {},

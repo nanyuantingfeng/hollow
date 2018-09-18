@@ -4,7 +4,7 @@
 import compose from 'koa-compose'
 import { mwsBuild } from './mws'
 
-export default function createBuildContext(args) {
+export default function(args) {
   const context = {
     cwd: process.cwd(),
     files: {},
@@ -19,5 +19,6 @@ export default function createBuildContext(args) {
   }
 
   const { cwd, config } = context
+
   return compose(mwsBuild(cwd, config))(context)
 }

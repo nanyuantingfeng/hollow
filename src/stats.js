@@ -6,9 +6,11 @@ const stats = {
   colors: true,
   version: true,
   children: true,
+
   hash: true,
   timings: true,
-  warnings: true,
+  warnings: false,
+
   performance: true,
   modulesSort: 'field',
 

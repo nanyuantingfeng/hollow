@@ -1,7 +1,9 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 17:19.
  **************************************************/
+import serveStatic from 'serve-static'
 import { HotModuleReplacementPlugin } from './plugins'
+
 import stats from './stats'
 
 const DEFAULT_PORT = 8080
@@ -31,17 +33,41 @@ export default async function(context, next) {
 
   context.webpackConfig.devServer = context.devServer = {
     port: context.port || DEFAULT_PORT,
+
     host: DEFAULT_HOST,
+
     hot: true,
+
     hotOnly: true,
+
     contentBase: DIRs.root,
+
+    // By default files from `contentBase` will not trigger a page reload.
+    watchContentBase: true,
+
+    // Enable gzip compression of generated files.
     compress: true,
+
+    quiet: true,
+
     disableHostCheck: true,
-    overlay: true,
+
+    clientLogLevel: 'none',
+
+    overlay: false,
+
     headers: { 'Access-Control-Allow-Origin': '*' },
+
     historyApiFallback: true,
+
+    /*watchOptions: {
+      ignored: /node_modules/
+    },*/
+
     proxy: proxyObj,
+
     stats,
+
     ...devServer
   }
 

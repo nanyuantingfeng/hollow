@@ -15,7 +15,7 @@ import {
   IgnorePlugin
 } from './plugins'
 
-import { notifier, fnProgressHandler, getOptions, nodeObjectHash } from './util'
+import { notifier, fnProgressHandler, getOptions } from './util'
 
 export default async function(context, next) {
   context.plugins = [
@@ -49,17 +49,10 @@ export default async function(context, next) {
   const { hash, compress, plugins, dll, ENV, DIRs } = context
 
   if (!Array.isArray(dll)) {
+
     context.webpackConfig.optimization.splitChunks = {
       chunks: 'all',
       name: 'vendors',
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true
-        }
-      }
     }
     context.webpackConfig.optimization.runtimeChunk = true
   }
@@ -75,21 +68,19 @@ export default async function(context, next) {
     context.webpackConfig.optimization.minimizer = [
       new UglifyJsPlugin({
         uglifyOptions: {
-          parse: {
-            ecma: 8
+          output: {
+            comments: false // remove comments
           },
           compress: {
-            ecma: 5,
-            warnings: false,
-            comparisons: false
-          },
-          mangle: {
-            safari10: true
-          },
-          output: {
-            ecma: 5,
-            comments: false,
-            ascii_only: true
+            unused: true,
+            dead_code: true, // big one--strip code that will never execute
+            warnings: false, // good for prod apps so users can't peek behind curtain
+            drop_debugger: true,
+            conditionals: true,
+            evaluate: true,
+            drop_console: true, // strips console statements
+            sequences: true,
+            booleans: true
           }
         },
         cache: true,

@@ -67,8 +67,8 @@ export default function(context) {
       } else {
         console.log(buildInfo)
         notifier.notify({
-          title: 'hollow cli',
-          message: 'done',
+          title: 'HOLLOW CLI',
+          message: 'DONE',
           subtitle: 'build successfully',
           contentImage: path.join(__dirname, '../assets/success.png'),
           sound: 'Glass'

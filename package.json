@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -10,10 +10,12 @@
     "hollow": "./bin/index"
   },
   "scripts": {
-    "build": "npm run clean && babel src --out-dir build/lib && npm run cp:files",
-    "cp:files": "cp -R assets bin package.json tsconfig.json README.md build",
-    "clean": "rm -rf lib && rm -rf build",
-    "publish2npm": "npm run build && npm publish ./build",
+    "build": "npm run clean && npm run babel:cjs && npm run babel:mjs && npm run cp:files",
+    "babel:cjs": "babel src --out-dir dist/lib --plugins=@babel/plugin-transform-modules-commonjs",
+    "babel:mjs": "babel src --out-dir dist/esm",
+    "cp:files": "cp -R assets bin package.json tsconfig.json README.md dist",
+    "clean": "rm -rf dist && mkdir dist",
+    "publish2npm": "npm run build && npm publish ./dist",
     "test": "jest",
     "test:cover": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
