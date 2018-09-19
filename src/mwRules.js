@@ -61,8 +61,6 @@ function happypackLoaders(context) {
   }
 }
 
-//import { getReplaceLodashLoader } from './getReplaceLodashLoader'
-
 function commonLoaders(context, enableHappypack) {
   const { babelOptions, tsOptions } = context
 
