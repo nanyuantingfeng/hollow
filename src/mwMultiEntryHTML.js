@@ -17,7 +17,7 @@ export default async function(context, next) {
   /***********************
    * 配置忽略依赖
    */
-  context.externals = fnBuildExternals(context.externals)
+  context.externals = fnBuildExternals({ ...context.files, ...context.externals })
 
   const version = context.version || packageMap.version || '0.0.0'
   const versionTail = ENV.isBeta ? '-beta' : ENV.isDevelopment ? '-dev' : ''

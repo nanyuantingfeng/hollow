@@ -52,9 +52,10 @@ export function fnBuildCopyFiles(files) {
 }
 
 export function fnBuildExternals(files) {
-  let ret = {}
+  const ret = {}
+
   Object.keys(files).forEach(key => {
-    let file = files[key]
+    const file = files[key]
     if (typeof file === 'string') {
       ret[key] = file
     } else if (file.name) {

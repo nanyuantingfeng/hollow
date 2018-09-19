@@ -41,7 +41,6 @@ test('fnBuildExternals', () => {
   let externals = {
     react: { name: 'React', path: 'node_modules/react/dist/react.js' },
     'react-dom': { name: 'ReactDOM', path: 'node_modules/react-dom/dist/react-dom.js' },
-
     'big.js': { name: 'Big', path: 'node_modules/big.js/big.min.js' },
     redux: { name: 'Redux', path: 'node_modules/redux/dist/redux.min.js' },
     moment: { name: 'moment', path: 'node_modules/moment/min/moment.min.js' },

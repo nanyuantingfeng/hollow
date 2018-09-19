@@ -11,6 +11,7 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
+import LodashWebpackPlugin from 'lodash-webpack-plugin'
 
 const {
   DefinePlugin,
@@ -47,5 +48,6 @@ export {
   UglifyJsPlugin,
   OptimizeCSSAssetsPlugin,
   BundleAnalyzerPlugin,
-  SpeedMeasurePlugin
+  SpeedMeasurePlugin,
+  LodashWebpackPlugin
 }

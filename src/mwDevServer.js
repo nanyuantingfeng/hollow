@@ -1,10 +1,8 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 17:19.
  **************************************************/
-import serveStatic from 'serve-static'
 import { HotModuleReplacementPlugin } from './plugins'
-
-import stats from './stats'
+import getStats from './getStats'
 
 const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '127.0.0.1'
@@ -66,7 +64,7 @@ export default async function(context, next) {
 
     proxy: proxyObj,
 
-    stats,
+    stats: getStats(false),
 
     ...devServer
   }

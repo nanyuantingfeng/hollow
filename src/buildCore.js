@@ -5,6 +5,7 @@ import path from 'path'
 import { webpack } from './plugins'
 import { notifier } from './util'
 import PromiseDefer from './PromiseDefer'
+import getStats from './getStats'
 
 process.on('unhandledRejection', err => {
   throw err
@@ -52,16 +53,7 @@ export default function(context) {
     }
 
     if (!context.watch || stats.hasErrors()) {
-      const buildInfo = stats.toString({
-        colors: true,
-        children: true,
-        chunks: !!context.verbose,
-        modules: !!context.verbose,
-        chunkModules: !!context.verbose,
-        hash: !!context.verbose,
-        version: !!context.verbose
-      })
-
+      const buildInfo = stats.toString(getStats(context.verbose))
       if (stats.hasErrors()) {
         console.error(buildInfo)
       } else {

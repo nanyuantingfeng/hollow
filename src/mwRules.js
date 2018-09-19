@@ -61,10 +61,14 @@ function happypackLoaders(context) {
   }
 }
 
+//import { getReplaceLodashLoader } from './getReplaceLodashLoader'
+
 function commonLoaders(context, enableHappypack) {
   const { babelOptions, tsOptions } = context
 
-  const JSX_LOADER = [{ loader: 'babel-loader', options: babelOptions }]
+  const JSX_LOADER = [
+    { loader: 'babel-loader', options: babelOptions } /*, getReplaceLodashLoader()*/
+  ]
 
   let tsOptions2 = tsOptions
 

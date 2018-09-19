@@ -12,7 +12,8 @@ import {
   UglifyJsPlugin,
   OptimizeCSSAssetsPlugin,
   BundleAnalyzerPlugin,
-  IgnorePlugin
+  IgnorePlugin,
+  LodashWebpackPlugin
 } from './plugins'
 
 import { notifier, fnProgressHandler, getOptions } from './util'
@@ -49,10 +50,9 @@ export default async function(context, next) {
   const { hash, compress, plugins, dll, ENV, DIRs } = context
 
   if (!Array.isArray(dll)) {
-
     context.webpackConfig.optimization.splitChunks = {
       chunks: 'all',
-      name: 'vendors',
+      name: 'vendors'
     }
     context.webpackConfig.optimization.runtimeChunk = true
   }
@@ -94,10 +94,10 @@ export default async function(context, next) {
   const {
     cwd,
     outputPath,
-    isDevServer,
     records = false,
     aggressive = true,
-    analyzer = false
+    analyzer = false,
+    optimizeLodash
   } = context
 
   // dll 模式下不能使用当前插件
@@ -129,4 +129,8 @@ export default async function(context, next) {
   }
 
   plugins.push(new IgnorePlugin(/^\.\/locale$/, /moment$/))
+
+  if (optimizeLodash) {
+    plugins.push(new LodashWebpackPlugin())
+  }
 }

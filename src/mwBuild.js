@@ -56,8 +56,8 @@ export default async function(context, next) {
 
       alias: {
         '@babel/runtime': path.dirname(require.resolve('@babel/runtime/package.json')),
-        'react-native': 'react-native-web',
-        tslib: path.dirname(require.resolve('tslib/package.json'))
+        tslib: path.dirname(require.resolve('tslib/package.json')),
+        'react-native': 'react-native-web'
       },
 
       ...context.resolve

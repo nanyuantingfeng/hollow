@@ -37,9 +37,7 @@ export default async function(context, next) {
       {
         loose: true
       }
-    ],
-
-    'babel-plugin-lodash'
+    ]
   ]
 
   context.babelOptions = {
@@ -52,9 +50,13 @@ export default async function(context, next) {
 
   next()
 
-  const { importSync = false } = context
+  const { optimizeDynamicImport = false, optimizeLodash = true } = context
 
-  if (importSync) {
+  if (optimizeDynamicImport) {
     commonPlugins.push('babel-plugin-dynamic-import-node-sync')
+  }
+
+  if (optimizeLodash) {
+    commonPlugins.push('babel-plugin-lodash')
   }
 }
