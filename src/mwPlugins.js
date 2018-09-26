@@ -131,6 +131,11 @@ export default async function(context, next) {
   plugins.push(new IgnorePlugin(/^\.\/locale$/, /moment$/))
 
   if (optimizeLodash) {
-    plugins.push(new LodashWebpackPlugin())
+    plugins.push(
+      new LodashWebpackPlugin({
+        shorthands: true,
+        paths: true
+      })
+    )
   }
 }
