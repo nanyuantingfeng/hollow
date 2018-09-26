@@ -5,7 +5,7 @@ import { HotModuleReplacementPlugin } from './plugins'
 import getStats from './getStats'
 
 const DEFAULT_PORT = 8080
-const DEFAULT_HOST = '127.0.0.1'
+const DEFAULT_HOST = '0.0.0.0'
 
 function parseProxyWithOptions(proxy, options) {
   const oo = {}
@@ -25,7 +25,7 @@ export default async function(context, next) {
 
   next()
 
-  let { devServer, proxy, proxyOptions, plugins, DIRs } = context
+  let { devServer, proxy, proxyOptions, plugins, DIRs, staticBuildPath = false } = context
 
   const proxyObj = parseProxyWithOptions(proxy, proxyOptions)
 
@@ -57,10 +57,6 @@ export default async function(context, next) {
     headers: { 'Access-Control-Allow-Origin': '*' },
 
     historyApiFallback: true,
-
-    /*watchOptions: {
-      ignored: /node_modules/
-    },*/
 
     proxy: proxyObj,
 
