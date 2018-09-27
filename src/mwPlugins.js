@@ -132,10 +132,17 @@ export default async function(context, next) {
 
   if (optimizeLodash) {
     plugins.push(
-      new LodashWebpackPlugin({
-        shorthands: true,
-        paths: true
-      })
+      new LodashWebpackPlugin(
+        getOptions(optimizeLodash, {
+          shorthands: true,
+          paths: true,
+          cloning: true,
+          flattening: true,
+          exotics: true,
+          collections: true,
+          caching: true
+        })
+      )
     )
   }
 }
