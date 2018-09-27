@@ -25,7 +25,8 @@ export default async function(context, next) {
     hash,
     output,
     unknownContextCritical = false,
-    speedMeasure = false
+    speedMeasure = false,
+    alias
   } = context
 
   const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js'
@@ -57,7 +58,8 @@ export default async function(context, next) {
       alias: {
         '@babel/runtime': path.dirname(require.resolve('@babel/runtime/package.json')),
         tslib: path.dirname(require.resolve('tslib/package.json')),
-        'react-native': 'react-native-web'
+        'react-native': 'react-native-web',
+        ...alias
       },
 
       ...context.resolve
