@@ -13,7 +13,7 @@
     "build": "npm run clean && node_modules/.bin/babel src --out-dir dist/lib && npm run cp:files",
     "cp:files": "cp -R assets bin package.json tsconfig.json README.md dist",
     "clean": "rm -rf lib && rm -rf dist",
-    "publish2npm": "npm run dist && npm publish ./dist",
+    "publish2npm": "npm run build && npm publish ./dist",
     "test": "jest",
     "test:cover": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
