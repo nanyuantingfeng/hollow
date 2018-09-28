@@ -53,8 +53,13 @@ export default async function(context, next) {
   const {
     optimizeDynamicImport = false,
     optimizeLodash = true,
-    optimizeExportDefault = false
+    optimizeExportDefault = false,
+    useBabelrc = false
   } = context
+
+  if (useBabelrc) {
+    context.babelOptions.babelrc = true
+  }
 
   if (optimizeDynamicImport) {
     commonPlugins.push('babel-plugin-dynamic-import-node')
