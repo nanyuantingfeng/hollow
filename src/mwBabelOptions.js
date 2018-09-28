@@ -8,7 +8,7 @@ export default async function(context, next) {
       'env',
       {
         targets: { browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
-        modules: false,
+        modules: 'commonjs',
         useBuiltIns: false
       }
     ],
@@ -36,4 +36,10 @@ export default async function(context, next) {
   }
 
   next()
+
+  const { optimizeDynamicImport = false } = context
+
+  if (optimizeDynamicImport) {
+    commonPlugins.push('babel-plugin-dynamic-import-node')
+  }
 }
