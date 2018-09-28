@@ -50,7 +50,11 @@ export default async function(context, next) {
 
   next()
 
-  const { optimizeDynamicImport = false, optimizeLodash = true } = context
+  const {
+    optimizeDynamicImport = false,
+    optimizeLodash = true,
+    optimizeExportDefault = false
+  } = context
 
   if (optimizeDynamicImport) {
     commonPlugins.push('babel-plugin-dynamic-import-node')
@@ -58,5 +62,14 @@ export default async function(context, next) {
 
   if (optimizeLodash) {
     commonPlugins.push('babel-plugin-lodash')
+  }
+
+  if (optimizeExportDefault) {
+    commonPlugins.push([
+      'babel-plugin-add-module-exports',
+      {
+        addDefaultProperty: true
+      }
+    ])
   }
 }
