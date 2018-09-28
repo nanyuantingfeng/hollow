@@ -109,7 +109,7 @@ export default async function mwPlugins(context, next) {
     )
   }
 
-  plugins.push(new HardSourceWebpackPlugin())
+ // plugins.push(new HardSourceWebpackPlugin())
 
   context.plugins = plugins
 

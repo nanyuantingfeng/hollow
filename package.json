@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "1.1.0-beta.20",
+  "version": "1.1.0-beta.21",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -10,10 +10,10 @@
     "hollow": "./bin/index"
   },
   "scripts": {
-    "build": "npm run clean && node_modules/.bin/babel src --out-dir build/lib && npm run cp:files",
-    "cp:files": "cp -R assets bin package.json tsconfig.json README.md build",
-    "clean": "rm -rf lib && rm -rf build",
-    "publish2npm": "npm run build && npm publish ./build",
+    "build": "npm run clean && node_modules/.bin/babel src --out-dir dist/lib && npm run cp:files",
+    "cp:files": "cp -R assets bin package.json tsconfig.json README.md dist",
+    "clean": "rm -rf lib && rm -rf dist",
+    "publish2npm": "npm run dist && npm publish ./dist",
     "test": "jest",
     "test:cover": "jest --coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
@@ -36,8 +36,7 @@
     "babel-cli": "^6.26.0",
     "babel-jest": "^23.4.2",
     "babel-loader": "^7.1.5",
-    "babel-plugin-add-module-exports": "^1.0.0",
-    "babel-plugin-dynamic-import-node": "^2.1.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
