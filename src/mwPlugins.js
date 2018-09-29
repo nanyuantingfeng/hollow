@@ -4,10 +4,8 @@
 import path from 'path'
 
 import {
-  MiniCssExtractPlugin,
   FriendlyErrorsWebpackPlugin,
   ProgressPlugin,
-  HashedModuleIdsPlugin,
   AggressiveSplittingPlugin,
   UglifyJsPlugin,
   OptimizeCSSAssetsPlugin,
@@ -41,26 +39,66 @@ export default async function(context, next) {
         })
       }
     }),
-    new ProgressPlugin(fnProgressHandler),
-    new HashedModuleIdsPlugin()
+    new ProgressPlugin(fnProgressHandler)
   ]
 
   next()
 
-  const { hash, compress, plugins, dll, ENV, DIRs } = context
+  const { compress, plugins, dll, ENV } = context
 
   if (!Array.isArray(dll)) {
-    context.webpackConfig.optimization.splitChunks = {
-      chunks: 'all',
-      name: 'vendors'
+    context.webpackConfig.optimization = {
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          vendor: {
+            test: /node_modules/,
+            name: 'vendor',
+            chunks: 'initial',
+            enforce: true
+          },
+          common: {
+            name: 'common',
+            chunks: 'all',
+            minChunks: 3,
+            reuseExistingChunk: true,
+            enforce: true
+          },
+          styles: {
+            name: 'styles',
+            chunks: 'all',
+            test: /\.css$/,
+            enforce: true,
+            priority: 50
+          }
+        }
+      },
+
+      runtimeChunk: false,
+
+      //common
+      removeAvailableModules: true,
+      removeEmptyChunks: true,
+      mergeDuplicateChunks: true,
+
+      // must be false
+      sideEffects: false,
+
+      //
+      flagIncludedChunks: true,
+      occurrenceOrder: true,
+      concatenateModules: true,
+
+      //
+      usedExports: true,
+      providedExports: true,
+      noEmitOnErrors: true,
+      namedModules: ENV.isDevelopment,
+      namedChunks: ENV.isDevelopment
     }
-    context.webpackConfig.optimization.runtimeChunk = true
   }
-
-  const filename = hash ? '[name]-[hash].css' : '[name].css'
-  const chunkFilename = hash ? '[id]-[hash].css' : '[id].css'
-
-  plugins.push(new MiniCssExtractPlugin({ filename, chunkFilename }))
 
   context.webpackConfig.optimization.minimize = !!compress
 
@@ -87,7 +125,7 @@ export default async function(context, next) {
         parallel: true,
         sourceMap: false
       }),
-      new OptimizeCSSAssetsPlugin()
+      new OptimizeCSSAssetsPlugin({})
     ]
   }
 
@@ -97,7 +135,7 @@ export default async function(context, next) {
     records = false,
     aggressive = true,
     analyzer = false,
-    optimizeLodash
+    optimizeLodash = true
   } = context
 
   // dll 模式下不能使用当前插件

@@ -3,6 +3,7 @@
  **************************************************/
 import { HotModuleReplacementPlugin } from './plugins'
 import getStats from './getStats'
+import serveStatic from 'serve-static'
 
 const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '0.0.0.0'
@@ -25,7 +26,7 @@ export default async function(context, next) {
 
   next()
 
-  let { devServer, proxy, proxyOptions, plugins, DIRs, staticBuildPath = false } = context
+  let { devServer, proxy, proxyOptions, plugins, DIRs, outputPath } = context
 
   const proxyObj = parseProxyWithOptions(proxy, proxyOptions)
 
@@ -61,6 +62,10 @@ export default async function(context, next) {
     proxy: proxyObj,
 
     stats: getStats(false),
+
+    before(app) {
+      app.use(outputPath, serveStatic(DIRs.build))
+    },
 
     ...devServer
   }

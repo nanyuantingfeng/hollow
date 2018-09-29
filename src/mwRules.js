@@ -3,7 +3,7 @@
  **************************************************/
 import os from 'os'
 import path from 'path'
-import { MiniCssExtractPlugin, HappyPack, WatchIgnorePlugin } from './plugins'
+import { MiniCSSExtractPlugin, HappyPack, WatchIgnorePlugin } from './plugins'
 
 const EXCLUDE_REG_NODE_MODULES = /[/\\\\]node_modules[/\\\\]/
 
@@ -84,9 +84,9 @@ export default async function(context, next) {
 
   next()
 
-  const { cwd, limit = 10240, ENV, packageMap, hash, plugins, isNeedTSChecker } = context
+  const { cwd, limit = 10240, ENV, packageMap, hash, plugins } = context
   const theme = fnGetThemeMap(packageMap, cwd)
-  const { postcssOptions, tsConfigPath, rules } = context
+  const { postcssOptions, rules } = context
   const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js'
 
   const { JSX_LOADER, TSX_LOADER } = XSX_LOADER(context)
@@ -274,17 +274,16 @@ export default async function(context, next) {
     }
   ]
 
-  let styleRulesFixed = stylesRules
-
   if (ENV.isProduction || ENV.isBeta) {
-    styleRulesFixed = stylesRules.map(rule => {
-      rule.use[0] = MiniCssExtractPlugin.loader
-      return rule
-    })
+    stylesRules.map(rule => (rule.use[0] = MiniCSSExtractPlugin.loader))
+
+    const filename = hash ? '[name]-[hash].css' : '[name].css'
+    const chunkFilename = hash ? '[id]-[hash].css' : '[id].css'
+    plugins.push(new MiniCSSExtractPlugin({ filename, chunkFilename }))
   }
 
   context.rules = scriptRules
-    .concat(styleRulesFixed)
+    .concat(stylesRules)
     .concat(othersRules)
     .concat(rules)
 

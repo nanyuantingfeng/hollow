@@ -68,6 +68,7 @@ export default async function(context, next) {
     output: {
       filename: jsChunkFileName,
       chunkFilename: jsChunkFileName,
+      globalObject: 'this',
       ...output
     },
 
@@ -87,6 +88,8 @@ export default async function(context, next) {
     },
 
     plugins: context.plugins,
+
+    mode: 'none',
 
     ...context.webpackConfig
   }

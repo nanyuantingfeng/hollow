@@ -3,7 +3,7 @@
  **************************************************/
 import webpack from 'webpack'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import MiniCSSExtractPlugin from 'mini-css-extract-plugin'
 import HTMLWebpackPlugin from 'html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HappyPack from 'happypack'
@@ -21,7 +21,6 @@ const {
   ProvidePlugin,
   DllPlugin,
   DllReferencePlugin,
-  HashedModuleIdsPlugin,
   WatchIgnorePlugin,
   IgnorePlugin,
   optimize: { AggressiveSplittingPlugin }
@@ -34,13 +33,11 @@ export {
   ProgressPlugin,
   ProvidePlugin,
   HotModuleReplacementPlugin,
-  MiniCssExtractPlugin,
   HTMLWebpackPlugin,
   FriendlyErrorsWebpackPlugin,
   CopyWebpackPlugin,
   DllPlugin,
   DllReferencePlugin,
-  HashedModuleIdsPlugin,
   WebpackOptionsValidationError,
   WatchIgnorePlugin,
   AggressiveSplittingPlugin,
@@ -49,5 +46,6 @@ export {
   OptimizeCSSAssetsPlugin,
   BundleAnalyzerPlugin,
   SpeedMeasurePlugin,
-  LodashWebpackPlugin
+  LodashWebpackPlugin,
+  MiniCSSExtractPlugin
 }

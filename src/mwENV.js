@@ -39,12 +39,8 @@ export default async function(context, next) {
   next()
 
   context.webpackConfig.plugins.push(
-    new DefinePlugin({
-      ['process.env.NODE_ENV']: JSON.stringify(env)
-    })
+    new DefinePlugin({ ['process.env.NODE_ENV']: JSON.stringify(env) })
   )
-
-  context.webpackConfig.mode = isProduction ? 'production' : 'development'
 
   return context
 }

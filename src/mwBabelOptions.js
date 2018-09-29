@@ -73,7 +73,7 @@ export default async function(context, next) {
     commonPlugins.push([
       'babel-plugin-add-module-exports',
       {
-        addDefaultProperty: true
+        addDefaultProperty: false
       }
     ])
   }
