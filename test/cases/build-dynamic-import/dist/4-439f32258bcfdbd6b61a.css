@@ -16,23 +16,7 @@
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.bbbbbb {
-  background: #f00;
-}
-
-/**************************************************
- * Created by nanyuantingfeng on 23/02/2018 14:43.
- **************************************************/
-.xxxxxxxxxx {
-  background: #333333;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+.ddddd {
+  background: #ffffff;
 }
 
