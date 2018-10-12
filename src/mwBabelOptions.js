@@ -8,10 +8,17 @@ export default async function(context, next) {
       '@babel/preset-env',
       {
         targets: {
-          browsers: ['last 2 versions', 'safari >= 7', 'IE >= 11']
+          chrome: '46',
+          edge: '13',
+          ie: '11',
+          firefox: '33',
+          safari: '9',
+          node: '4',
+          ios: '9',
+          opera: '28'
         },
         modules: false,
-        useBuiltIns: false
+        useBuiltIns: 'usage'
       }
     ],
     '@babel/preset-react'
