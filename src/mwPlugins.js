@@ -133,13 +133,13 @@ export default async function(context, next) {
     cwd,
     outputPath,
     records = false,
-    aggressive = true,
+    aggressive = false,
     analyzer = false,
     optimizeLodash = true
   } = context
 
   // dll 模式下不能使用当前插件
-  if (!Array.isArray(dll) && aggressive === true) {
+  if (!Array.isArray(dll) && !!aggressive) {
     plugins.push(
       new AggressiveSplittingPlugin(
         getOptions(aggressive, {
