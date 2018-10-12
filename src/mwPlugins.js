@@ -133,7 +133,7 @@ export default async function(context, next) {
     cwd,
     outputPath,
     records = false,
-    aggressive = false,
+    aggressive = true,
     analyzer = false,
     optimizeLodash = true
   } = context
