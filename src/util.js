@@ -8,7 +8,7 @@ import path from 'path'
 
 export { notifier, chalk }
 
-export function fnProgressHandler(percent, msg1, msg2) {
+export function getProgressHandler(percent, msg1, msg2) {
   let stream = process.stdout
   if (stream.isTTY && percent < 0.7) {
     stream.cursorTo(0)
@@ -19,7 +19,7 @@ export function fnProgressHandler(percent, msg1, msg2) {
   }
 }
 
-export function fnCheckWebpackConfig(webpackConfig) {
+export function checkWebpackConfig(webpackConfig) {
   const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
   const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0)
   if (hasEmptyEntry) {
@@ -29,11 +29,11 @@ export function fnCheckWebpackConfig(webpackConfig) {
   }
 }
 
-export function fnGetValueByPath(path) {
+export function getValueByPath(path) {
   return !fs.existsSync(path) ? {} : require(path)
 }
 
-export function fnBuildCopyFiles(files) {
+export function getBuildCopyFiles(files) {
   if (Array.isArray(files)) {
     return files.map(from => ({ from }))
   }
@@ -51,7 +51,7 @@ export function fnBuildCopyFiles(files) {
     })
 }
 
-export function fnBuildExternals(files) {
+export function getBuildExternals(files) {
   const ret = {}
 
   Object.keys(files).forEach(key => {
@@ -65,7 +65,7 @@ export function fnBuildExternals(files) {
   return ret
 }
 
-export function fnBuild4DevelopmentENV(filesMap) {
+export function getBuild4DevelopmentENV(filesMap) {
   let ret = []
   Object.keys(filesMap).forEach(key => {
     let line = filesMap[key]
@@ -77,7 +77,7 @@ export function fnBuild4DevelopmentENV(filesMap) {
   return ret
 }
 
-export function fnBuild4ProductionENV(filesMap) {
+export function getBuild4ProductionENV(filesMap) {
   let ret = []
   Object.keys(filesMap).forEach(key => {
     let line = filesMap[key]
@@ -91,17 +91,17 @@ export function fnBuild4ProductionENV(filesMap) {
   return ret
 }
 
-export function fnBuildHTMLData(filesMap, env) {
+export function getBuildHTMLData(filesMap, env) {
   switch (env) {
     case 'production':
     case 'beta':
-      return fnBuild4ProductionENV(filesMap)
+      return getBuild4ProductionENV(filesMap)
     default:
-      return fnBuild4DevelopmentENV(filesMap)
+      return getBuild4DevelopmentENV(filesMap)
   }
 }
 
-export function fnBuildHTML(context, env) {
+export function getBuildHTML(context, env) {
   const { externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions } = context
 
   let entry = context.entry || context.packageMap.entry
@@ -113,7 +113,7 @@ export function fnBuildHTML(context, env) {
   if (typeof entry === 'string') {
     context.entry = entry = { index: entry }
   }
-  const paths = fnBuildHTMLData(externals, env)
+  const paths = getBuildHTMLData(externals, env)
   const entryNames = Object.keys(entry)
 
   const options = {
@@ -147,7 +147,7 @@ export function fnBuildHTML(context, env) {
       chunks: [entryName],
       chunksSortMode: 'dependency',
       inject: true,
-      templateParameters: fnBuildTemplateParametersWithScripts(scripts),
+      templateParameters: getBuildTemplateParametersWithScripts(scripts),
       ...options
     }
   })
@@ -157,7 +157,7 @@ export function createDomain({ host, port }) {
   return `http://${host}:${port}`
 }
 
-export function fnGetNode(packageMap) {
+export function getNodeVersion(packageMap) {
   const emptyBuildIns = [
     'child_process',
     'cluster',
@@ -181,7 +181,7 @@ export function fnGetNode(packageMap) {
   }, {})
 }
 
-export function fnBuildSourceMap(devtool = false, ENV) {
+export function getBuildSourceMap(devtool = false, ENV) {
   /******************
    *#source-map 编译过慢
    * production 环境不需要
@@ -201,7 +201,7 @@ export function fnBuildSourceMap(devtool = false, ENV) {
   return devtool
 }
 
-export function fnBuildTemplateParametersWithScripts(scripts) {
+export function getBuildTemplateParametersWithScripts(scripts) {
   return (compilation, assets, options) => {
     const entryName = options.entryName
     const stats = compilation.getStats().toJson()

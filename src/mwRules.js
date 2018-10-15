@@ -7,7 +7,7 @@ import { MiniCSSExtractPlugin, HappyPack, WatchIgnorePlugin } from './plugins'
 
 const EXCLUDE_REG_NODE_MODULES = /[/\\\\]node_modules[/\\\\]/
 
-function fnGetThemeMap(packageMap, cwd) {
+function getThemeMap(packageMap, cwd) {
   let theme = {}
 
   const packageMapTheme = packageMap.theme
@@ -28,9 +28,9 @@ function fnGetThemeMap(packageMap, cwd) {
   return theme
 }
 
-function XSX_LOADER(context) {
-  const { enableHappypack = true } = context
-  return enableHappypack ? happypackLoaders(context) : commonLoaders(context, false)
+function getLoaderMode(context) {
+  const { happyPackMode = true } = context
+  return happyPackMode ? happypackLoaders(context) : commonLoaders(context, false)
 }
 
 function happypackLoaders(context) {
@@ -61,7 +61,7 @@ function happypackLoaders(context) {
   }
 }
 
-function commonLoaders(context, enableHappypack) {
+function commonLoaders(context, happyPackMode) {
   const { babelOptions, tsOptions } = context
 
   const JSX_LOADER = [
@@ -70,7 +70,7 @@ function commonLoaders(context, enableHappypack) {
 
   let tsOptions2 = tsOptions
 
-  if (enableHappypack) {
+  if (happyPackMode) {
     tsOptions2 = { happyPackMode: true, ...tsOptions }
   }
 
@@ -85,11 +85,11 @@ export default async function(context, next) {
   next()
 
   const { cwd, limit = 10240, ENV, packageMap, hash, plugins } = context
-  const theme = fnGetThemeMap(packageMap, cwd)
+  const theme = getThemeMap(packageMap, cwd)
   const { postcssOptions, rules } = context
   const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js'
 
-  const { JSX_LOADER, TSX_LOADER } = XSX_LOADER(context)
+  const { JSX_LOADER, TSX_LOADER } = getLoaderMode(context)
 
   const scriptRules = [
     {

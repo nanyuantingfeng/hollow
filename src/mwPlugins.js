@@ -14,7 +14,7 @@ import {
   LodashWebpackPlugin
 } from './plugins'
 
-import { notifier, fnProgressHandler, getOptions } from './util'
+import { notifier, getProgressHandler, getOptions } from './util'
 
 export default async function(context, next) {
   context.plugins = [
@@ -39,17 +39,17 @@ export default async function(context, next) {
         })
       }
     }),
-    new ProgressPlugin(fnProgressHandler)
+    new ProgressPlugin(getProgressHandler)
   ]
 
   next()
 
-  const { compress, plugins, dll, ENV } = context
+  const { compress, plugins, dll, ENV, aggressive = true } = context
 
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization = {
       splitChunks: {
-        chunks: 'all',
+        //chunks: 'all',
         cacheGroups: {
           default: false,
           vendors: false,
@@ -85,18 +85,29 @@ export default async function(context, next) {
 
       // must be false
       sideEffects: false,
-
       //
       flagIncludedChunks: true,
       occurrenceOrder: true,
       concatenateModules: true,
-
       //
       usedExports: true,
       providedExports: true,
       noEmitOnErrors: true,
       namedModules: ENV.isDevelopment,
       namedChunks: ENV.isDevelopment
+    }
+
+    if (aggressive) {
+      plugins.push(
+        new AggressiveSplittingPlugin(
+          getOptions(aggressive, {
+            minSize: 1,
+            maxSize: 1024 * 1024,
+            chunkOverhead: 0,
+            entryChunkMultiplicator: 1
+          })
+        )
+      )
     }
   }
 
@@ -129,28 +140,7 @@ export default async function(context, next) {
     ]
   }
 
-  const {
-    cwd,
-    outputPath,
-    records = false,
-    aggressive = true,
-    analyzer = false,
-    optimizeLodash = true
-  } = context
-
-  // dll 模式下不能使用当前插件
-  if (!Array.isArray(dll) && !!aggressive) {
-    plugins.push(
-      new AggressiveSplittingPlugin(
-        getOptions(aggressive, {
-          minSize: 1,
-          maxSize: 1024 * 1024,
-          chunkOverhead: 0,
-          entryChunkMultiplicator: 1
-        })
-      )
-    )
-  }
+  const { cwd, outputPath, records = false, analyzer = false, optimizeLodash = true } = context
 
   context.plugins = plugins
 

@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 25/08/2017 14:16.
  **************************************************/
-import { fnBuildCopyFiles, fnBuildExternals, fnBuildHTMLData, fnBuildHTML } from '../src/util'
+import { getBuildCopyFiles, getBuildExternals, getBuildHTMLData, getBuildHTML } from '../src/util'
 
 test('fnBuildCopyFiles', () => {
   let files = {
@@ -20,7 +20,7 @@ test('fnBuildCopyFiles', () => {
     bbsh: 'src/plugins/experience/'
   }
 
-  let oo = fnBuildCopyFiles(files)
+  let oo = getBuildCopyFiles(files)
 
   expect(oo).toEqual([
     { from: 'node_modules/whatwg-fetch/fetch.js' },
@@ -48,7 +48,7 @@ test('fnBuildExternals', () => {
     $: 'jQuery'
   }
 
-  let oo = fnBuildExternals(externals)
+  let oo = getBuildExternals(externals)
 
   expect(oo).toEqual({
     'big.js': 'Big',
@@ -73,7 +73,7 @@ test('fnBuildHTMLData:production', () => {
     $: 'jQuery'
   }
 
-  let oo = fnBuildHTMLData(externals, 'production')
+  let oo = getBuildHTMLData(externals, 'production')
 
   expect(oo).toEqual(['react.js', 'react-dom.js', 'big.min.js', 'redux.min.js', 'moment.min.js'])
 })
@@ -90,7 +90,7 @@ test('fnBuildHTMLData:development', () => {
     $: 'jQuery'
   }
 
-  let oo = fnBuildHTMLData(externals, 'development')
+  let oo = getBuildHTMLData(externals, 'development')
 
   expect(oo).toEqual([
     'node_modules/react/dist/react.js',
@@ -135,7 +135,7 @@ test('fnBuildHTML:production', () => {
 
   let env = 'production'
 
-  let oo = fnBuildHTML(context, env)
+  let oo = getBuildHTML(context, env)
 
   expect(oo).toMatchObject([
     {
@@ -243,7 +243,7 @@ test('fnBuildHTML:development', () => {
 
   let env = 'development'
 
-  let oo = fnBuildHTML(context, env)
+  let oo = getBuildHTML(context, env)
 
   expect(oo).toMatchObject([
     {

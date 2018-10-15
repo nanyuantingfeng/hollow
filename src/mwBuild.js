@@ -2,7 +2,7 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path'
-import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap } from './util'
+import { checkWebpackConfig, getNodeVersion, getBuildSourceMap } from './util'
 import { SpeedMeasurePlugin } from './plugins'
 
 export default async function(context, next) {
@@ -76,9 +76,9 @@ export default async function(context, next) {
 
     externals: context.externals,
 
-    node: fnGetNode(packageMap),
+    node: getNodeVersion(packageMap),
 
-    devtool: fnBuildSourceMap(devtool, ENV),
+    devtool: getBuildSourceMap(devtool, ENV),
 
     module: {
       strictExportPresence: true,
@@ -109,5 +109,5 @@ export default async function(context, next) {
     webpackConfig.output.publicPath = publicPath
   }
 
-  fnCheckWebpackConfig(webpackConfig)
+  checkWebpackConfig(webpackConfig)
 }
