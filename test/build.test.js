@@ -64,9 +64,6 @@ beforeEach(() => {
   process.env.NODE_ENV = 'production'
 })
 
-test('support add-module-exports', async () => {
-  await testCase({}, 'build-add-module-exports')
-})
 test('support autoprefix', async () => {
   await testCase({ compress: true }, 'build-autoprefix')
 })
@@ -111,18 +108,12 @@ test('support environment-dll', async () => {
 test('support environment-production', async () => {
   await testCase({ compress: true }, 'build-env-production')
 })
-test('support es3', async () => {
-  await testCase({}, 'build-es3')
-})
 
 test('support font', async () => {
   await testCase({}, 'build-font')
 })
 test('support hash-map', async () => {
   await testCase({ hash: true }, 'build-hash-map')
-})
-test('support js-lazy', async () => {
-  await testCase({ compress: false }, 'build-js-lazy')
 })
 
 test('support json/json5', async () => {

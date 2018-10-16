@@ -47,17 +47,23 @@ export default async function(context, next) {
     // Enable gzip compression of generated files.
     compress: true,
 
-    quiet: false,
+    // WebpackDevServer is noisy by default so we emit custom message instead
+    // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
+    quiet: true,
 
     disableHostCheck: true,
 
-    clientLogLevel: 'info',
+    clientLogLevel: 'none',
 
     overlay: false,
 
     headers: { 'Access-Control-Allow-Origin': '*' },
 
-    historyApiFallback: true,
+    historyApiFallback: {
+      // Paths with dots should still use the history fallback.
+      // See https://github.com/facebook/create-react-app/issues/387.
+      disableDotRule: true
+    },
 
     proxy: proxyObj,
 

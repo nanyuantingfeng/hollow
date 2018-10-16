@@ -2,18 +2,13 @@
  * Created by nanyuantingfeng on 27/10/2017 16:25.
  **************************************************/
 import path from 'path'
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
+import LodashWebpackPlugin from 'lodash-webpack-plugin'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
-import {
-  FriendlyErrorsWebpackPlugin,
-  ProgressPlugin,
-  AggressiveSplittingPlugin,
-  UglifyJsPlugin,
-  OptimizeCSSAssetsPlugin,
-  BundleAnalyzerPlugin,
-  IgnorePlugin,
-  LodashWebpackPlugin
-} from './plugins'
-
+import { ProgressPlugin, IgnorePlugin, AggressiveSplittingPlugin } from './plugins'
 import { notifier, getProgressHandler, getOptions } from './util'
 
 export default async function(context, next) {
@@ -44,39 +39,18 @@ export default async function(context, next) {
 
   next()
 
-  const { compress, plugins, dll, ENV, aggressive = true } = context
+  const { compress, plugins, dll, ENV, aggressive = false } = context
 
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization = {
       splitChunks: {
-        //chunks: 'all',
-        cacheGroups: {
-          default: false,
-          vendors: false,
-          vendor: {
-            test: /node_modules/,
-            name: 'vendor',
-            chunks: 'initial',
-            enforce: true
-          },
-          common: {
-            name: 'common',
-            chunks: 'all',
-            minChunks: 3,
-            reuseExistingChunk: true,
-            enforce: true
-          },
-          styles: {
-            name: 'styles',
-            chunks: 'all',
-            test: /\.css$/,
-            enforce: true,
-            priority: 50
-          }
-        }
+        chunks: 'all',
+        name: false
       },
 
-      runtimeChunk: false,
+      // Keep the runtime chunk seperated to enable long term caching
+      // https://twitter.com/wSokra/status/969679223278505985
+      runtimeChunk: true,
 
       //common
       removeAvailableModules: true,
@@ -98,16 +72,7 @@ export default async function(context, next) {
     }
 
     if (aggressive) {
-      plugins.push(
-        new AggressiveSplittingPlugin(
-          getOptions(aggressive, {
-            minSize: 1,
-            maxSize: 1024 * 1024,
-            chunkOverhead: 0,
-            entryChunkMultiplicator: 1
-          })
-        )
-      )
+      plugins.push(new AggressiveSplittingPlugin(getOptions(aggressive)))
     }
   }
 
@@ -115,28 +80,53 @@ export default async function(context, next) {
 
   if (compress) {
     context.webpackConfig.optimization.minimizer = [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          output: {
-            comments: false // remove comments
+      new TerserPlugin({
+        terserOptions: {
+          parse: {
+            // we want terser to parse ecma 8 code. However, we don't want it
+            // to apply any minfication steps that turns valid ecma 5 code
+            // into invalid ecma 5 code. This is why the 'compress' and 'output'
+            // sections only apply transformations that are ecma 5 safe
+            // https://github.com/facebook/create-react-app/pull/4234
+            ecma: 8
           },
           compress: {
-            unused: true,
-            dead_code: true, // big one--strip code that will never execute
-            warnings: false, // good for prod apps so users can't peek behind curtain
-            drop_debugger: true,
-            conditionals: true,
-            evaluate: true,
-            drop_console: true, // strips console statements
-            sequences: true,
-            booleans: true
+            ecma: 5,
+            warnings: false,
+            // Disabled because of an issue with Uglify breaking seemingly valid code:
+            // https://github.com/facebook/create-react-app/issues/2376
+            // Pending further investigation:
+            // https://github.com/mishoo/UglifyJS2/issues/2011
+            comparisons: false,
+            // Disabled because of an issue with Terser breaking valid code:
+            // https://github.com/facebook/create-react-app/issues/5250
+            // Pending futher investigation:
+            // https://github.com/terser-js/terser/issues/120
+            inline: 2
+          },
+          mangle: {
+            safari10: true
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            // Turned on because emoji and regex is not minified properly using default
+            // https://github.com/facebook/create-react-app/issues/2488
+            ascii_only: true
           }
         },
-        cache: true,
+        // Use multi-process parallel running to improve the build speed
+        // Default number of concurrent runs: os.cpus().length - 1
         parallel: true,
+        // Enable file caching
+        cache: true,
         sourceMap: false
       }),
-      new OptimizeCSSAssetsPlugin({})
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          map: false
+        }
+      })
     ]
   }
 

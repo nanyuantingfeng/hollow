@@ -3,7 +3,9 @@
  **************************************************/
 import os from 'os'
 import path from 'path'
-import { MiniCSSExtractPlugin, HappyPack, WatchIgnorePlugin } from './plugins'
+import { WatchIgnorePlugin } from './plugins'
+import MiniCSSExtractPlugin from 'mini-css-extract-plugin'
+import HappyPack from 'happypack'
 
 const EXCLUDE_REG_NODE_MODULES = /[/\\\\]node_modules[/\\\\]/
 
@@ -99,18 +101,7 @@ export default async function(context, next) {
     },
     {
       test(filePath) {
-        return /\.lazy\.jsx?$/.test(filePath)
-      },
-      exclude: [EXCLUDE_REG_NODE_MODULES],
-      use: [{ loader: 'bundle-loader', options: { lazy: true } }, ...JSX_LOADER]
-    },
-    {
-      test(filePath) {
-        return (
-          /\.jsx?$/.test(filePath) &&
-          !/\.lazy\.jsx?$/.test(filePath) &&
-          !/\.worker\.jsx?$/.test(filePath)
-        )
+        return /\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
       exclude: [EXCLUDE_REG_NODE_MODULES],
       use: JSX_LOADER
@@ -277,12 +268,14 @@ export default async function(context, next) {
   if (ENV.isProduction || ENV.isBeta) {
     stylesRules.map(rule => (rule.use[0] = MiniCSSExtractPlugin.loader))
 
-    const filename = hash ? '[name]-[hash].css' : '[name].css'
-    const chunkFilename = hash ? '[id]-[hash].css' : '[id].css'
+    const filename = hash ? '[name]-[contenthash:8].css' : '[name].css'
+    const chunkFilename = hash ? '[name]-[contenthash:8].chunk.css' : '[name].chunk.css'
+
     plugins.push(new MiniCSSExtractPlugin({ filename, chunkFilename }))
   }
 
   context.rules = scriptRules
+    .concat([{ parser: { requireEnsure: false } }])
     .concat(stylesRules)
     .concat(othersRules)
     .concat(rules)

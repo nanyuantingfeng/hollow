@@ -3,14 +3,10 @@
  **************************************************/
 import path from 'path'
 import { checkWebpackConfig, getNodeVersion, getBuildSourceMap } from './util'
-import { SpeedMeasurePlugin } from './plugins'
 
 export default async function(context, next) {
   context.output = {}
-
-  context.webpackConfig = {
-    optimization: {}
-  }
+  context.webpackConfig = {}
 
   next()
 
@@ -25,19 +21,16 @@ export default async function(context, next) {
     hash,
     output,
     unknownContextCritical = false,
-    speedMeasure = false,
     alias
   } = context
 
-  const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js'
-
-  let config = {
+  const config = {
     cache: true,
 
     entry: context.entry || packageMap.entry,
 
     resolve: {
-      modules: ['node_modules', path.join(__dirname, '../node_modules')],
+      modules: ['node_modules'],
 
       extensions: [
         '.web.tsx',
@@ -49,10 +42,10 @@ export default async function(context, next) {
         '.js',
         '.jsx',
         '.json',
-        '.lazy.js',
-        '.lazy.jsx',
+        '.json5',
         '.worker.js',
-        '.worker.ts'
+        '.worker.jsx',
+        '.mjs'
       ],
 
       alias: {
@@ -66,9 +59,13 @@ export default async function(context, next) {
     },
 
     output: {
-      filename: jsChunkFileName,
-      chunkFilename: jsChunkFileName,
+      filename: hash ? '[name]-[hash].js' : '[name].js',
+      chunkFilename: hash ? '[name].chunk-[hash].js' : '[name].chunk.js',
       globalObject: 'this',
+
+      devtoolModuleFilenameTemplate: info =>
+        path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+
       ...output
     },
 
@@ -91,12 +88,9 @@ export default async function(context, next) {
 
     mode: 'none',
 
-    ...context.webpackConfig
-  }
+    performance: false,
 
-  if (speedMeasure) {
-    const smp = new SpeedMeasurePlugin()
-    config = smp.wrap(config)
+    ...context.webpackConfig
   }
 
   const webpackConfig = (context.webpackConfig = config)

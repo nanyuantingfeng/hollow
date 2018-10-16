@@ -102,7 +102,7 @@ export function getBuildHTMLData(filesMap, env) {
 }
 
 export function getBuildHTML(context, env) {
-  const { externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions } = context
+  const { externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions, ENV } = context
 
   let entry = context.entry || context.packageMap.entry
 
@@ -148,6 +148,22 @@ export function getBuildHTML(context, env) {
       chunksSortMode: 'dependency',
       inject: true,
       templateParameters: getBuildTemplateParametersWithScripts(scripts),
+
+      minify: ENV.isProduction
+        ? {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeRedundantAttributes: true,
+            useShortDoctype: true,
+            removeEmptyAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            keepClosingSlash: true,
+            minifyJS: true,
+            minifyCSS: true,
+            minifyURLs: true
+          }
+        : null,
+
       ...options
     }
   })
@@ -189,13 +205,7 @@ export function getBuildSourceMap(devtool = false, ENV) {
    */
 
   if (devtool === true) {
-    devtool = ENV.isProduction
-      ? false
-      : ENV.isDevelopment
-        ? '#cheap-module-source-map'
-        : ENV.isBeta
-          ? '#cheap-module-source-map'
-          : false
+    devtool = ENV.isProduction ? false : '#cheap-module-source-map'
   }
 
   return devtool
@@ -233,4 +243,14 @@ function unique(array) {
 
 export function getOptions(options, defaultOptions = {}) {
   return options === true ? defaultOptions : options
+}
+
+export function PromiseDefer() {
+  let resolve = void 0
+  let reject = void 0
+  let promise = new Promise((rs, rj) => {
+    resolve = rs
+    reject = rj
+  })
+  return { promise, resolve, reject }
 }

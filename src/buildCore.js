@@ -3,8 +3,7 @@
  **************************************************/
 import path from 'path'
 import { webpack } from './plugins'
-import { notifier } from './util'
-import PromiseDefer from './PromiseDefer'
+import { notifier, PromiseDefer } from './util'
 import getStats from './getStats'
 
 process.on('unhandledRejection', err => {

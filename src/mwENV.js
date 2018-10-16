@@ -3,7 +3,6 @@
  **************************************************/
 import path from 'path'
 import { DefinePlugin } from './plugins'
-
 import { getValueByPath } from './util'
 
 export default async function(context, next) {

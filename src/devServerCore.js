@@ -2,10 +2,9 @@
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
 import { webpack, WebpackOptionsValidationError } from './plugins'
-import { createDomain } from './util'
+import { createDomain, PromiseDefer } from './util'
 import Server from 'webpack-dev-server/lib/Server'
 import createLogger from 'webpack-dev-server/lib/utils/createLogger'
-import PromiseDefer from './PromiseDefer'
 
 function colorInfo(msg) {
   return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`

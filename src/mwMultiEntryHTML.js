@@ -1,7 +1,10 @@
 /**************************************************
  * Created by nanyuantingfeng on 24/08/2017 18:42.
  **************************************************/
-import { CopyWebpackPlugin, DefinePlugin, ProvidePlugin, HTMLWebpackPlugin } from './plugins'
+import HTMLWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+
+import { DefinePlugin, ProvidePlugin } from './plugins'
 import { getBuildCopyFiles, getBuildExternals, getBuildHTML } from './util'
 
 export default async function(context, next) {

@@ -13,6 +13,7 @@ import mwPlugins from './mwPlugins'
 import mwRules from './mwRules'
 import mwENV from './mwENV'
 import mwDLL from './mwDLL'
+import mwPWA from './mwPWA'
 
 async function noop() {}
 
@@ -64,6 +65,7 @@ export function mwsBuild(cwd, config) {
   return [
     mwENV,
     mwBuild,
+    mwPWA,
     mwMultiEntryHTML,
     mwDLL,
     mwPlugins,
@@ -81,6 +83,7 @@ export function mwsDevServer(cwd, config) {
   return [
     mwENV,
     mwBuild,
+    mwPWA,
     mwMultiEntryHTML,
     mwDLL,
     mwPlugins,
