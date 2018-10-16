@@ -1,0 +1,16 @@
+{
+  "index.css": "/index.chunk.css",
+  "index.js": "/index.chunk.js",
+  "runtime~index.js": "/runtime~index.js",
+  "manifest.79253af57215d1e19702eda8380a2a96.json": "/manifest.79253af57215d1e19702eda8380a2a96.json",
+  "favicon.ico": "/favicon.ico",
+  "index.html": "/index.html",
+  "precache-manifest.e209a6e95706d85e01345c642b7c5665.js": "/precache-manifest.e209a6e95706d85e01345c642b7c5665.js",
+  "service-worker.js": "/service-worker.js",
+  "icon_512x512.afcfe9ef72ffb97e48b1a978c84d2a19.ico": "/icon_512x512.afcfe9ef72ffb97e48b1a978c84d2a19.ico",
+  "icon_384x384.afcfe9ef72ffb97e48b1a978c84d2a19.ico": "/icon_384x384.afcfe9ef72ffb97e48b1a978c84d2a19.ico",
+  "icon_256x256.afcfe9ef72ffb97e48b1a978c84d2a19.ico": "/icon_256x256.afcfe9ef72ffb97e48b1a978c84d2a19.ico",
+  "icon_192x192.afcfe9ef72ffb97e48b1a978c84d2a19.ico": "/icon_192x192.afcfe9ef72ffb97e48b1a978c84d2a19.ico",
+  "icon_128x128.afcfe9ef72ffb97e48b1a978c84d2a19.ico": "/icon_128x128.afcfe9ef72ffb97e48b1a978c84d2a19.ico",
+  "icon_96x96.afcfe9ef72ffb97e48b1a978c84d2a19.ico": "/icon_96x96.afcfe9ef72ffb97e48b1a978c84d2a19.ico"
+}
