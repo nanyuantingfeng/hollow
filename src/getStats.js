@@ -16,7 +16,7 @@ export default function(verbose) {
     builtAt: true,
 
     // 添加模块被引入的原因
-    reasons: false,
+    reasons: true,
 
     colors: true,
 
