@@ -31,8 +31,8 @@ function getThemeMap(packageMap, cwd) {
 }
 
 function getLoaderMode(context) {
-  const { happyPackMode = true } = context
-  return happyPackMode ? happypackLoaders(context) : commonLoaders(context, false)
+  const { enableHappyPack = true } = context
+  return enableHappyPack ? happypackLoaders(context) : commonLoaders(context, false)
 }
 
 function happypackLoaders(context) {
@@ -267,10 +267,8 @@ export default async function(context, next) {
 
   if (ENV.isProduction || ENV.isBeta) {
     stylesRules.map(rule => (rule.use[0] = MiniCSSExtractPlugin.loader))
-
     const filename = hash ? '[name]-[contenthash:8].css' : '[name].css'
     const chunkFilename = hash ? '[name]-[contenthash:8].chunk.css' : '[name].chunk.css'
-
     plugins.push(new MiniCSSExtractPlugin({ filename, chunkFilename }))
   }
 

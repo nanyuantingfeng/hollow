@@ -4,6 +4,6 @@
 
 import _ from 'lodash'
 
-function fxxxxxxxx() {
-  _.map({}, () => {})
+export function fxxxxxxxx() {
+  _.get({}, () => {})
 }

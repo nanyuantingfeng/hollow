@@ -7,7 +7,7 @@ get({ a: { b: 5 } }, 'a.b')
 
 require('./demo')
 
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 
 function YYYY() {
   debounce(8)

@@ -1,12 +1,12 @@
 /**************************************************
  * Created by nanyuantingfeng on 27/10/2017 16:25.
  **************************************************/
-import path from 'path'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
-import TerserPlugin from 'terser-webpack-plugin'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
-import LodashWebpackPlugin from 'lodash-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import LodashWebpackPlugin from 'lodash-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
+import path from 'path'
 
 import { ProgressPlugin, IgnorePlugin, AggressiveSplittingPlugin } from './plugins'
 import { notifier, getProgressHandler, getOptions } from './util'

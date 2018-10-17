@@ -9,7 +9,11 @@ import WebpackPWAManifest from 'webpack-pwa-manifest'
 module.exports = async function(context, next) {
   next()
 
-  const { plugins, publicPath = '/', packageMap, pwaManifestOptions } = context
+  const { plugins, publicPath = '/', packageMap, pwaManifestOptions, enablePWA = false } = context
+
+  if (!enablePWA) {
+    return
+  }
 
   const publicURL = publicPath.slice(0, -1)
 
@@ -18,6 +22,7 @@ module.exports = async function(context, next) {
       fileName: 'asset-manifest.json',
       publicPath: publicPath
     }),
+
     new WorkboxWebpackPlugin.GenerateSW({
       clientsClaim: true,
       exclude: [/\.map$/, /asset-manifest\.json$/],
@@ -31,6 +36,7 @@ module.exports = async function(context, next) {
         new RegExp('/[^/]+\\.[^/]+$')
       ]
     }),
+
     new WebpackPWAManifest({
       name: packageMap.name,
       short_name: packageMap.name,
@@ -42,7 +48,7 @@ module.exports = async function(context, next) {
       icons: [
         {
           src: path.join(__dirname, '../assets/favicon.ico'),
-          sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
+          sizes: [32] // multiple sizes
         }
       ],
 

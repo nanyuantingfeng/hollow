@@ -135,7 +135,9 @@ test('fnBuildHTML:production', () => {
 
   let env = 'production'
 
-  let oo = getBuildHTML(context, env)
+  context.ENV = { env }
+
+  let oo = getBuildHTML(context)
 
   expect(oo).toMatchObject([
     {
@@ -243,7 +245,9 @@ test('fnBuildHTML:development', () => {
 
   let env = 'development'
 
-  let oo = getBuildHTML(context, env)
+  context.ENV = { env }
+
+  let oo = getBuildHTML(context)
 
   expect(oo).toMatchObject([
     {

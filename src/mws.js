@@ -50,7 +50,7 @@ function getCustomConfig(cwd, config) {
     let p = paths[i]
     let pp = path.join(cwd, p)
     if (fs.existsSync(pp)) {
-      console.log('>', pp)
+      console.log(`>>> ${pp}`)
       cc = require(pp)
       break
     }

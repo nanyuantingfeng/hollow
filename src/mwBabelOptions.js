@@ -58,9 +58,8 @@ export default async function(context, next) {
   next()
 
   const {
-    optimizeDynamicImport = false,
+    optimizeDynamicImport = context.ENV.isDevelopment,
     optimizeLodash = true,
-    optimizeExportDefault = false,
     useBabelrc = false
   } = context
 
@@ -74,14 +73,5 @@ export default async function(context, next) {
 
   if (optimizeLodash) {
     commonPlugins.push('babel-plugin-lodash')
-  }
-
-  if (optimizeExportDefault) {
-    commonPlugins.push([
-      'babel-plugin-add-module-exports',
-      {
-        addDefaultProperty: false
-      }
-    ])
   }
 }
