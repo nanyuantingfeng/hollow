@@ -30,15 +30,13 @@ export default async function(context, next) {
       VERSION: JSON.stringify(version),
       APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
       ...context.defines
-    })
-  )
+    }),
 
-  plugins.push(new ProvidePlugin(context.provides))
+    new ProvidePlugin(context.provides)
+  )
 
   /***********************
    * 多入口配置
    */
-  getBuildHTML(context, ENV.env).forEach(line => {
-    plugins.push(new HTMLWebpackPlugin(line))
-  })
+  getBuildHTML(context).forEach(line => plugins.push(new HTMLWebpackPlugin(line)))
 }

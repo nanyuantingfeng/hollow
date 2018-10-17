@@ -101,8 +101,15 @@ export function getBuildHTMLData(filesMap, env) {
   }
 }
 
-export function getBuildHTML(context, env) {
-  const { externals = {}, sdks = {}, DLL_FILENAME, htmlWebpackPluginOptions, ENV } = context
+export function getBuildHTML(context) {
+  const {
+    externals = {},
+    sdks = {},
+    DLL_FILENAME,
+    ENV,
+    htmlWebpackPluginOptions,
+    compress
+  } = context
 
   let entry = context.entry || context.packageMap.entry
 
@@ -113,7 +120,7 @@ export function getBuildHTML(context, env) {
   if (typeof entry === 'string') {
     context.entry = entry = { index: entry }
   }
-  const paths = getBuildHTMLData(externals, env)
+  const paths = getBuildHTMLData(externals, ENV.env)
   const entryNames = Object.keys(entry)
 
   const options = {
@@ -148,8 +155,7 @@ export function getBuildHTML(context, env) {
       chunksSortMode: 'dependency',
       inject: true,
       templateParameters: getBuildTemplateParametersWithScripts(scripts),
-
-      minify: ENV.isProduction
+      minify: compress
         ? {
             removeComments: true,
             collapseWhitespace: true,
@@ -163,7 +169,6 @@ export function getBuildHTML(context, env) {
             minifyURLs: true
           }
         : null,
-
       ...options
     }
   })
@@ -227,6 +232,7 @@ export function getBuildTemplateParametersWithScripts(scripts) {
       compilation: compilation,
       webpack: compilation.getStats().toJson(),
       webpackConfig: compilation.options,
+
       htmlWebpackPlugin: {
         files: assets,
         options: options,

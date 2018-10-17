@@ -1,26 +1,23 @@
 /**************************************************
  * Created by nanyuantingfeng on 2018/10/16 17:02.
  **************************************************/
+import path from 'path'
 import ManifestPlugin from 'webpack-manifest-plugin'
 import WorkboxWebpackPlugin from 'workbox-webpack-plugin'
 import WebpackPWAManifest from 'webpack-pwa-manifest'
-import path from 'path'
 
 module.exports = async function(context, next) {
   next()
 
   const { plugins, publicPath = '/', packageMap, pwaManifestOptions } = context
 
+  const publicURL = publicPath.slice(0, -1)
+
   plugins.push(
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
       publicPath: publicPath
-    })
-  )
-
-  const publicURL = publicPath.slice(0, -1)
-
-  plugins.push(
+    }),
     new WorkboxWebpackPlugin.GenerateSW({
       clientsClaim: true,
       exclude: [/\.map$/, /asset-manifest\.json$/],
@@ -33,10 +30,7 @@ module.exports = async function(context, next) {
         // public/ and not a SPA route
         new RegExp('/[^/]+\\.[^/]+$')
       ]
-    })
-  )
-
-  plugins.push(
+    }),
     new WebpackPWAManifest({
       name: packageMap.name,
       short_name: packageMap.name,

@@ -31,6 +31,8 @@
       "type": "image/x-icon"
     }
   ],
+  "name": "DEMO",
+  "short_name": "DEMO",
   "orientation": "portrait",
   "display": "standalone",
   "start_url": ".",
