@@ -2,40 +2,18 @@
  * Created by nanyuantingfeng on 27/10/2017 16:25.
  **************************************************/
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
-import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import LodashWebpackPlugin from 'lodash-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
+
 import path from 'path'
 
 import { ProgressPlugin, IgnorePlugin, AggressiveSplittingPlugin } from './plugins'
-import { notifier, getProgressHandler, getOptions } from './util'
+import { getProgressHandler, getOptions } from './util'
 
 export default async function(context, next) {
-  context.plugins = [
-    new FriendlyErrorsWebpackPlugin({
-      onErrors: (severity, errors) => {
-        if (severity !== 'error') {
-          notifier.notify({
-            title: 'hollow cli',
-            message: 'warn',
-            contentImage: path.join(__dirname, '../assets/warn.png'),
-            sound: 'Glass'
-          })
-          return
-        }
-        const error = errors[0]
-        notifier.notify({
-          title: 'hollow cli',
-          message: `${severity} : ${error ? error.name : error}`,
-          subtitle: error ? error.file : error || '',
-          contentImage: path.join(__dirname, '../assets/fail.png'),
-          sound: 'Glass'
-        })
-      }
-    }),
-    new ProgressPlugin(getProgressHandler)
-  ]
+  context.plugins = []
 
   next()
 
@@ -146,7 +124,11 @@ export default async function(context, next) {
     plugins.push(new BundleAnalyzerPlugin(getOptions(analyzer)))
   }
 
-  plugins.push(new IgnorePlugin(/^\.\/locale$/, /moment$/))
+  plugins.push(
+    new ProgressPlugin(getProgressHandler),
+    new IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new CaseSensitivePathsPlugin({ debug: ENV.isDevelopment })
+  )
 
   if (optimizeLodash) {
     plugins.push(

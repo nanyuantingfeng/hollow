@@ -12,11 +12,11 @@ export default function(verbose) {
     // 对资源按指定的字段进行排序
     assetsSort: 'field',
 
-    // 添加构建日期和构建时间信息
+    // 添加构建时间信息
     builtAt: true,
 
     // 添加模块被引入的原因
-    reasons: true,
+    reasons: false,
 
     colors: true,
 
@@ -26,6 +26,7 @@ export default function(verbose) {
 
     // 添加 compilation 的哈希值
     hash: verbose,
+
     // 添加时间信息
     timings: true,
 

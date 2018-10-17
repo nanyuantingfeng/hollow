@@ -26,12 +26,9 @@ export default async function(context, next) {
 
   const config = {
     cache: true,
-
     entry: context.entry || packageMap.entry,
-
     resolve: {
       modules: ['node_modules'],
-
       extensions: [
         '.web.tsx',
         '.web.ts',
@@ -47,14 +44,11 @@ export default async function(context, next) {
         '.worker.jsx',
         '.mjs'
       ],
-
       alias: {
-        '@babel/runtime': path.dirname(require.resolve('@babel/runtime/package.json')),
-        tslib: path.dirname(require.resolve('tslib/package.json')),
-        'react-native': 'react-native-web',
+        ['@babel/runtime']: path.dirname(require.resolve('@babel/runtime/package.json')),
+        ['tslib']: path.dirname(require.resolve('tslib/package.json')),
         ...alias
       },
-
       ...context.resolve
     },
 
@@ -70,16 +64,13 @@ export default async function(context, next) {
     },
 
     context: context.context || cwd,
-
     externals: context.externals,
-
     node: getNodeVersion(packageMap),
-
     devtool: getBuildSourceMap(devtool, ENV),
 
     module: {
       strictExportPresence: true,
-      noParse: [/moment.js/],
+      noParse: [/moment$/],
       rules,
       unknownContextCritical
     },

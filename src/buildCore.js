@@ -53,16 +53,18 @@ export default function(context) {
 
     if (!context.watch || stats.hasErrors()) {
       const buildInfo = stats.toString(getStats(context.verbose))
+
       if (stats.hasErrors()) {
         console.error(buildInfo)
       } else {
         console.log(buildInfo)
+
         notifier.notify({
           title: 'HOLLOW CLI',
-          message: 'DONE',
-          subtitle: 'build successfully',
+          subtitle: `SUCCESSFULLY`,
+          message: `TIME: ${stats.stats[0].endTime - stats.stats[0].startTime}ms`,
           contentImage: path.join(__dirname, '../assets/success.png'),
-          sound: 'Glass'
+          sound: true
         })
       }
     }
