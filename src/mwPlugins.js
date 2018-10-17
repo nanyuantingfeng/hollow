@@ -13,7 +13,11 @@ import { ProgressPlugin, IgnorePlugin, AggressiveSplittingPlugin } from './plugi
 import { getProgressHandler, getOptions } from './util'
 
 export default async function(context, next) {
-  context.plugins = []
+  context.plugins = [
+    new CaseSensitivePathsPlugin(),
+    new ProgressPlugin(getProgressHandler),
+    new IgnorePlugin(/^\.\/locale$/, /moment$/)
+  ]
 
   next()
 
@@ -123,12 +127,6 @@ export default async function(context, next) {
   if (analyzer) {
     plugins.push(new BundleAnalyzerPlugin(getOptions(analyzer)))
   }
-
-  plugins.push(
-    new ProgressPlugin(getProgressHandler),
-    new IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new CaseSensitivePathsPlugin({ debug: ENV.isDevelopment })
-  )
 
   if (optimizeLodash) {
     plugins.push(
