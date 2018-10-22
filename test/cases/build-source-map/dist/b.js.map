@@ -1,1 +1,0 @@
-{"version":3,"file":"b.js","sources":["webpack:///./b.js"],"sourcesContent":["import './index.css';\nconsole.log('b');"],"mappings":";;;;;;AAAA;AAAA;AAAA;AAAA;AACA;;;;A","sourceRoot":""}

@@ -154,9 +154,10 @@ test('support web-worker', async () => {
 })
 
 test('should build-no-entry', async () => {
-  await testCase({}, 'build-no-entry').catch(e => {
+  try {
+    await testCase({}, 'build-no-entry')
+  } catch (e) {
     expect(e.name).toEqual('NoEntry')
     expect(e.message).toEqual('no webpack entry found')
-    return Promise.resolve()
-  })
+  }
 })

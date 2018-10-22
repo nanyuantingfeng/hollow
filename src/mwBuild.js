@@ -53,8 +53,8 @@ export default async function(context, next) {
     },
 
     output: {
-      filename: hash ? '[name]-[hash].js' : '[name].js',
-      chunkFilename: hash ? '[name].chunk-[hash].js' : '[name].chunk.js',
+      filename: hash ? '[name]-[contenthash].js' : '[name].js',
+      chunkFilename: hash ? '[name].chunk-[contenthash].js' : '[name].chunk.js',
       globalObject: 'this',
 
       devtoolModuleFilenameTemplate: info =>

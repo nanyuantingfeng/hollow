@@ -89,7 +89,7 @@ export default async function(context, next) {
   const { cwd, limit = 10240, ENV, packageMap, hash, plugins } = context
   const theme = getThemeMap(packageMap, cwd)
   const { postcssOptions, rules } = context
-  const workerFileName = hash ? '[name]-[hash].worker.js' : '[name].worker.js'
+  const workerFileName = hash ? '[name]-[contenthash].worker.js' : '[name].worker.js'
 
   const { JSX_LOADER, TSX_LOADER } = getLoaderMode(context)
 
@@ -137,7 +137,7 @@ export default async function(context, next) {
           options: {
             sourceMap: true,
             modules: true,
-            localIdentName: '[local]___[hash:base64:5]'
+            localIdentName: '[local]___[contenthash:5]'
           }
         },
         { loader: 'postcss-loader', options: postcssOptions }
@@ -175,7 +175,7 @@ export default async function(context, next) {
           options: {
             sourceMap: true,
             modules: true,
-            localIdentName: '[local]___[hash:base64:5]'
+            localIdentName: '[local]___[contenthash:5]'
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },

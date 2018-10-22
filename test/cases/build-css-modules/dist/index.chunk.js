@@ -3,7 +3,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-module.exports = {"index":"index___1Xnek","foo":"foo___26SGr","index4":"index4___17bSP"};
+module.exports = {"index":"index___-contenthash-5-","foo":"foo___-contenthash-5-","index4":"index4___-contenthash-5-"};
 
 /***/ }),
 /* 1 */

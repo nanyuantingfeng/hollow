@@ -23,6 +23,8 @@ export default async function(context, next) {
 
   const { compress, plugins, dll, ENV, aggressive = false } = context
 
+  context.webpackConfig.optimization = context.webpackConfig.optimization || {}
+
   if (!Array.isArray(dll)) {
     context.webpackConfig.optimization = {
       splitChunks: {
