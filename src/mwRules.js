@@ -137,7 +137,7 @@ export default async function(context, next) {
           options: {
             sourceMap: true,
             modules: true,
-            localIdentName: '[local]___[contenthash:5]'
+            localIdentName: '[local]___[hash:base64:5]'
           }
         },
         { loader: 'postcss-loader', options: postcssOptions }
@@ -175,7 +175,7 @@ export default async function(context, next) {
           options: {
             sourceMap: true,
             modules: true,
-            localIdentName: '[local]___[contenthash:5]'
+            localIdentName: '[local]___[hash:base64:5]'
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },
