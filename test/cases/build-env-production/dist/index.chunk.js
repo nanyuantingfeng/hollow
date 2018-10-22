@@ -1,0 +1,1 @@
+(this.webpackJsonp=this.webpackJsonp||[]).push([[0],[function(o,n,s){console.log("production"),console.log("v0.0.0"),console.log("0.0.0")}],[[0,1]]]);
