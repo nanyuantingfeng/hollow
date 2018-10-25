@@ -8,14 +8,13 @@ export default async function(context, next) {
       '@babel/preset-env',
       {
         targets: {
-          chrome: '46',
-          edge: '13',
-          ie: '11',
+          chrome: '39',
+          edge: '12',
+          ie: '10',
           firefox: '33',
           safari: '9',
           node: '4',
-          ios: '9',
-          opera: '28'
+          ios: '9'
         },
         modules: false,
         useBuiltIns: 'usage'
