@@ -5,7 +5,7 @@ import fs from 'fs'
 import path from 'path'
 
 export default async function(context, next) {
-  const { cwd } = context
+  const { cwd, ENV } = context
 
   let typescriptConfigPath = path.join(__dirname, '../tsconfig.json')
   let options = require(typescriptConfigPath)
@@ -13,15 +13,14 @@ export default async function(context, next) {
 
   if (fs.existsSync(tsconfigPath)) {
     options = require(tsconfigPath)
-    typescriptConfigPath = tsconfigPath
   }
+
+  options.compilerOptions.sourceMap = ENV.isDevelopment
 
   context.typescriptOptions = context.tsOptions = {
     transpileOnly: true,
     ...options
   }
-
-  context.typescriptConfigPath = context.tsConfigPath = typescriptConfigPath
 
   next()
 }

@@ -210,7 +210,7 @@ export function getBuildSourceMap(devtool = false, ENV) {
    */
 
   if (devtool === true) {
-    devtool = ENV.isProduction ? false : '#cheap-module-source-map'
+    devtool = ENV.isProduction ? false : '#cheap-module-eval-source-map'
   }
 
   return devtool

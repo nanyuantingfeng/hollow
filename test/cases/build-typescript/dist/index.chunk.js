@@ -1,76 +1,13 @@
-(this["webpackJsonp"] = this["webpackJsonp"] || []).push([[0],[
-/* 0 */,
-/* 1 */
+(this["webpackJsonp"] = this["webpackJsonp"] || []).push([["index"],{
+
+/***/ "./X.tsx":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = __webpack_require__(0);
-var react_1 = tslib_1.__importDefault(__webpack_require__(2));
-function ddd(Component) {
-    return (function (_super) {
-        tslib_1.__extends(class_1, _super);
-        function class_1() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        class_1.prototype.render = function () {
-            return react_1.default.createElement(Component, null);
-        };
-        return class_1;
-    }(react_1.default.Component));
-}
-var Y = (function (_super) {
-    tslib_1.__extends(Y, _super);
-    function Y() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Y.prototype.render = function () {
-        return react_1.default.createElement("div", null);
-    };
-    Y = tslib_1.__decorate([
-        ddd
-    ], Y);
-    return Y;
-}(react_1.default.Component));
-exports.default = Y;
-function demo() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-    }
-    return args.concat([9990000, 21]);
-}
-exports.demo = demo;
-
-
-/***/ }),
-/* 2 */,
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = __webpack_require__(0);
-var X_1 = tslib_1.__importStar(__webpack_require__(4));
-exports.X = X_1.default;
-exports.Hello = X_1.Hello;
-exports.O = X_1.O;
-exports.Props = X_1.Props;
-var entry_1 = tslib_1.__importDefault(__webpack_require__(7));
-exports.ddd = entry_1.default;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var tslib_1 = __webpack_require__(0);
-var react_1 = tslib_1.__importDefault(__webpack_require__(2));
+var tslib_1 = __webpack_require__("../../../node_modules/tslib/tslib.es6.js");
+var react_1 = tslib_1.__importDefault(__webpack_require__("../../../node_modules/react/index.js"));
 var Greeter = (function () {
     function Greeter(greeting) {
         this.greeting = greeting;
@@ -111,14 +48,59 @@ exports.default = MMM;
 
 
 /***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */
+
+/***/ "./Y.tsx":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = __webpack_require__("../../../node_modules/tslib/tslib.es6.js");
+var react_1 = tslib_1.__importDefault(__webpack_require__("../../../node_modules/react/index.js"));
+function ddd(Component) {
+    return (function (_super) {
+        tslib_1.__extends(class_1, _super);
+        function class_1() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        class_1.prototype.render = function () {
+            return react_1.default.createElement(Component, null);
+        };
+        return class_1;
+    }(react_1.default.Component));
+}
+var Y = (function (_super) {
+    tslib_1.__extends(Y, _super);
+    function Y() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Y.prototype.render = function () {
+        return react_1.default.createElement("div", null);
+    };
+    Y = tslib_1.__decorate([
+        ddd
+    ], Y);
+    return Y;
+}(react_1.default.Component));
+exports.default = Y;
+function demo() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return args.concat([9990000, 21]);
+}
+exports.demo = demo;
+
+
+/***/ }),
+
+/***/ "./entry.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Y__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _Y__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./Y.tsx");
 /* harmony import */ var _Y__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_Y__WEBPACK_IMPORTED_MODULE_0__);
 /**************************************************
  * Created by nanyuantingfeng on 2018/9/6 10:38.
@@ -126,5 +108,24 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ([_Y__WEBPACK_IMPORTED_MODULE_0___default.a, _Y__WEBPACK_IMPORTED_MODULE_0__["demo"]]);
 
+/***/ }),
+
+/***/ "./index.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var tslib_1 = __webpack_require__("../../../node_modules/tslib/tslib.es6.js");
+var X_1 = tslib_1.__importStar(__webpack_require__("./X.tsx"));
+exports.X = X_1.default;
+exports.Hello = X_1.Hello;
+exports.O = X_1.O;
+exports.Props = X_1.Props;
+var entry_1 = tslib_1.__importDefault(__webpack_require__("./entry.js"));
+exports.ddd = entry_1.default;
+
+
 /***/ })
-],[[3,1,2]]]);
+
+},[["./index.ts","runtime~index",0]]]);

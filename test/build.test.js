@@ -147,6 +147,7 @@ test('support theme', async () => {
   await testCase({}, 'build-theme')
 })
 test('support typescript', async () => {
+  process.env.NODE_ENV = 'development'
   await testCase({}, 'build-typescript')
 })
 test('support web-worker', async () => {
