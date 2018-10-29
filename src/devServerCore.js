@@ -48,13 +48,8 @@ export function startDevServer(context) {
   try {
     server = new Server(compiler, options, log)
   } catch (e) {
-    const OptionsValidationError = require('webpack-dev-server/lib/OptionsValidationError')
-
-    if (e instanceof OptionsValidationError) {
-      log.error(colorError(e.message))
-      process.exit(1)
-    }
-
+    log.error(colorError(e.message))
+    process.exit(1)
     defer.reject(e)
   }
 
