@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "1.4.20",
+  "version": "1.4.30",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -48,7 +48,6 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/plugin-syntax-export-default-from": "^7.2.0",
-    "@babel/plugin-syntax-export-extensions": "^7.0.0-beta.32",
     "@babel/plugin-syntax-export-namespace-from": "^7.2.0",
     "@babel/plugin-syntax-function-bind": "^7.2.0",
     "@babel/plugin-syntax-import-meta": "^7.2.0",
