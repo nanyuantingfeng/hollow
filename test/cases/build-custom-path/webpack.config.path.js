@@ -1,3 +1,3 @@
 module.exports = async function (context) {
-  context.outputPath = './build'
+  context.outputPath = './dist/build'
 }

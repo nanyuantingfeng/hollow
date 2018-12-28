@@ -13,6 +13,7 @@ import mwPlugins from './mwPlugins'
 import mwRules from './mwRules'
 import mwENV from './mwENV'
 import mwDLL from './mwDLL'
+import mwPWA from './mwPWA'
 
 async function noop() {}
 
@@ -49,7 +50,7 @@ function getCustomConfig(cwd, config) {
     let p = paths[i]
     let pp = path.join(cwd, p)
     if (fs.existsSync(pp)) {
-      console.log('>', pp)
+      console.log(`>>> ${pp}`)
       cc = require(pp)
       break
     }
@@ -64,6 +65,7 @@ export function mwsBuild(cwd, config) {
   return [
     mwENV,
     mwBuild,
+    mwPWA,
     mwMultiEntryHTML,
     mwDLL,
     mwPlugins,
@@ -81,6 +83,7 @@ export function mwsDevServer(cwd, config) {
   return [
     mwENV,
     mwBuild,
+    mwPWA,
     mwMultiEntryHTML,
     mwDLL,
     mwPlugins,

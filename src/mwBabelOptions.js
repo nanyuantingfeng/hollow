@@ -5,35 +5,72 @@
 export default async function(context, next) {
   const commonPresets = [
     [
-      'env',
+      '@babel/preset-env',
       {
-        targets: { browsers: ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
+        targets: {
+          chrome: '39',
+          edge: '12',
+          ie: '10',
+          firefox: '33',
+          safari: '9',
+          node: '4',
+          ios: '9'
+        },
         modules: false,
-        useBuiltIns: false
+        useBuiltIns: 'entry'
       }
     ],
-    'react'
+    '@babel/preset-react'
   ]
 
   const commonPlugins = [
-    'external-helpers',
-    'add-module-exports',
-    'syntax-export-extensions',
-    'syntax-dynamic-import',
-    'transform-object-rest-spread',
-    'transform-runtime',
-    'transform-regenerator',
-    'transform-decorators-legacy',
-    'transform-class-properties',
-    'transform-function-bind',
-    'lodash'
+    '@babel/plugin-external-helpers',
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-transform-object-assign',
+    '@babel/plugin-syntax-dynamic-import',
+    '@babel/plugin-proposal-async-generator-functions',
+    '@babel/plugin-transform-regenerator',
+    '@babel/plugin-proposal-function-bind',
+    '@babel/plugin-proposal-object-rest-spread',
+    [
+      '@babel/plugin-proposal-decorators',
+      {
+        legacy: true
+      }
+    ],
+    [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true
+      }
+    ]
   ]
 
   context.babelOptions = {
     cacheDirectory: true,
+    babelrc: false,
+    highlightCode: true,
     presets: commonPresets,
     plugins: commonPlugins
   }
 
   next()
+
+  const {
+    optimizeDynamicImport = context.ENV.isDevelopment,
+    optimizeLodash = true,
+    useBabelrc = false
+  } = context
+
+  if (useBabelrc) {
+    context.babelOptions.babelrc = true
+  }
+
+  if (optimizeDynamicImport) {
+    commonPlugins.push('babel-plugin-dynamic-import-node')
+  }
+
+  if (optimizeLodash) {
+    commonPlugins.push('babel-plugin-lodash')
+  }
 }

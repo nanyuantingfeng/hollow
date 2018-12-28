@@ -1,7 +1,8 @@
 /**************************************************
  * Created by nanyuantingfeng on 29/10/2017 14:29.
  **************************************************/
-import { DllPlugin, DllReferencePlugin, CopyWebpackPlugin } from './plugins'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import { DllPlugin, DllReferencePlugin } from './plugins'
 import path from 'path'
 
 export default async function(context, next) {

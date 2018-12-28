@@ -1,9 +1,14 @@
 /**************************************************
  * Created by nanyuantingfeng on 29/10/2017 17:04.
  **************************************************/
-import { get, map } from 'lodash'
+import { get } from 'lodash'
 
 get({ a: { b: 5 } }, 'a.b')
-map({}, { a: 0 })
 
+require('./demo')
 
+import debounce from 'lodash/debounce'
+
+function YYYY() {
+  debounce(8)
+}

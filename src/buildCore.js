@@ -2,10 +2,13 @@
  * Created by nanyuantingfeng on 23/08/2017 17:29.
  **************************************************/
 import path from 'path'
-import fs from 'fs'
 import { webpack } from './plugins'
-import { notifier } from './util'
-import PromiseDefer from './PromiseDefer'
+import { notifier, PromiseDefer } from './util'
+import getStats from './getStats'
+
+process.on('unhandledRejection', err => {
+  throw err
+})
 
 export default function(context) {
   let { webpackConfig } = context
@@ -21,51 +24,49 @@ export default function(context) {
   let defer = PromiseDefer()
 
   function compileDoneHandler(err, stats) {
-    if (context.json) {
-      const filename = typeof context.json === 'boolean' ? 'build-bundle.json' : context.json
-      const jsonPath = path.join(fileOutputPath, filename)
-      fs.writeFileSync(jsonPath, JSON.stringify(stats.toJson()), 'utf-8')
-      console.log(`Generate JSON File: ${jsonPath}`)
+    if (err) {
+      console.error(err)
+      defer.reject(err)
+      process.on('exit', () => {
+        process.exit(1)
+      })
     }
 
-    const { errors } = stats.toJson()
+    if (!stats) {
+      defer.resolve()
+      return
+    }
 
-    if (errors && errors.length) {
+    try {
+      const { errors } = stats.toJson()
+      if (errors && errors.length) {
+        process.on('exit', () => {
+          process.exit(1)
+        })
+      }
+    } catch (e) {
+      console.error(e)
       process.on('exit', () => {
         process.exit(1)
       })
     }
 
     if (!context.watch || stats.hasErrors()) {
-      const buildInfo = stats.toString({
-        colors: true,
-        children: true,
-        chunks: !!context.verbose,
-        modules: !!context.verbose,
-        chunkModules: !!context.verbose,
-        hash: !!context.verbose,
-        version: !!context.verbose
-      })
+      const buildInfo = stats.toString(getStats(context.verbose))
 
       if (stats.hasErrors()) {
         console.error(buildInfo)
       } else {
         console.log(buildInfo)
+
         notifier.notify({
-          title: 'hollow cli',
-          message: 'done',
-          subtitle: 'build successfully',
+          title: 'HOLLOW CLI',
+          subtitle: `SUCCESSFULLY`,
+          message: `TIME: ${stats.stats[0].endTime - stats.stats[0].startTime}ms`,
           contentImage: path.join(__dirname, '../assets/success.png'),
-          sound: 'Glass'
+          sound: true
         })
       }
-    }
-
-    if (err) {
-      defer.reject(err)
-      process.on('exit', () => {
-        process.exit(1)
-      })
     }
 
     defer.resolve()

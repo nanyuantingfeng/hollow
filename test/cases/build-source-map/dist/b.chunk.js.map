@@ -1,0 +1,1 @@
+{"version":3,"file":"b.chunk.js","sources":["webpack:///./index.css?7bfe","/Users/nanyuantingfeng/Repositories/github/hollow-cli/test/cases/build-source-map/b.js"],"sourcesContent":["// extracted by mini-css-extract-plugin","import './index.css';\nconsole.log('b');"],"mappings":";;;;AAAA;;;;;;;;ACAA;AAAA;AAAA;AAAA;AACA;;;A","sourceRoot":""}

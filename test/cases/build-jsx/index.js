@@ -1,13 +1,12 @@
 ReactDOM.render(<div>a</div>)
 
 export default class DEMO extends React.PureComponent {
-
   render() {
-
     return (
-      <div>
-      </div>
+      <>
+        <div />
+        <span>9999999</span>
+      </>
     )
   }
 }
-

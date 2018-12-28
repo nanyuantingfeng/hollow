@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 29/10/2017 14:21.
  **************************************************/
-var fn = require('../../lib/fnBuildDLL')
+var fn = require('../../lib/fnBuildDLL').default
 
 exports.command = 'dll'
 

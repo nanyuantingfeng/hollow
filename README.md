@@ -3,55 +3,68 @@
 ![](./assets/hollow.svg)
 
 
-# hollow-cli 
->此工具是一个基于webpack 4.x 编写的一个零配置打包工具.
+# hollow-cli
+>此工具是一个基于webpack4 + babel7 编写的一个零配置打包工具.
 
-## 背景 
+## 背景
 >webpack 4.x 已经做的相当完善,并没有一个通用的配置来简化操作,
 >此工具提供一个的默认的基础配置的以适应大部分的开发场合.
 
 
 ## 使用方式
 ```bash
-    npm i hollow-cli --save-dev 
+    npm i hollow-cli --save-dev
 ```
 ```CLI
-    hollow dev -p 9999 
-    hollow build  
-    hollow dll  
+    hollow dev -p 9999
+    hollow build
+    hollow dll
     =======================
-    > 其他参数详见 
-    > hollow dev -h 
+    > 其他参数详见
+    > hollow dev -h
     > hollow build -h
 ```
-    
- 
+
+
 ## 默认提供的能力
-    
+
 * Babel [*.js, *.jsx, *.ts, *.tsx]
 ```javascript
     context.babelOptions = {
-        cacheDirectory: tmpdir(),
-        presets: [
-        ['env', {
-          'targets': { 'browsers': ['last 2 versions', 'safari >= 7', 'ie >= 10'] },
-          'modules': false,
-          'useBuiltIns': true,
-        }],
-        'react',
-        ],
+      '@babel/preset-env',
+      {
+        targets: {
+          browsers: ['last 2 versions', 'safari >= 7', 'IE >= 11']
+        },
+        modules: false,
+        useBuiltIns: false
+      }
+    ],
+    '@babel/preset-react'
         plugins: [
-              'external-helpers',
-              'add-module-exports',
-              'syntax-export-extensions',
-              'syntax-dynamic-import',
-              'transform-object-rest-spread',
-              'transform-runtime',
-              'transform-regenerator',
-              'transform-decorators-legacy',
-              'transform-class-properties',
-              'transform-function-bind',
-              'lodash',
+       '@babel/plugin-external-helpers',
+       '@babel/plugin-transform-runtime',
+       '@babel/plugin-transform-object-assign',
+       '@babel/plugin-syntax-dynamic-import',
+       '@babel/plugin-syntax-import-meta',
+       '@babel/plugin-syntax-export-extensions',
+       '@babel/plugin-proposal-async-generator-functions',
+       '@babel/plugin-transform-regenerator',
+       '@babel/plugin-syntax-function-bind',
+       [
+         '@babel/plugin-proposal-decorators',
+         {
+           legacy: true
+         }
+       ],
+       [
+         '@babel/plugin-proposal-class-properties',
+         {
+           loose: true
+         }
+       ],
+
+       'babel-plugin-lodash'
         ],
       }
 ```
@@ -59,40 +72,49 @@
 
 * TypeScript [ *.ts ,*.tsx ]
 ```json
-    {
-      "compilerOptions": {
-        "target": "es5",
-        "module": "es2015",
-        "jsx": "react",
-        "lib": [
-          "es5",
-          "es6",
-          "es7",
-          "dom",
-          "webworker"
-        ],
-        "moduleResolution": "node",
-        "declaration": false,
-        "sourceMap": false,
-        "allowJs": false,
-        "allowSyntheticDefaultImports": true,
-        "noImplicitAny": true,
-        "noUnusedParameters": true,
-        "removeComments": false,
-        "preserveConstEnums": true,
-        "skipLibCheck": true,
-        "strictNullChecks": true,
-        "experimentalDecorators": true,
-        "strict": true,
-        "noUnusedLocals": true,
-        "allowUnreachableCode": false,
-        "allowUnusedLabels": false,
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noEmitOnError": true
-      }
-    }
+{
+  "compilerOptions": {
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": false,
+    "declaration": true,
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noResolve": false,
+    "removeComments": true,
+    "strictNullChecks": false,
+    "inlineSourceMap": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "dist/lib",
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "es7",
+      "es2015.promise",
+      "es2018.promise",
+      "es2015.collection",
+      "es2015.core",
+      "es2015",
+      "es2016",
+      "es2016.array.include",
+      "es2017",
+      "es2017.object",
+      "es2018",
+      "es2015.iterable"
+    ]
+  }
+}
 
 ```
 
@@ -115,19 +137,19 @@
       }
 ```
 * ModuleCSS [*.module.css, *.module.less]
-* Font (url-loader) [*.woff, *.woff2, *.ttf, *.eot]
-* IMG (url-loader) [*.svg, *.png, *.jpg, *.jpeg, *.gif] 
+* Font (file-loader) [*.woff, *.woff2, *.ttf, *.eot]
+* IMG (file-loader) [*.svg, *.png, *.jpg, *.jpeg, *.gif]
 * HTML (file-loader)
 * hbs (mustache-loader)
-    
+
 ## 扩展
 > 提供的默认配置表皆可修改.
 > 在package.json 的同级目录下创建一个 webpack.config.js 文件
 
 ```javascript
 module.exports = async function (context) {
- // do your need ... 
- //e. 
+ // do your need ...
+ //e.
  // context.babelOptions.plugins.push("babel-plugin-xxx")
 }
 ```
@@ -136,16 +158,16 @@ module.exports = async function (context) {
 ```javascript
  //Babel
  context.babelOptions = {}
- 
+
  //loaders
  context.rules = []
- 
+
  //postcss
  context.postcssOptions = {}
- 
+
  //typescript
  context.tsOptions = {}
- 
+
  //source-map
  context.devtool = ""
 
@@ -168,7 +190,7 @@ module.exports = async function (context) {
    'whatwg-fetch': {path: 'node_modules/whatwg-fetch/fetch.js'},
    'es6-promise': {path: 'node_modules/es6-promise/dist/es6-promise.auto.min.js'},
    //...
- }  
+ }
 ```
 
 * 排除的文件列表
@@ -196,14 +218,14 @@ module.exports = async function (context) {
    index2 : [ "a.js", "b,js", "d.js"],
  }
 ```
- 
+
 
 ## DLL Plugin 的支持
 
 ```javascript
     //webpack.dll.js
     context.dll = ['react', 'react-dom', 'moment', 'prop-types', /* ... */]
-    
+
     //webpack.config.js | webpack.build.js
     context.dll = true // === context.dll = './dll'
     context.dll = './src/dll'

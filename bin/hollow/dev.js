@@ -1,7 +1,7 @@
 /**************************************************
  * Created by nanyuantingfeng on 23/08/2017 17:52.
  **************************************************/
-var fn = require('../../lib/fnDevServer')
+var fn = require('../../lib/fnDevServer').default
 
 exports.command = 'dev'
 

@@ -1,8 +1,11 @@
 /**************************************************
  * Created by nanyuantingfeng on 24/08/2017 18:42.
  **************************************************/
-import { CopyWebpackPlugin, DefinePlugin, ProvidePlugin, HTMLWebpackPlugin } from './plugins'
-import { fnBuildCopyFiles, fnBuildExternals, fnBuildHTML } from './util'
+import HTMLWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+
+import { DefinePlugin, ProvidePlugin } from './plugins'
+import { getBuildCopyFiles, getBuildExternals, getBuildHTML } from './util'
 
 export default async function(context, next) {
   next()
@@ -12,12 +15,12 @@ export default async function(context, next) {
   /***********************
    * copy文件到输出目录
    */
-  plugins.push(new CopyWebpackPlugin(fnBuildCopyFiles(context.files)))
+  plugins.push(new CopyWebpackPlugin(getBuildCopyFiles(context.files)))
 
   /***********************
    * 配置忽略依赖
    */
-  context.externals = fnBuildExternals(context.externals)
+  context.externals = getBuildExternals({ ...context.files, ...context.externals })
 
   const version = context.version || packageMap.version || '0.0.0'
   const versionTail = ENV.isBeta ? '-beta' : ENV.isDevelopment ? '-dev' : ''
@@ -27,15 +30,13 @@ export default async function(context, next) {
       VERSION: JSON.stringify(version),
       APPLICATION_VERSION: JSON.stringify(`v${version}${versionTail}`),
       ...context.defines
-    })
-  )
+    }),
 
-  plugins.push(new ProvidePlugin(context.provides))
+    new ProvidePlugin(context.provides)
+  )
 
   /***********************
    * 多入口配置
    */
-  fnBuildHTML(context, ENV.env).forEach(line => {
-    plugins.push(new HTMLWebpackPlugin(line))
-  })
+  getBuildHTML(context).forEach(line => plugins.push(new HTMLWebpackPlugin(line)))
 }

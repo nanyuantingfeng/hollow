@@ -2,13 +2,11 @@
  * Created by nanyuantingfeng on 16/08/2017 13:10.
  **************************************************/
 import path from 'path'
-import { fnCheckWebpackConfig, fnGetNode, fnBuildSourceMap } from './util'
+import { checkWebpackConfig, getNodeVersion, getBuildSourceMap } from './util'
 
 export default async function(context, next) {
   context.output = {}
-  context.webpackConfig = {
-    optimization: {}
-  }
+  context.webpackConfig = {}
 
   next()
 
@@ -22,17 +20,15 @@ export default async function(context, next) {
     publicPath,
     hash,
     output,
-    unknownContextCritical = false
+    unknownContextCritical = false,
+    alias
   } = context
 
-  const jsChunkFileName = hash ? '[name]-[hash].js' : '[name].js'
-  const webpackConfig = (context.webpackConfig = {
+  const config = {
     cache: true,
-
     entry: context.entry || packageMap.entry,
-
     resolve: {
-      modules: ['node_modules', path.join(__dirname, '../node_modules')],
+      modules: ['node_modules'],
       extensions: [
         '.web.tsx',
         '.web.ts',
@@ -43,38 +39,52 @@ export default async function(context, next) {
         '.js',
         '.jsx',
         '.json',
-        '.lazy.js',
-        '.lazy.jsx',
+        '.json5',
         '.worker.js',
-        '.worker.ts'
+        '.worker.jsx',
+        '.mjs'
       ],
+      alias: {
+        ['@babel/runtime']: path.dirname(require.resolve('@babel/runtime/package.json')),
+        ['tslib']: path.dirname(require.resolve('tslib/package.json')),
+        ...alias
+      },
       ...context.resolve
     },
 
     output: {
-      filename: jsChunkFileName,
-      chunkFilename: jsChunkFileName,
+      filename: hash ? '[name]-[contenthash].js' : '[name].js',
+      chunkFilename: hash ? '[name].chunk-[contenthash].js' : '[name].chunk.js',
+      globalObject: 'this',
+
+      devtoolModuleFilenameTemplate: info =>
+        path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+
       ...output
     },
 
     context: context.context || cwd,
-
     externals: context.externals,
-
-    node: fnGetNode(packageMap),
-
-    devtool: fnBuildSourceMap(devtool, ENV),
+    node: getNodeVersion(packageMap),
+    devtool: getBuildSourceMap(devtool, ENV),
 
     module: {
-      noParse: [/moment.js/],
+      strictExportPresence: true,
+      noParse: [/moment$/],
       rules,
       unknownContextCritical
     },
 
     plugins: context.plugins,
 
+    mode: 'none',
+
+    performance: false,
+
     ...context.webpackConfig
-  })
+  }
+
+  const webpackConfig = (context.webpackConfig = config)
 
   if (outputPath) {
     webpackConfig.output.path = path.join(cwd, outputPath)
@@ -84,5 +94,5 @@ export default async function(context, next) {
     webpackConfig.output.publicPath = publicPath
   }
 
-  fnCheckWebpackConfig(webpackConfig)
+  checkWebpackConfig(webpackConfig)
 }

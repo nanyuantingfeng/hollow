@@ -4,7 +4,7 @@
 import compose from 'koa-compose'
 import { mwsDevServer } from './mws'
 
-export default function createDevServerContext(args) {
+export default function(args) {
   const context = {
     cwd: process.cwd(),
     files: {},

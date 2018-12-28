@@ -2,10 +2,9 @@
  * Created by nanyuantingfeng on 23/08/2017 14:29.
  **************************************************/
 import { webpack, WebpackOptionsValidationError } from './plugins'
-import { createDomain } from './util'
+import { createDomain, PromiseDefer } from './util'
 import Server from 'webpack-dev-server/lib/Server'
 import createLogger from 'webpack-dev-server/lib/utils/createLogger'
-import PromiseDefer from './PromiseDefer'
 
 function colorInfo(msg) {
   return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`
@@ -14,6 +13,10 @@ function colorInfo(msg) {
 function colorError(msg) {
   return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
 }
+
+process.on('unhandledRejection', err => {
+  throw err
+})
 
 export function startDevServer(context) {
   const { webpackConfig } = context
@@ -37,7 +40,6 @@ export function startDevServer(context) {
       log.error(colorError(e.message))
       process.exit(1)
     }
-
     defer.reject(e)
   }
 
@@ -46,21 +48,15 @@ export function startDevServer(context) {
   try {
     server = new Server(compiler, options, log)
   } catch (e) {
-    const OptionsValidationError = require('webpack-dev-server/lib/OptionsValidationError')
-
-    if (e instanceof OptionsValidationError) {
-      log.error(colorError(e.message))
-      process.exit(1)
-    }
-
+    log.error(colorError(e.message))
+    process.exit(1)
     defer.reject(e)
   }
 
   ;['SIGINT', 'SIGTERM'].forEach(sig => {
     process.on(sig, () => {
-      server.close(() => {
-        process.exit()
-      })
+      server.close()
+      process.exit()
     })
   })
 

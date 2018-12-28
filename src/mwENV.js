@@ -3,8 +3,7 @@
  **************************************************/
 import path from 'path'
 import { DefinePlugin } from './plugins'
-
-import { fnGetValueByPath } from './util'
+import { getValueByPath } from './util'
 
 export default async function(context, next) {
   const { default_node_env, cwd, outputPath } = context
@@ -34,7 +33,7 @@ export default async function(context, next) {
     dist: build
   }
 
-  context.packageMap = fnGetValueByPath(path.join(cwd, 'package.json'))
+  context.packageMap = getValueByPath(path.join(cwd, 'package.json'))
 
   next()
 
@@ -43,8 +42,6 @@ export default async function(context, next) {
       ['process.env.NODE_ENV']: JSON.stringify(env)
     })
   )
-
-  context.webpackConfig.mode = isProduction ? 'production' : 'development'
 
   return context
 }
