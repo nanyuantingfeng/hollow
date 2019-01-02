@@ -62,10 +62,3 @@ demo/
 lib/
 cp2.js
 
-/cp2.js
-<<<<<<< HEAD
-
-dist/
-=======
-/dist/
->>>>>>> babel7

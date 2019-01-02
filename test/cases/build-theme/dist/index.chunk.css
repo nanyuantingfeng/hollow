@@ -1,4 +1,12 @@
 button {
   color: #333333;
+  background: #333333;
+}
+button .ccc button {
+  color: #333333;
+  background: #333333;
+}
+button .ccc .ddx button {
+  color: #333333;
 }
 
