@@ -17,6 +17,13 @@ function parseProxyWithOptions(proxy, options) {
   return oo
 }
 
+function parseStringProxy(proxy) {
+  if (typeof proxy === 'string') {
+    proxy = { '*': proxy }
+  }
+  return proxy
+}
+
 export default async function(context, next) {
   context.devServer = {}
   context.proxy = {}
@@ -25,9 +32,12 @@ export default async function(context, next) {
 
   next()
 
-  let { devServer, proxy, proxyOptions, plugins, DIRs, outputPath } = context
+  let { devServer, proxy, proxyOptions, plugins, DIRs, packageMap } = context
 
-  const proxyObj = parseProxyWithOptions(proxy, proxyOptions)
+  const proxyObj = parseProxyWithOptions(
+    { ...parseStringProxy(packageMap.proxy), ...proxy },
+    proxyOptions
+  )
 
   context.webpackConfig.devServer = context.devServer = {
     port: context.port || DEFAULT_PORT,

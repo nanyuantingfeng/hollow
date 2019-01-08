@@ -7,7 +7,7 @@ import { WatchIgnorePlugin } from './plugins'
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin'
 import HappyPack from 'happypack'
 
-const EXCLUDE_REG_NODE_MODULES = /[/\\\\]node_modules[/\\\\]/
+const REG_NODE_MODULES = /node_modules/
 
 function getThemeMap(packageMap, cwd) {
   let theme = {}
@@ -96,20 +96,30 @@ export default async function(context, next) {
   const scriptRules = [
     {
       test: /\.worker\.jsx?$/,
-      exclude: [EXCLUDE_REG_NODE_MODULES],
+      exclude: [REG_NODE_MODULES],
       use: [{ loader: 'worker-loader', options: { name: workerFileName } }, ...JSX_LOADER]
     },
     {
       test(filePath) {
         return /\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
-      exclude: [EXCLUDE_REG_NODE_MODULES],
+      exclude: [REG_NODE_MODULES, /@babel(?:\/|\\{1,2})runtime/],
       use: JSX_LOADER
     },
     {
       test: /\.tsx?$/,
-      exclude: [EXCLUDE_REG_NODE_MODULES],
+      exclude: [REG_NODE_MODULES],
       use: TSX_LOADER
+    },
+    {
+      test: /\.mjsx?$/,
+      include: [REG_NODE_MODULES],
+      type: 'javascript/auto'
+    },
+    {
+      test: /\.(graphql|gql)$/,
+      exclude: [REG_NODE_MODULES],
+      use: [{ loader: 'graphql-tag/loader' }]
     }
   ]
   const stylesRules = [
@@ -192,16 +202,17 @@ export default async function(context, next) {
   ]
   const othersRules = [
     {
-      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-      use: [
-        {
-          loader: 'file-loader',
-          options: { limit, mimetype: 'application/font-woff' }
-        }
-      ]
+      test: /\.svgx$/,
+      use: [{ loader: '@svgr/webpack' }]
     },
+
     {
-      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+      test: /\.json5$/,
+      use: [{ loader: 'json5-loader' }]
+    },
+
+    {
+      test: /\.(woff|woff2)?(\?v=\d+\.\d+\.\d+)?$/,
       use: [
         {
           loader: 'file-loader',
@@ -236,17 +247,18 @@ export default async function(context, next) {
         }
       ]
     },
+
     {
-      test: /\.svgx$/,
-      use: [{ loader: '@svgr/webpack' }]
-    },
-    {
-      test: /\.json5$/,
-      use: [{ loader: 'json5-loader' }]
-    },
-    {
-      test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/i,
-      use: [{ loader: 'file-loader', options: { limit } }]
+      test: /\.(bmp|png|jpe?g|gif)(\?v=\d+\.\d+\.\d+)?$/i,
+      use: [
+        {
+          loader: 'url-loader',
+          options: {
+            limit,
+            name: 'static/media/[name].[hash:8].[ext]'
+          }
+        }
+      ]
     },
     {
       test: /\.html?$/,
