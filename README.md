@@ -51,7 +51,6 @@
        '@babel/plugin-transform-object-assign',
        '@babel/plugin-syntax-dynamic-import',
        '@babel/plugin-syntax-import-meta',
-       '@babel/plugin-syntax-export-extensions',
        '@babel/plugin-proposal-async-generator-functions',
        '@babel/plugin-transform-regenerator',
        '@babel/plugin-syntax-function-bind',
@@ -69,7 +68,7 @@
        ],
 
        'babel-plugin-lodash'
-        ],
+        ]
       }
 ```
 
