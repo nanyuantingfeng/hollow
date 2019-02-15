@@ -103,7 +103,7 @@ test('support environment-development', async () => {
   await testCase({}, 'build-env-development')
 })
 test('support environment-dll', async () => {
-  await testCaseDll({ compress: true }, 'build-env-dll')
+  await testCaseDll({ compress: false }, 'build-env-dll')
 })
 test('support environment-production', async () => {
   await testCase({ compress: true }, 'build-env-production')

@@ -16,7 +16,7 @@
       -ms-transform: translateX(1);
           transform: translateX(1);
 }
-.index3 {
+.index3 :global {
   border-right: 1px solid #ffffff;
 }
 .foo {
