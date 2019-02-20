@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "1.4.70",
+  "version": "1.4.72",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -24,7 +24,6 @@
     "@types/jest": "^24.0.5",
     "@types/react": "^16.8.3",
     "@types/react-dom": "^16.8.1",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.1.0",
     "copy-dir": "^0.4.0",
     "coveralls": "^3.0.2",
@@ -34,11 +33,11 @@
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "shelljs": "^0.8.3",
-    "ts-jest": "^23.10.5",
     "tslint": "^5.12.1",
     "whatwg-fetch": "^3.0.0"
   },
   "dependencies": {
+    "babel-core": "^7.0.0-bridge.0",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/plugin-external-helpers": "^7.2.0",
@@ -92,7 +91,7 @@
     "tslib": "^1.9.3",
     "typescript": "^3",
     "url-loader": "^1.1.2",
-    "webpack": "^4.28.4",
+    "webpack": "4.28.4",
     "webpack-bundle-analyzer": "^3.0.4",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14",
