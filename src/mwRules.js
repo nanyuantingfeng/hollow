@@ -63,7 +63,7 @@ function happypackLoaders(context) {
   }
 }
 
-function commonLoaders(context, happyPackMode) {
+function commonLoaders(context, enableHappyPack) {
   const { babelOptions, tsOptions } = context
 
   const JSX_LOADER = [
@@ -72,11 +72,11 @@ function commonLoaders(context, happyPackMode) {
 
   let tsOptions2 = tsOptions
 
-  if (happyPackMode) {
+  if (enableHappyPack) {
     tsOptions2 = { happyPackMode: true, ...tsOptions }
   }
 
-  const TSX_LOADER = [{ loader: 'ts-loader', options: tsOptions2 }]
+  const TSX_LOADER = [JSX_LOADER[0], { loader: 'ts-loader', options: tsOptions2 }]
 
   return { JSX_LOADER, TSX_LOADER }
 }
@@ -205,12 +205,10 @@ export default async function(context, next) {
       test: /\.svgx$/,
       use: [{ loader: '@svgr/webpack' }]
     },
-
     {
       test: /\.json5$/,
       use: [{ loader: 'json5-loader' }]
     },
-
     {
       test: /\.(woff|woff2)?(\?v=\d+\.\d+\.\d+)?$/,
       use: [
@@ -247,7 +245,6 @@ export default async function(context, next) {
         }
       ]
     },
-
     {
       test: /\.(bmp|png|jpe?g|gif)(\?v=\d+\.\d+\.\d+)?$/i,
       use: [

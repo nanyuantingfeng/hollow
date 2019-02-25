@@ -2,5 +2,7 @@
   "entry": {
     "index": "./index.ts"
   },
-  "dependencies": {"react": "latest"}
+  "dependencies": {
+    "react": "latest"
+  }
 }

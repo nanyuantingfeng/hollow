@@ -59,13 +59,16 @@ function testCaseDll(args, _case) {
 }
 
 beforeEach(() => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000
   delete process.env.NODE_ENV
   process.env.NODE_ENV = 'production'
 })
 
 test('support autoprefix', async () => {
   await testCase({ compress: true }, 'build-autoprefix')
+})
+test('support babel-plugin-import', async () => {
+  await testCase({ compress: false }, 'build-babel-plugin-import')
 })
 
 test('support class-property', async () => {
