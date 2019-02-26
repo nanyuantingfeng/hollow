@@ -8,6 +8,8 @@ import { getValueByPath } from './util'
 export default async function(context, next) {
   const { default_node_env, cwd, outputPath } = context
   const env = process.env.NODE_ENV || default_node_env || 'development'
+  const ASSET_PATH = process.env.ASSET_PATH || ''
+  context.ASSET_PATH = ASSET_PATH
 
   const isProduction = env === 'production'
   const isDevelopment = env === 'development'
@@ -39,7 +41,8 @@ export default async function(context, next) {
 
   context.webpackConfig.plugins.push(
     new DefinePlugin({
-      ['process.env.NODE_ENV']: JSON.stringify(env)
+      ['process.env.NODE_ENV']: JSON.stringify(env),
+      ['process.env.ASSET_PATH']: JSON.stringify(ASSET_PATH)
     })
   )
 

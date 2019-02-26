@@ -23,6 +23,7 @@ export default async function(context, next) {
 
   context.typescriptOptions = context.tsOptions = {
     transpileOnly: true,
+    experimentalWatchApi: true,
     compilerOptions: options.compilerOptions
   }
 

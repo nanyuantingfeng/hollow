@@ -56,10 +56,8 @@ export default async function(context, next) {
       filename: hash ? '[name]-[contenthash].js' : '[name].js',
       chunkFilename: hash ? '[name].chunk-[contenthash].js' : '[name].chunk.js',
       globalObject: 'this',
-
-      devtoolModuleFilenameTemplate: info =>
-        path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
-
+      pathinfo: false,
+      publicPath: context.ASSET_PATH,
       ...output
     },
 
