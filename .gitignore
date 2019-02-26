@@ -60,6 +60,4 @@ typings/
 build/
 demo/
 lib/
-cp2.js
-
 dist/
