@@ -76,7 +76,7 @@ function commonLoaders(context, enableHappyPack) {
     tsOptions2 = { happyPackMode: true, ...tsOptions }
   }
 
-  const TSX_LOADER = [JSX_LOADER[0], { loader: 'ts-loader', options: tsOptions2 }]
+  const TSX_LOADER = [{ loader: 'ts-loader', options: tsOptions2 }]
 
   return { JSX_LOADER, TSX_LOADER }
 }

@@ -18,8 +18,8 @@ export default async function(context, next) {
   options.compilerOptions.sourceMap = ENV.isDevelopment
   // 因为在后面 ts-loader 里面修正了 babel-loader 的链式调用,
   // 所以这边使用的 `module='esnext'` 使其不处理导出方式
-  options.compilerOptions.target = 'esnext'
-  options.compilerOptions.module = 'esnext'
+  // options.compilerOptions.target = 'es5'
+  // options.compilerOptions.module = 'esnext'
 
   context.typescriptOptions = context.tsOptions = {
     transpileOnly: true,
