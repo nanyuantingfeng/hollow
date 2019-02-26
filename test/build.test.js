@@ -156,6 +156,9 @@ test('support typescript', async () => {
 test('support web-worker', async () => {
   await testCase({ hash: true }, 'build-web-worker')
 })
+test('support web-worker-ts', async () => {
+  await testCase({ hash: true }, 'build-web-worker-ts')
+})
 
 test('should build-no-entry', async () => {
   try {

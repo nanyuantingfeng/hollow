@@ -89,15 +89,18 @@ export default async function(context, next) {
   const { cwd, limit = 10240, ENV, packageMap, hash, plugins } = context
   const theme = getThemeMap(packageMap, cwd)
   const { postcssOptions, rules } = context
-  const workerFileName = hash ? '[name]-[contenthash].worker.js' : '[name].worker.js'
-
   const { JSX_LOADER, TSX_LOADER } = getLoaderMode(context)
 
   const scriptRules = [
     {
       test: /\.worker\.jsx?$/,
       exclude: [REG_NODE_MODULES],
-      use: [{ loader: 'worker-loader', options: { name: workerFileName } }, ...JSX_LOADER]
+      use: [{ loader: 'workerize-loader' }, ...JSX_LOADER]
+    },
+    {
+      test: /\.worker\.tsx?$/,
+      exclude: [REG_NODE_MODULES],
+      use: [{ loader: 'workerize-loader' }, ...TSX_LOADER]
     },
     {
       test(filePath) {
@@ -107,7 +110,10 @@ export default async function(context, next) {
       use: JSX_LOADER
     },
     {
-      test: /\.tsx?$/,
+      test(filePath) {
+        return /\.tsx?$/.test(filePath) && !/\.worker\.tsx?$/.test(filePath)
+      },
+
       exclude: [REG_NODE_MODULES],
       use: TSX_LOADER
     },
