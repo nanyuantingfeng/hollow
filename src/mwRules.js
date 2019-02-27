@@ -31,8 +31,15 @@ function getThemeMap(packageMap, cwd) {
 }
 
 function getLoaderMode(context) {
-  const { enableHappyPack = true } = context
-  return enableHappyPack ? happypackLoaders(context) : commonLoaders(context, false)
+  const { enableHappyPack = true, importPluginOptions } = context
+
+  if (importPluginOptions && !Array.isArray(importPluginOptions)) {
+    throw new Error('context.importOptions must be an array')
+  }
+
+  return !importPluginOptions && enableHappyPack
+    ? happypackLoaders(context)
+    : commonLoaders(context)
 }
 
 function happypackLoaders(context) {
@@ -63,20 +70,14 @@ function happypackLoaders(context) {
   }
 }
 
-function commonLoaders(context, enableHappyPack) {
+function commonLoaders(context) {
   const { babelOptions, tsOptions } = context
 
   const JSX_LOADER = [
     { loader: 'babel-loader', options: babelOptions } /*, getReplaceLodashLoader()*/
   ]
 
-  let tsOptions2 = tsOptions
-
-  if (enableHappyPack) {
-    tsOptions2 = { happyPackMode: true, ...tsOptions }
-  }
-
-  const TSX_LOADER = [{ loader: 'ts-loader', options: tsOptions2 }]
+  const TSX_LOADER = [{ loader: 'ts-loader', options: tsOptions }]
 
   return { JSX_LOADER, TSX_LOADER }
 }

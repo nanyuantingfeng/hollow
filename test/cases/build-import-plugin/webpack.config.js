@@ -3,16 +3,11 @@
  **************************************************/
 
 module.exports = function(context) {
-  const { babelOptions } = context
-
- // context.enableHappyPack = false
-
-  babelOptions.plugins.push([
-    'babel-plugin-import',
+  context.importPluginOptions = [
     {
       libraryName: 'antd',
       style: true,
       libraryDirectory: 'es'
     }
-  ])
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "1.4.83",
+  "version": "1.4.88",
   "description": "Hollow CLI",
   "main": "lib/index.js",
   "author": "nanyuantingfeng",
@@ -24,6 +24,7 @@
     "@types/jest": "^24.0.8",
     "@types/react": "^16.8.5",
     "@types/react-dom": "^16.8.2",
+    "antd": "^3.13.6",
     "babel-jest": "^24.1.0",
     "copy-dir": "^0.4.0",
     "coveralls": "^3.0.3",
@@ -87,6 +88,7 @@
     "postcss-loader": "^3.0.0",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.3",
+    "ts-import-plugin": "^1.5.5",
     "ts-loader": "^5.3.3",
     "tslib": "^1.9.3",
     "typescript": "^3",

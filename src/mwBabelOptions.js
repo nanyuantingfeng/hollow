@@ -59,7 +59,8 @@ export default async function(context, next) {
   const {
     optimizeDynamicImport = context.ENV.isDevelopment,
     optimizeLodash = true,
-    useBabelrc = false
+    useBabelrc = false,
+    importPluginOptions
   } = context
 
   if (useBabelrc) {
@@ -72,5 +73,9 @@ export default async function(context, next) {
 
   if (optimizeLodash) {
     commonPlugins.push('babel-plugin-lodash')
+  }
+
+  if (importPluginOptions) {
+    commonPlugins.push(...importPluginOptions.map(o => ['babel-plugin-import', o]))
   }
 }
