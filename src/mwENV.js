@@ -41,6 +41,7 @@ export default async function(context, next) {
 
   context.webpackConfig.plugins.push(
     new DefinePlugin({
+      __DEV__: isDevelopment,
       ['process.env.NODE_ENV']: JSON.stringify(env),
       ['process.env.ASSET_PATH']: JSON.stringify(ASSET_PATH)
     })
