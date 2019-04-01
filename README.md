@@ -4,17 +4,15 @@
 
 # hollow-cli
 
-> 一个基于 webpack4 + babel7 + happypack + TS 编写的一个零配置打包工具.
+> Base on Webpack 4.x/Babel 7.x/Happypack 5.x /TS 3.x Zero configuration Packaging Tools.
 
-## 背景
+> webpack 4.x has been quite well developed, but there is no general configuration to simplify operations.
+> this tool provides a default base configuration for most development situations.
 
-> webpack 4.x 已经做的相当完善,但并没有一个通用的配置来简化操作,
-> 此工具提供一个的默认的基础配置的以适应大部分的开发场合.
-
-## 使用方式
+## Usage
 
 ```bash
-    npm i hollow-cli --save-dev
+    npm i -D hollow-cli
 ```
 
 ```CLI
@@ -22,57 +20,36 @@
     hollow build
     hollow dll
     =======================
-    > 其他参数详见
+    > others :
     > hollow dev -h
     > hollow build -h
 ```
 
-## 默认提供的能力
+## Default Provider
 
-- GraphQL [*.graphql, *.gql]
+- GraphQL ```[*.graphql, *.gql]```
 
-- Babel [*.js, *.jsx, *.ts, *.tsx]
+- Babel ```[*.js, *.jsx]```
 
-```javascript
-    context.babelOptions = {
-      '@babel/preset-env',
-      {
-        targets: {
-          browsers: ['last 2 versions', 'safari >= 7', 'IE >= 11']
-        },
-        modules: false,
-        useBuiltIns: false
-      }
-    ],
-    '@babel/preset-react'
-        plugins: [
-       '@babel/plugin-external-helpers',
-       '@babel/plugin-transform-runtime',
-       '@babel/plugin-transform-object-assign',
-       '@babel/plugin-syntax-dynamic-import',
-       '@babel/plugin-syntax-import-meta',
-       '@babel/plugin-proposal-async-generator-functions',
-       '@babel/plugin-transform-regenerator',
-       '@babel/plugin-syntax-function-bind',
-       [
-         '@babel/plugin-proposal-decorators',
-         {
-           legacy: true
-         }
-       ],
-       [
-         '@babel/plugin-proposal-class-properties',
-         {
-           loose: true
-         }
-       ],
+  @babel/preset-env
 
-       'babel-plugin-lodash'
-        ]
-      }
-```
+  ```
+    browsers: ['last 2 versions', 'safari >= 7', 'IE >= 11']
+  ```
 
-- TypeScript [ *.ts ,*.tsx ]
+  - @babel/preset-react
+  - @babel/plugin-external-helpers
+  - @babel/plugin-transform-runtime
+  - @babel/plugin-transform-object-assign
+  - @babel/plugin-syntax-dynamic-import
+  - @babel/plugin-syntax-import-meta
+  - @babel/plugin-proposal-async-generator-functions
+  - @babel/plugin-transform-regenerator
+  - @babel/plugin-proposal-decorators `:legacy`
+  - @babel/plugin-proposal-class-properties `:loose`
+  - babel-plugin-lodash
+
+- TypeScript ```[ *.ts ,*.tsx ]```
 
 ```json
 {
@@ -96,8 +73,6 @@
     "inlineSourceMap": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "dist/lib",
-    "rootDir": "src",
     "skipLibCheck": true,
     "lib": [
       "dom",
@@ -120,27 +95,21 @@
 }
 ```
 
-- Less [ *.less ]
-- PostCSS [*.less, *.css]
+- Less ``` [ *.less ] ```
 
-```javascript
-context.postcssOptions = {
-  sourceMap: true,
-  plugins: [
-    autoprefixer({
-      browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4']
-    })
-  ]
-}
-```
+- PostCSS ``` [*.less, *.css] ```
 
-- ModuleCSS [*.module.css, *.module.less]
-- Font (file-loader) [*.woff, *.woff2, *.ttf, *.eot]
-- IMG (file-loader) [*.svg, *.png, *.jpg, *.jpeg, *.gif]
+  ```
+   browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4']
+  ```
+
+- Module CSS ```[*.module.css, *.module.less]```
+- Font (file-loader) ```[*.woff, *.woff2, *.ttf, *.eot]```
+- IMG (file-loader) ```[*.svg, *.png, *.jpg, *.jpeg, *.gif]```
 - HTML (file-loader)
-- hbs (mustache-loader)
+- HBS (mustache-loader)
 
-## 扩展
+## Extensible
 
 > 提供的默认配置表皆可修改.
 > 在 package.json 的同级目录下创建一个 webpack.config.js 文件
@@ -153,7 +122,7 @@ module.exports = async function(context) {
 }
 ```
 
-- 插件配置
+- Plugin configuration
 
 ```javascript
 //Babel
@@ -175,7 +144,11 @@ context.devtool = ''
 context.webpackConfig = {}
 ```
 
-- 定义环境变量
+- ENV Variables
+
+* `VERSION` : `e.g. 1.0.0`
+* `APPLICATION_VERSION`: `e.g. 1.0.0-beta / 1.0.0-dev / 1.0.0`
+* `__DEV__` : is development
 
 ```javascript
 context.defines = {
@@ -184,7 +157,7 @@ context.defines = {
 }
 ```
 
-- 需要复制的文件列表
+- Copy Files to Dist
 
 ```javascript
 context.files = {
@@ -194,7 +167,7 @@ context.files = {
 }
 ```
 
-- 排除的文件列表
+- Externals Files
 
 ```javascript
 context.externals = {
@@ -204,7 +177,7 @@ context.externals = {
 }
 ```
 
-- 全局的引用 (详见 webpack)
+- Global Provides
 
 ```javascript
 context.provides = {
@@ -213,21 +186,21 @@ context.provides = {
 }
 ```
 
-- SDK (引用外部的 js 文件)
+- SDK (include CDN Files)
 
 ```javascript
 context.sdk = {
-  index: ['a.js', 'b,js'],
-  index1: ['a.js', 'b,js', 'c.js'],
-  index2: ['a.js', 'b,js', 'd.js']
+  index: ['a.js', 'b,js', 'http://xxx/xxx/xxx.js'],
+  index1: ['a.js', 'b,js', 'c.js', 'http://xxx/xxx/xxx.js'],
+  index2: ['a.js', 'b,js', 'd.js', 'http://xxx/xxx/xxx.js']
 }
 ```
 
-## DLL Plugin 的支持
+## DLL Support
 
 ```javascript
 //webpack.dll.js
-context.dll = ['react', 'react-dom', 'moment', 'prop-types' /* ... */]
+context.dll = ['react', 'react-dom', 'moment' /* ... */]
 
 //webpack.config.js | webpack.build.js
 context.dll = true // === context.dll = './dll'
