@@ -168,3 +168,8 @@ test('should build-no-entry', async () => {
     expect(e.message).toEqual('no webpack entry found')
   }
 })
+
+test('should build-no-entry-at-example', async () => {
+  process.env.NODE_ENV = 'development'
+  await testCase({}, 'build-no-entry-at-example')
+})

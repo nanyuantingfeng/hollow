@@ -111,7 +111,7 @@ export function getBuildHTML(context) {
     compress
   } = context
 
-  let entry = context.entry || context.packageMap.entry
+  let entry = context.entry || context.packageMap.entry || getExampleEntry(context)
 
   if (!entry) {
     throw new Error('entry is an invalid value')
@@ -259,4 +259,20 @@ export function PromiseDefer() {
     reject = rj
   })
   return { promise, resolve, reject }
+}
+
+export function getExampleEntry(context) {
+  if (!context.ENV.isDevelopment) {
+    return null
+  }
+
+  let entry = null
+
+  ;['js', 'jsx', 'ts', 'tsx'].forEach(ext => {
+    if (fs.existsSync(path.join(context.DIRs.root, 'example', `index.${ext}`))) {
+      entry = `./example/index.${ext}`
+    }
+  })
+
+  return entry
 }
