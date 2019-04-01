@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "Hollow CLI",
   "license": "MIT",
   "main": "./lib/index.js",
@@ -25,7 +25,6 @@
   "devDependencies": {
     "@types/autoprefixer": "^9.4.0",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "@types/chalk": "^2.2.0",
     "@types/copy-webpack-plugin": "^4.4.3",
     "@types/html-webpack-plugin": "^3.2.0",
     "@types/jest": "^24.0.11",
@@ -147,7 +146,10 @@
       "js",
       "jsx",
       "ts",
-      "tsx"
+      "tsx",
+      "json",
+      "json5",
+      "node"
     ],
     "testMatch": [
       "<rootDir>/test/**/*.test.{ts,tsx,js,jsx}"
