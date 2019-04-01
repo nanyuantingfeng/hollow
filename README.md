@@ -25,11 +25,39 @@
     > hollow build -h
 ```
 
+````js
+// must be provide a entry
+// webpack.config.js
+module.exports = context => {
+  // context.entry = './src/index.js'
+  context.entry = {
+    index: './src/index.js',
+    index2: './src/index2.js'
+  }
+}
+
+/*   OR : package.json */
+;```json
+     {
+         // "entry" : "./src/index.js"
+          "entry" : {
+             "index" :"./src/index.js"
+             "index2" : "./src/index2.js"
+            }
+          }
+    ```
+
+/** OR :
+ *   if you don`t provide "entry",
+ *   "entry" is ./example/index.[jt]sx?
+ * **/
+````
+
 ## Default Provider
 
-- GraphQL ```[*.graphql, *.gql]```
+- GraphQL `[*.graphql, *.gql]`
 
-- Babel ```[*.js, *.jsx]```
+- Babel `[*.js, *.jsx]`
 
   @babel/preset-env
 
@@ -49,7 +77,7 @@
   - @babel/plugin-proposal-class-properties `:loose`
   - babel-plugin-lodash
 
-- TypeScript ```[ *.ts ,*.tsx ]```
+- TypeScript `[ *.ts ,*.tsx ]`
 
 ```json
 {
@@ -95,17 +123,17 @@
 }
 ```
 
-- Less ``` [ *.less ] ```
+- Less `[ *.less ]`
 
-- PostCSS ``` [*.less, *.css] ```
+- PostCSS `[*.less, *.css]`
 
   ```
    browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 8', 'iOS >= 8', 'Android >= 4']
   ```
 
-- Module CSS ```[*.module.css, *.module.less]```
-- Font (file-loader) ```[*.woff, *.woff2, *.ttf, *.eot]```
-- IMG (file-loader) ```[*.svg, *.png, *.jpg, *.jpeg, *.gif]```
+- Module CSS `[*.module.css, *.module.less]`
+- Font (file-loader) `[*.woff, *.woff2, *.ttf, *.eot]`
+- IMG (file-loader) `[*.svg, *.png, *.jpg, *.jpeg, *.gif]`
 - HTML (file-loader)
 - HBS (mustache-loader)
 
