@@ -7,6 +7,7 @@ const {
   DefinePlugin,
   HotModuleReplacementPlugin,
   ProgressPlugin,
+  // @ts-ignore
   WebpackOptionsValidationError,
   ProvidePlugin,
   DllPlugin,

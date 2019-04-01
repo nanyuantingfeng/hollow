@@ -4,8 +4,9 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import { DllPlugin, DllReferencePlugin } from './plugins'
 import path from 'path'
+import { Context, Next } from './types'
 
-export default async function(context, next) {
+export default async function mwDLL(context: Context, next: Next) {
   context.dll = false
   context.DLL_FILENAME = false
 
@@ -30,12 +31,12 @@ export default async function(context, next) {
       library: libraryName
     }
 
-    context.entry = { dll }
+    context.entry = { dll: dll as any }
   }
 
   //is Ref DLL Plugin
-  if (typeof dll === 'string' || dll === true) {
-    const dllPath = dll === true ? path.resolve(DIRs.root, 'dll') : dll
+  if (typeof dll === 'string' || (dll as boolean) === true) {
+    const dllPath = (dll as boolean) === true ? path.resolve(DIRs.root, 'dll') : ((dll as unknown) as string)
     const manifest = require(path.join(dllPath, 'manifest.json'))
     const dllFileName = `${manifest.name}.js`
 

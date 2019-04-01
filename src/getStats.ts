@@ -2,7 +2,9 @@
  * Created by nanyuantingfeng on 09/11/2017 21:53.
  **************************************************/
 
-export default function(verbose) {
+export default getStats
+
+function getStats(verbose: boolean) {
   return {
     all: undefined,
 
@@ -55,5 +57,5 @@ export default function(verbose) {
     depth: false,
 
     exclude: /node_modules/
-  }
+  } as any
 }

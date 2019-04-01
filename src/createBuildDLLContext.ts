@@ -3,9 +3,10 @@
  **************************************************/
 import compose from 'koa-compose'
 import { mwsDLL } from './mws'
+import { Context } from './types'
 
-export default function(args) {
-  const context = {
+export default function createBuildDLLContext(args: any): Promise<Context> {
+  const context: Context = {
     cwd: process.cwd(),
     files: {},
     externals: {},
@@ -20,5 +21,6 @@ export default function(args) {
 
   const { cwd, config } = context
 
-  return compose(mwsDLL(cwd, config))(context)
+  // @ts-ignore
+  return compose<Context>(mwsDLL(cwd, config))(context)
 }

@@ -11,8 +11,9 @@ import path from 'path'
 
 import { ProgressPlugin, IgnorePlugin, AggressiveSplittingPlugin } from './plugins'
 import { getProgressHandler, getOptions } from './util'
+import { Context, Next } from './types'
 
-export default async function(context, next) {
+export default async function mwPlugins(context: Context, next: Next) {
   context.plugins = [
     new CaseSensitivePathsPlugin(),
     new ProgressPlugin(getProgressHandler),
@@ -75,6 +76,7 @@ export default async function(context, next) {
             ecma: 8
           },
           compress: {
+            // @ts-ignore
             ecma: 5,
             warnings: false,
             // Disabled because of an issue with Uglify breaking seemingly valid code:
@@ -119,21 +121,17 @@ export default async function(context, next) {
   context.plugins = plugins
 
   if (records) {
-    context.webpackConfig.recordsOutputPath = path.join(
-      cwd,
-      outputPath,
-      getOptions(records, 'records.json')
-    )
+    context.webpackConfig.recordsOutputPath = path.join(cwd, outputPath, getOptions<string>(records, 'records.json'))
   }
 
   if (analyzer) {
-    plugins.push(new BundleAnalyzerPlugin(getOptions(analyzer)))
+    plugins.push(new BundleAnalyzerPlugin(getOptions<BundleAnalyzerPlugin.Options>(analyzer)))
   }
 
   if (optimizeLodash) {
     plugins.push(
       new LodashWebpackPlugin(
-        getOptions(optimizeLodash, {
+        getOptions<LodashWebpackPlugin.Options>(optimizeLodash, {
           shorthands: true,
           paths: true,
           cloning: true,

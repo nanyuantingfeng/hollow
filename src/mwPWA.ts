@@ -5,8 +5,9 @@ import path from 'path'
 import ManifestPlugin from 'webpack-manifest-plugin'
 import WorkboxWebpackPlugin from 'workbox-webpack-plugin'
 import WebpackPWAManifest from 'webpack-pwa-manifest'
+import { Context, Next } from './types'
 
-export default async function(context, next) {
+export default async function mwPWA(context: Context, next: Next) {
   next()
 
   const { plugins, publicPath = '/', packageMap, pwaManifestOptions, enablePWA = false } = context

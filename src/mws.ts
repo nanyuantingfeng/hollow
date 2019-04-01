@@ -14,12 +14,14 @@ import mwRules from './mwRules'
 import mwENV from './mwENV'
 import mwDLL from './mwDLL'
 import mwPWA from './mwPWA'
+import { Middleware } from 'koa-compose'
+import { Context } from './types'
 
 async function noop() {}
 
-function getCustomConfig(cwd, config) {
+function getCustomConfig(cwd: string, config: Function | string): Middleware<Context> {
   if ('function' === typeof config) {
-    return config
+    return config as Middleware<Context>
   }
 
   let paths = []
@@ -59,7 +61,7 @@ function getCustomConfig(cwd, config) {
   return cc
 }
 
-export function mwsBuild(cwd, config) {
+export function mwsBuild(cwd: string, config: Function | string): Middleware<Context>[] {
   const mwConfig = getCustomConfig(cwd, config)
 
   return [
@@ -77,7 +79,7 @@ export function mwsBuild(cwd, config) {
   ]
 }
 
-export function mwsDevServer(cwd, config) {
+export function mwsDevServer(cwd: string, config: Function | string): Middleware<Context>[] {
   const mwConfig = getCustomConfig(cwd, config)
 
   return [
@@ -96,17 +98,7 @@ export function mwsDevServer(cwd, config) {
   ]
 }
 
-export function mwsDLL(cwd, config) {
+export function mwsDLL(cwd: string, config: Function | string): Middleware<Context>[] {
   const mwConfig = getCustomConfig(cwd, config)
-  return [
-    mwENV,
-    mwBuild,
-    mwDLL,
-    mwPlugins,
-    mwRules,
-    mwBabelOptions,
-    mwPostCSSOptions,
-    mwTSOptions,
-    mwConfig
-  ]
+  return [mwENV, mwBuild, mwDLL, mwPlugins, mwRules, mwBabelOptions, mwPostCSSOptions, mwTSOptions, mwConfig]
 }

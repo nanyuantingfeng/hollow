@@ -3,9 +3,10 @@
  **************************************************/
 import compose from 'koa-compose'
 import { mwsDevServer } from './mws'
+import { Context } from './types'
 
-export default function(args) {
-  const context = {
+export default function createDevServerContext(args: any): Promise<Context> {
+  const context: Context = {
     cwd: process.cwd(),
     files: {},
     externals: {},
@@ -18,5 +19,6 @@ export default function(args) {
     ...args
   }
   const { cwd, config } = context
+  // @ts-ignore
   return compose(mwsDevServer(cwd, config))(context)
 }

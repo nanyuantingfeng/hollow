@@ -6,10 +6,11 @@ import path from 'path'
 import { WatchIgnorePlugin } from './plugins'
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin'
 import HappyPack from 'happypack'
+import { Context, Next, PackageMap } from './types'
 
 const REG_NODE_MODULES = /node_modules/
 
-function getThemeMap(packageMap, cwd) {
+function getThemeMap(packageMap: PackageMap, cwd: string) {
   let theme = {}
 
   const packageMapTheme = packageMap.theme
@@ -30,20 +31,18 @@ function getThemeMap(packageMap, cwd) {
   return theme
 }
 
-function getLoaderMode(context) {
+function getLoaderMode(context: Context) {
   const { enableHappyPack = true, importPluginOptions } = context
 
   if (importPluginOptions && !Array.isArray(importPluginOptions)) {
     throw new Error('context.importOptions must be an array')
   }
 
-  return !importPluginOptions && enableHappyPack
-    ? happypackLoaders(context)
-    : commonLoaders(context)
+  return !importPluginOptions && enableHappyPack ? happypackLoaders(context) : commonLoaders(context)
 }
 
-function happypackLoaders(context) {
-  const { JSX_LOADER, TSX_LOADER } = commonLoaders(context, true)
+function happypackLoaders(context: Context) {
+  const { JSX_LOADER, TSX_LOADER } = commonLoaders(context)
   const THREAD_POOL_CPU_SIZE = os.cpus().length
   const threadPool = HappyPack.ThreadPool({ size: THREAD_POOL_CPU_SIZE })
   const { plugins } = context
@@ -70,19 +69,17 @@ function happypackLoaders(context) {
   }
 }
 
-function commonLoaders(context) {
+function commonLoaders(context: Context) {
   const { babelOptions, tsOptions } = context
 
-  const JSX_LOADER = [
-    { loader: 'babel-loader', options: babelOptions } /*, getReplaceLodashLoader()*/
-  ]
+  const JSX_LOADER = [{ loader: 'babel-loader', options: babelOptions } /*, getReplaceLodashLoader()*/]
 
   const TSX_LOADER = [{ loader: 'ts-loader', options: tsOptions }]
 
   return { JSX_LOADER, TSX_LOADER }
 }
 
-export default async function(context, next) {
+export default async function mwRules(context: Context, next: Next) {
   context.rules = []
 
   next()
@@ -104,14 +101,14 @@ export default async function(context, next) {
       use: [{ loader: 'workerize-loader' }, ...TSX_LOADER]
     },
     {
-      test(filePath) {
+      test(filePath: string) {
         return /\.jsx?$/.test(filePath) && !/\.worker\.jsx?$/.test(filePath)
       },
       exclude: [REG_NODE_MODULES, /@babel(?:\/|\\{1,2})runtime/],
       use: JSX_LOADER
     },
     {
-      test(filePath) {
+      test(filePath: string) {
         return /\.tsx?$/.test(filePath) && !/\.worker\.tsx?$/.test(filePath)
       },
 
@@ -131,7 +128,7 @@ export default async function(context, next) {
   ]
   const stylesRules = [
     {
-      test(filePath) {
+      test(filePath: string) {
         return /\.css$/.test(filePath) && !/\.module\.css$/.test(filePath)
       },
       use: [
@@ -161,7 +158,7 @@ export default async function(context, next) {
       ]
     },
     {
-      test(filePath) {
+      test(filePath: string) {
         return /\.less$/.test(filePath) && !/\.module\.less$/.test(filePath)
       },
       use: [
@@ -282,13 +279,14 @@ export default async function(context, next) {
   ]
 
   if (ENV.isProduction || ENV.isBeta) {
-    stylesRules.map(rule => (rule.use[0] = MiniCSSExtractPlugin.loader))
+    stylesRules.map((rule: any) => (rule.use[0] = MiniCSSExtractPlugin.loader))
     const filename = hash ? '[name]-[contenthash:8].css' : '[name].css'
     const chunkFilename = hash ? '[name]-[contenthash:8].chunk.css' : '[name].chunk.css'
     plugins.push(new MiniCSSExtractPlugin({ filename, chunkFilename }))
   }
 
   context.rules = scriptRules
+    // @ts-ignore
     .concat([{ parser: { requireEnsure: false } }])
     .concat(stylesRules)
     .concat(othersRules)

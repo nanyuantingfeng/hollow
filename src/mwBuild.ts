@@ -3,8 +3,12 @@
  **************************************************/
 import path from 'path'
 import { checkWebpackConfig, getNodeVersion, getBuildSourceMap } from './util'
+import { Context, Next } from './types'
+import { Configuration } from 'webpack'
+import * as webpack from 'webpack'
+import Devtool = webpack.Options.Devtool
 
-export default async function(context, next) {
+export default async function mwBuild(context: Context, next: Next) {
   context.output = {}
   context.webpackConfig = {}
 
@@ -24,7 +28,7 @@ export default async function(context, next) {
     alias
   } = context
 
-  const config = {
+  const config: Configuration = {
     cache: true,
     entry: context.entry || packageMap.entry,
     resolve: {
@@ -51,7 +55,6 @@ export default async function(context, next) {
       },
       ...context.resolve
     },
-
     output: {
       filename: hash ? '[name]-[contenthash].js' : '[name].js',
       chunkFilename: hash ? '[name].chunk-[contenthash].js' : '[name].chunk.js',
@@ -64,7 +67,7 @@ export default async function(context, next) {
     context: context.context || cwd,
     externals: context.externals,
     node: getNodeVersion(packageMap),
-    devtool: getBuildSourceMap(devtool, ENV),
+    devtool: getBuildSourceMap(devtool, ENV) as Devtool,
 
     module: {
       strictExportPresence: true,

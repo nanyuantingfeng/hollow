@@ -6,8 +6,9 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 import { DefinePlugin, ProvidePlugin } from './plugins'
 import { getBuildCopyFiles, getBuildExternals, getBuildHTML } from './util'
+import { Context, FilesMap, Next } from './types'
 
-export default async function(context, next) {
+export default async function mwMultiEntryHTML(context: Context, next: Next) {
   next()
 
   const { packageMap, plugins, ENV } = context
@@ -20,7 +21,7 @@ export default async function(context, next) {
   /***********************
    * 配置忽略依赖
    */
-  context.externals = getBuildExternals({ ...context.files, ...context.externals })
+  context.externals = getBuildExternals({ ...context.files, ...context.externals } as any)
 
   const version = context.version || packageMap.version || '0.0.0'
   const versionTail = ENV.isBeta ? '-beta' : ENV.isDevelopment ? '-dev' : ''

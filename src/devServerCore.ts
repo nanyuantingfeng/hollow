@@ -3,14 +3,16 @@
  **************************************************/
 import { webpack, WebpackOptionsValidationError } from './plugins'
 import { createDomain, PromiseDefer } from './util'
-import Server from 'webpack-dev-server/lib/Server'
+import Server, { Configuration } from 'webpack-dev-server'
 import createLogger from 'webpack-dev-server/lib/utils/createLogger'
+import { Context } from './types'
+import Signals = NodeJS.Signals
 
-function colorInfo(msg) {
+function colorInfo(msg: string) {
   return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`
 }
 
-function colorError(msg) {
+function colorError(msg: string) {
   return `\u001b[1m\u001b[31m${msg}\u001b[39m\u001b[22m`
 }
 
@@ -18,12 +20,12 @@ process.on('unhandledRejection', err => {
   throw err
 })
 
-export function startDevServer(context) {
+export function startDevServer(context: Context) {
   const { webpackConfig } = context
 
   const firstWpOpt = Array.isArray(webpackConfig) ? webpackConfig[0] : webpackConfig
 
-  const options = webpackConfig.devServer || firstWpOpt.devServer || {}
+  const options = firstWpOpt.devServer || {}
 
   const log = createLogger(options)
 
@@ -34,7 +36,7 @@ export function startDevServer(context) {
   let compiler
 
   try {
-    compiler = webpack(webpackConfig)
+    compiler = webpack(webpackConfig as Configuration)
   } catch (e) {
     if (e instanceof WebpackOptionsValidationError) {
       log.error(colorError(e.message))
@@ -43,9 +45,10 @@ export function startDevServer(context) {
     defer.reject(e)
   }
 
-  let server
+  let server: Server
 
   try {
+    // @ts-ignore
     server = new Server(compiler, options, log)
   } catch (e) {
     log.error(colorError(e.message))
@@ -53,17 +56,17 @@ export function startDevServer(context) {
     defer.reject(e)
   }
 
-  ;['SIGINT', 'SIGTERM'].forEach(sig => {
+  ;(['SIGINT', 'SIGTERM'] as Signals[]).forEach(sig => {
     process.on(sig, () => {
       server.close()
       process.exit()
     })
   })
 
-  server.listen(options.port, options.host, err => {
+  server.listen(options.port, options.host, (err: Error) => {
     if (err) throw err
     defer.resolve(server)
-    log.info(`\nService is running at ${colorInfo(createDomain(options))}`)
+    log.info(`\nService is running at ${colorInfo(createDomain(options as any))}`)
   })
 
   return defer.promise

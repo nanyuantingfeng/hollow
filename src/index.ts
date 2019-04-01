@@ -9,11 +9,4 @@ import createBuildContext from './createBuildContext'
 import createBuildDLLContext from './createBuildDLLContext'
 import createDevServerContext from './createDevServerContext'
 
-export {
-  build,
-  buildDLL,
-  devServer,
-  createBuildContext,
-  createBuildDLLContext,
-  createDevServerContext
-}
+export { build, buildDLL, devServer, createBuildContext, createBuildDLLContext, createDevServerContext }

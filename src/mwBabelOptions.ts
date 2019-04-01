@@ -1,8 +1,9 @@
 /**************************************************
  * Created by nanyuantingfeng on 16/08/2017 13:03.
  **************************************************/
+import { Context, Next } from './types'
 
-export default async function(context, next) {
+export default async function mwBabelOptions(context: Context, next: Next) {
   const commonPresets = [
     [
       '@babel/preset-env',
@@ -77,6 +78,6 @@ export default async function(context, next) {
   }
 
   if (importPluginOptions) {
-    commonPlugins.push(...importPluginOptions.map(o => ['babel-plugin-import', o]))
+    commonPlugins.push(...importPluginOptions.map((o: any) => ['babel-plugin-import', o]))
   }
 }

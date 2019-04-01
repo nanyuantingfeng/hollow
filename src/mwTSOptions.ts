@@ -4,8 +4,9 @@
 import fs from 'fs'
 import path from 'path'
 import tsImportPluginFactory from 'ts-import-plugin'
+import { Context, Next } from './types'
 
-export default async function(context, next) {
+export default async function(context: Context, next: Next) {
   const { cwd, ENV } = context
 
   let typescriptConfigPath = path.join(__dirname, '../tsconfig.json')

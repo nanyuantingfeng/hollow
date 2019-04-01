@@ -3,11 +3,11 @@
  **************************************************/
 import autoprefixer from 'autoprefixer'
 import flexbugsfixes from 'postcss-flexbugs-fixes'
+import { Context, Next } from './types'
 
-export default async function(context, next) {
+export default async function mwPostCSSOptions(context: Context, next: Next) {
   context.postcssOptions = {
     sourceMap: true,
-
     plugins: [
       flexbugsfixes,
       autoprefixer({

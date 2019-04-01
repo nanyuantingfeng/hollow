@@ -3,12 +3,13 @@
  **************************************************/
 import { HotModuleReplacementPlugin } from './plugins'
 import getStats from './getStats'
+import { Context, Next } from './types'
 
 const DEFAULT_PORT = 8080
 const DEFAULT_HOST = '0.0.0.0'
 
-function parseProxyWithOptions(proxy, options) {
-  const oo = {}
+function parseProxyWithOptions(proxy: any, options: object) {
+  const oo: any = {}
   const keys = Object.keys(proxy)
   keys.forEach(key => {
     const target = proxy[key]
@@ -17,14 +18,14 @@ function parseProxyWithOptions(proxy, options) {
   return oo
 }
 
-function parseStringProxy(proxy) {
+function parseStringProxy(proxy: any) {
   if (typeof proxy === 'string') {
     proxy = { '*': proxy }
   }
   return proxy
 }
 
-export default async function(context, next) {
+export default async function mwDevServer(context: Context, next: Next) {
   context.devServer = {}
   context.proxy = {}
   context.proxyOptions = { changeOrigin: true }
@@ -34,11 +35,9 @@ export default async function(context, next) {
 
   let { devServer, proxy, proxyOptions, plugins, DIRs, packageMap } = context
 
-  const proxyObj = parseProxyWithOptions(
-    { ...parseStringProxy(packageMap.proxy), ...proxy },
-    proxyOptions
-  )
+  const proxyObj = parseProxyWithOptions({ ...parseStringProxy(packageMap.proxy), ...proxy }, proxyOptions)
 
+  // @ts-ignore
   context.webpackConfig.devServer = context.devServer = {
     port: context.port || DEFAULT_PORT,
 

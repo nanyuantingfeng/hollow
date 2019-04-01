@@ -5,25 +5,26 @@ import path from 'path'
 import { webpack } from './plugins'
 import { notifier, PromiseDefer } from './util'
 import getStats from './getStats'
+import { Context } from './types'
 
 process.on('unhandledRejection', err => {
   throw err
 })
 
-export default function(context) {
+export default function buildCore(context: Context): Promise<Context> {
   let { webpackConfig } = context
 
   webpackConfig = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
 
   let fileOutputPath
 
-  webpackConfig.forEach(config => {
+  webpackConfig.forEach((config: any) => {
     fileOutputPath = config.output.path
   })
 
-  let defer = PromiseDefer()
+  const defer = PromiseDefer<Context>()
 
-  function compileDoneHandler(err, stats) {
+  function compileDoneHandler(err: Error, stats: any) {
     if (err) {
       console.error(err)
       defer.reject(err)
@@ -72,13 +73,13 @@ export default function(context) {
     defer.resolve()
   }
 
-  let compiler = webpack(webpackConfig)
+  const compiler: any = webpack(webpackConfig)
 
   if (!context.verbose) {
-    compiler.hooks.done.tap('mini-css-extract-plugin', stats => {
-      stats.stats.forEach(stat => {
+    compiler.hooks.done.tap('mini-css-extract-plugin', (stats: any) => {
+      stats.stats.forEach((stat: any) => {
         stat.compilation.children = stat.compilation.children.filter(
-          child => !child.name.startsWith('mini-css-extract-plugin')
+          (child: any) => !child.name.startsWith('mini-css-extract-plugin')
         )
       })
     })

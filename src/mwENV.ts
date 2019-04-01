@@ -4,8 +4,9 @@
 import path from 'path'
 import { DefinePlugin } from './plugins'
 import { getValueByPath } from './util'
+import { Context, Next } from './types'
 
-export default async function(context, next) {
+export default async function mwENV(context: Context, next: Next) {
   const { default_node_env, cwd, outputPath } = context
   const env = process.env.NODE_ENV || default_node_env || 'development'
   const ASSET_PATH = process.env.ASSET_PATH || ''

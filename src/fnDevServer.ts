@@ -4,7 +4,7 @@
 import { startDevServer } from './devServerCore'
 import createDevServerContext from './createDevServerContext'
 
-export default function(args) {
+export default function fnDevServer(args: any) {
   return createDevServerContext(args)
     .then(startDevServer)
     .catch(e => {

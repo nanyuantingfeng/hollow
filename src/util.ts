@@ -6,10 +6,13 @@ import chalk from 'chalk'
 import fs from 'fs'
 import path from 'path'
 
+import { Context, Entry, ENV, ENVValue, File, FilesMap, PackageMap } from './types'
+import { Configuration } from 'webpack'
+
 export { notifier, chalk }
 
-export function getProgressHandler(percent, msg1, msg2) {
-  let stream = process.stdout
+export function getProgressHandler(percent: number, msg1: string, msg2: string) {
+  const stream: any = process.stdout
   if (stream.isTTY && percent < 0.7) {
     stream.cursorTo(0)
     stream.write(`\u231B  ${chalk.magenta(msg2)} ${msg1}`)
@@ -19,7 +22,7 @@ export function getProgressHandler(percent, msg1, msg2) {
   }
 }
 
-export function checkWebpackConfig(webpackConfig) {
+export function checkWebpackConfig(webpackConfig: Configuration) {
   const configs = Array.isArray(webpackConfig) ? webpackConfig : [webpackConfig]
   const hasEmptyEntry = configs.some(c => Object.keys(c.entry || {}).length === 0)
   if (hasEmptyEntry) {
@@ -29,21 +32,21 @@ export function checkWebpackConfig(webpackConfig) {
   }
 }
 
-export function getValueByPath(path) {
+export function getValueByPath(path: string) {
   return !fs.existsSync(path) ? {} : require(path)
 }
 
-export function getBuildCopyFiles(files) {
+export function getBuildCopyFiles(files: File[]): any {
   if (Array.isArray(files)) {
     return files.map(from => ({ from }))
   }
   return Object.keys(files)
     .filter(key => {
-      let file = files[key]
-      return typeof file === 'string' || !!files[key].path
+      const file: any = files[key]
+      return typeof file === 'string' || !!file.path
     })
     .map(key => {
-      let file = files[key]
+      const file: any = files[key]
       if (typeof file === 'string') {
         return { from: file }
       }
@@ -51,9 +54,8 @@ export function getBuildCopyFiles(files) {
     })
 }
 
-export function getBuildExternals(files) {
-  const ret = {}
-
+export function getBuildExternals(files: FilesMap): FilesMap {
+  const ret: FilesMap = {}
   Object.keys(files).forEach(key => {
     const file = files[key]
     if (typeof file === 'string') {
@@ -65,11 +67,11 @@ export function getBuildExternals(files) {
   return ret
 }
 
-export function getBuild4DevelopmentENV(filesMap) {
-  let ret = []
+export function getBuild4DevelopmentENV(filesMap: FilesMap) {
+  const ret: File[] = []
   Object.keys(filesMap).forEach(key => {
-    let line = filesMap[key]
-    let path = line.path
+    const line: any = filesMap[key]
+    const path = line.path
     if (line.name && path) {
       ret.push(path)
     }
@@ -77,13 +79,13 @@ export function getBuild4DevelopmentENV(filesMap) {
   return ret
 }
 
-export function getBuild4ProductionENV(filesMap) {
-  let ret = []
+export function getBuild4ProductionENV(filesMap: FilesMap) {
+  const ret: File[] = []
   Object.keys(filesMap).forEach(key => {
-    let line = filesMap[key]
+    const line: any = filesMap[key]
     let path = line.path
     if (line.name && path) {
-      let paths = path.split('/')
+      const paths = path.split('/')
       path = paths[paths.length - 1]
       ret.push(path)
     }
@@ -91,7 +93,7 @@ export function getBuild4ProductionENV(filesMap) {
   return ret
 }
 
-export function getBuildHTMLData(filesMap, env) {
+export function getBuildHTMLData(filesMap: FilesMap, env: ENVValue) {
   switch (env) {
     case 'production':
     case 'beta':
@@ -101,15 +103,8 @@ export function getBuildHTMLData(filesMap, env) {
   }
 }
 
-export function getBuildHTML(context) {
-  const {
-    externals = {},
-    sdks = {},
-    DLL_FILENAME,
-    ENV,
-    htmlWebpackPluginOptions,
-    compress
-  } = context
+export function getBuildHTML(context: Context) {
+  const { externals = {}, sdks = {}, DLL_FILENAME, ENV, htmlWebpackPluginOptions, compress } = context
 
   let entry = context.entry || context.packageMap.entry || getExampleEntry(context)
 
@@ -143,7 +138,7 @@ export function getBuildHTML(context) {
     }
 
     if (DLL_FILENAME) {
-      scripts.push(DLL_FILENAME)
+      scripts.push(DLL_FILENAME as string)
     }
 
     return {
@@ -174,23 +169,12 @@ export function getBuildHTML(context) {
   })
 }
 
-export function createDomain({ host, port }) {
+export function createDomain({ host, port }: { host: string; port: string | number }) {
   return `http://${host}:${port}`
 }
 
-export function getNodeVersion(packageMap) {
-  const emptyBuildIns = [
-    'child_process',
-    'cluster',
-    'dgram',
-    'dns',
-    'fs',
-    'module',
-    'net',
-    'readline',
-    'repl',
-    'tls'
-  ]
+export function getNodeVersion(packageMap: PackageMap) {
+  const emptyBuildIns = ['child_process', 'cluster', 'dgram', 'dns', 'fs', 'module', 'net', 'readline', 'repl', 'tls']
 
   const browser = packageMap.browser || {}
 
@@ -202,7 +186,7 @@ export function getNodeVersion(packageMap) {
   }, {})
 }
 
-export function getBuildSourceMap(devtool = false, ENV) {
+export function getBuildSourceMap(devtool: boolean | string = false, ENV: ENV) {
   /******************
    *#source-map 编译过慢
    * production 环境不需要
@@ -216,14 +200,14 @@ export function getBuildSourceMap(devtool = false, ENV) {
   return devtool
 }
 
-export function getBuildTemplateParametersWithScripts(scripts) {
-  return (compilation, assets, options) => {
+export function getBuildTemplateParametersWithScripts(scripts: any[]) {
+  return (compilation: any, assets: any, options: any) => {
     const entryName = options.entryName
     const stats = compilation.getStats().toJson()
     const currentAssets = stats.entrypoints[entryName].assets
 
-    const js = currentAssets.filter(n => path.extname(n) === '.js')
-    const css = currentAssets.filter(n => path.extname(n) === '.css')
+    const js = currentAssets.filter((n: any) => path.extname(n) === '.js')
+    const css = currentAssets.filter((n: any) => path.extname(n) === '.css')
 
     assets.js = unique(scripts.concat(assets.js).concat(js))
     assets.css = unique(assets.css.concat(css))
@@ -243,31 +227,30 @@ export function getBuildTemplateParametersWithScripts(scripts) {
   }
 }
 
-function unique(array) {
+function unique(array: any[]) {
   return array.filter((item, index, array) => array.indexOf(item) === index)
 }
 
-export function getOptions(options, defaultOptions = {}) {
-  return options === true ? defaultOptions : options
+export function getOptions<T>(options: boolean | string | object, defaultOptions: any = {}): T {
+  return options === true ? (defaultOptions as T) : ((options as unknown) as T)
 }
 
-export function PromiseDefer() {
-  let resolve = void 0
-  let reject = void 0
-  let promise = new Promise((rs, rj) => {
+export function PromiseDefer<T>() {
+  let resolve: Function = void 0
+  let reject: Function = void 0
+  const promise = new Promise<T>((rs, rj) => {
     resolve = rs
     reject = rj
   })
   return { promise, resolve, reject }
 }
 
-export function getExampleEntry(context) {
+export function getExampleEntry(context: Context) {
   if (!context.ENV.isDevelopment) {
     return null
   }
 
-  let entry = null
-
+  let entry: Entry = null
   ;['js', 'jsx', 'ts', 'tsx'].forEach(ext => {
     if (fs.existsSync(path.join(context.DIRs.root, 'example', `index.${ext}`))) {
       entry = `./example/index.${ext}`

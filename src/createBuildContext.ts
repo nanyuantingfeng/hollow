@@ -3,9 +3,10 @@
  **************************************************/
 import compose from 'koa-compose'
 import { mwsBuild } from './mws'
+import { Context } from './types'
 
-export default function(args) {
-  const context = {
+export default function createBuildContext(args: any): Promise<Context> {
+  const context: Context = {
     cwd: process.cwd(),
     files: {},
     externals: {},
@@ -20,5 +21,6 @@ export default function(args) {
 
   const { cwd, config } = context
 
-  return compose(mwsBuild(cwd, config))(context)
+  // @ts-ignore
+  return compose<Context>(mwsBuild(cwd, config))(context)
 }
