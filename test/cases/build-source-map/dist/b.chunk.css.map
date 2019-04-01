@@ -1,1 +1,1 @@
-{"version":3,"file":"b.chunk.css","sources":["/Users/nanyuantingfeng/Repositories/github/hollow-cli/test/cases/build-source-map/index.css"],"sourcesContent":["body {\n  background-color: #ffffff;\n}"],"mappings":"AAAA;AACA;AACA;","sourceRoot":""}
+{"version":3,"file":"b.chunk.css","sources":["webpack:///index.css"],"sourcesContent":["body {\n  background-color: #ffffff;\n}"],"mappings":"AAAA;AACA;AACA;","sourceRoot":""}

@@ -18,7 +18,7 @@ export default async function(context, next) {
         },
         modules: false,
         useBuiltIns: 'entry',
-        corejs: 2
+        corejs: 3
       }
     ],
     '@babel/preset-react'
