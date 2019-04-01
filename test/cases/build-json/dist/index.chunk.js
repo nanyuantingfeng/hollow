@@ -8,14 +8,7 @@ module.exports = {"entry":{"index":"./index.js"},"test":{"a":{"b":{"c":false}}}}
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = {
-	"a": 99,
-	"ddd": false,
-	"dccc": [],
-	"de": {
-		"xxx9-00": 99
-	}
-}
+module.exports = {a:99,ddd:false,dccc:[],de:{'xxx9-00':99}}
 
 /***/ }),
 /* 2 */
