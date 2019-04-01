@@ -9,6 +9,7 @@
     "moduleResolution": "node",
     "jsx": "react",
     "esModuleInterop": true,
+    "strictFunctionTypes": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -39,5 +40,6 @@
       "es2018",
       "es2015.iterable"
     ]
-  }
+  },
+  "exclude": ["**/test/**", "**/dist/**"]
 }
