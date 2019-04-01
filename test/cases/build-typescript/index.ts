@@ -1,6 +1,8 @@
 /**************************************************
  * Created by nanyuantingfeng on 2018/9/6 10:38.
  **************************************************/
-import X, { Hello, O, PropsXZ } from './X'
+import X from './X'
 
-export { X, Hello, O, PropsXZ }
+export { X }
+
+export * from './X'
