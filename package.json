@@ -1,11 +1,16 @@
 {
   "name": "hollow-cli",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "Hollow CLI",
   "license": "MIT",
+  "author": "nanyuantingfeng",
+  "email": "nanyuantingfeng@aliyun.com",
   "main": "./lib/index.js",
   "module": "./esm/index.js",
   "types": "./esm/index.d.ts",
+  "bin": {
+    "hollow": "./bin/index"
+  },
   "scripts": {
     "build": "npm run tsc && npm run optimize && npm run copy",
     "optimize": "npm run babel:lib & npm run babel:esm",
