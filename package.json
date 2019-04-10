@@ -1,6 +1,6 @@
 {
   "name": "hollow-cli",
-  "version": "2.0.0-beta.5",
+  "version": "2.0.0-beta.6",
   "description": "Hollow CLI",
   "license": "MIT",
   "author": "nanyuantingfeng",
@@ -14,7 +14,7 @@
   "scripts": {
     "build": "npm run tsc && npm run optimize && npm run copy",
     "optimize": "npm run babel:lib & npm run babel:esm",
-    "copy": "cp -R package.json README.md .npmignore bin dist",
+    "copy": "cp -R assets bin tsconfig.json package.json README.md .npmignore dist",
     "babel:lib": "BABEL_ENV=lib babel dist/lib --out-dir dist/lib",
     "babel:esm": "BABEL_ENV=esm babel dist/esm --out-dir dist/esm",
     "publish2npm": "npm run build && npm publish dist",
