@@ -21,7 +21,7 @@ export default async function mwPlugins(context: Context, next: Next) {
 
   next()
 
-  const { compress, plugins, dll, ENV, aggressive = false } = context
+  const { compress, plugins, dll, ENV, aggressive = false, __IS_BUILD_LIBRARY__ } = context
 
   context.webpackConfig.optimization = context.webpackConfig.optimization || {}
 
@@ -34,7 +34,7 @@ export default async function mwPlugins(context: Context, next: Next) {
 
       // Keep the runtime chunk seperated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
-      runtimeChunk: !(context.webpackConfig.target && context.webpackConfig.output.libraryTarget),
+      runtimeChunk: !__IS_BUILD_LIBRARY__,
 
       //common
       removeAvailableModules: true,

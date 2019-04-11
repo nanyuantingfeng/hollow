@@ -109,5 +109,7 @@ export type Context = {
     [p: string]: any
   }
 
+  __IS_BUILD_LIBRARY__?: boolean
+
   [key: string]: any
 }

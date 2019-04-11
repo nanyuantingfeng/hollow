@@ -59,7 +59,20 @@ function getCustomConfig(cwd: string, config: Function | string): Middleware<Con
     }
   }
 
-  return 'function' === typeof cc ? cc : ctx => (ctx.webpackConfig = merge(ctx.webpackConfig, cc as object))
+  if ('function' === typeof cc) {
+    return cc
+  }
+
+  if ('object' === typeof cc) {
+    return async ctx => {
+      ctx.webpackConfig = merge(ctx.webpackConfig, cc as any)
+      if ((cc as any).target && (cc as any).output.libraryTarget) {
+        ctx.__IS_BUILD_LIBRARY__ = true
+      }
+    }
+  }
+
+  return null
 }
 
 export function mwsBuild(cwd: string, config: Function | string): Middleware<Context>[] {

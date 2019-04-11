@@ -6,12 +6,16 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 
 import { DefinePlugin, ProvidePlugin } from './plugins'
 import { getBuildCopyFiles, getBuildExternals, getBuildHTML } from './util'
-import { Context, FilesMap, Next } from './types'
+import { Context, Next } from './types'
 
 export default async function mwMultiEntryHTML(context: Context, next: Next) {
   next()
 
-  const { packageMap, plugins, ENV } = context
+  const { packageMap, plugins, ENV, __IS_BUILD_LIBRARY__ } = context
+
+  if (__IS_BUILD_LIBRARY__ === true) {
+    return
+  }
 
   /***********************
    * copy文件到输出目录
