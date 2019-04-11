@@ -80,6 +80,9 @@ test('support css-modules', async () => {
 test('support custom-path', async () => {
   await testCase({ config: 'webpack.config.path.js' }, 'build-custom-path')
 })
+test('build-custom-config-object', async () => {
+  await testCase({}, 'build-custom-config-object')
+})
 
 test('support custom-plugins', async () => {
   await testCase({ hash: true }, 'build-custom-plugins')
@@ -144,6 +147,9 @@ test('support source-map', async () => {
 })
 test('support svg', async () => {
   await testCase({}, 'build-svg')
+})
+test('support target-library', async () => {
+  await testCase({}, 'build-target-library')
 })
 
 test('support theme', async () => {

@@ -1,12 +1,11 @@
 /**************************************************
  * Created by nanyuantingfeng on 27/10/2017 16:25.
  **************************************************/
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import LodashWebpackPlugin from 'lodash-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
-import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
-
 import path from 'path'
 
 import { ProgressPlugin, IgnorePlugin, AggressiveSplittingPlugin } from './plugins'
@@ -35,7 +34,7 @@ export default async function mwPlugins(context: Context, next: Next) {
 
       // Keep the runtime chunk seperated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
-      runtimeChunk: true,
+      runtimeChunk: !(context.webpackConfig.target && context.webpackConfig.output.libraryTarget),
 
       //common
       removeAvailableModules: true,

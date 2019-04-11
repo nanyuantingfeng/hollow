@@ -16,6 +16,7 @@ import mwDLL from './mwDLL'
 import mwPWA from './mwPWA'
 import { Middleware } from 'koa-compose'
 import { Context } from './types'
+import merge from 'webpack-merge'
 
 async function noop() {}
 
@@ -52,13 +53,13 @@ function getCustomConfig(cwd: string, config: Function | string): Middleware<Con
     let p = paths[i]
     let pp = path.join(cwd, p)
     if (fs.existsSync(pp)) {
-      console.log(`>>> ${pp}`)
+      console.info(`${pp}`)
       cc = require(pp)
       break
     }
   }
 
-  return cc
+  return 'function' === typeof cc ? cc : ctx => (ctx.webpackConfig = merge(ctx.webpackConfig, cc as object))
 }
 
 export function mwsBuild(cwd: string, config: Function | string): Middleware<Context>[] {

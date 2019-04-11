@@ -119,6 +119,7 @@ export function getBuildHTML(context: Context) {
   const entryNames = Object.keys(entry)
 
   const options = {
+    chunksSortMode: 'none',
     template: path.join(__dirname, '../assets/index.hbs'),
     favicon: path.join(__dirname, '../assets/favicon.ico'),
     ...htmlWebpackPluginOptions

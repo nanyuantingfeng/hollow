@@ -7,6 +7,7 @@ import { Context, Next } from './types'
 import { Configuration } from 'webpack'
 import * as webpack from 'webpack'
 import Devtool = webpack.Options.Devtool
+import merge from 'webpack-merge'
 
 export default async function mwBuild(context: Context, next: Next) {
   context.output = {}
@@ -85,7 +86,7 @@ export default async function mwBuild(context: Context, next: Next) {
     ...context.webpackConfig
   }
 
-  const webpackConfig = (context.webpackConfig = config)
+  const webpackConfig = (context.webpackConfig = merge(context.webpackConfig, config))
 
   if (outputPath) {
     webpackConfig.output.path = path.join(cwd, outputPath)
