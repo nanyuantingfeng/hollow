@@ -21,7 +21,7 @@ export default async function mwPlugins(context: Context, next: Next) {
 
   next()
 
-  const { compress, plugins, dll, ENV, aggressive = false, __IS_BUILD_LIBRARY__ } = context
+  const { compress, plugins, dll, ENV, aggressive = false, __IS_BUILD_LIBRARY__, optimization } = context
 
   context.webpackConfig.optimization = context.webpackConfig.optimization || {}
 
@@ -52,7 +52,9 @@ export default async function mwPlugins(context: Context, next: Next) {
       providedExports: true,
       noEmitOnErrors: true,
       namedModules: ENV.isDevelopment,
-      namedChunks: ENV.isDevelopment
+      namedChunks: ENV.isDevelopment,
+
+      ...optimization
     }
 
     if (aggressive) {
