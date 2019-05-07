@@ -130,7 +130,7 @@ function fb() {
     return fc();
   });
 }
-// CONCATENATED MODULE: /Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/workerize-loader/dist/rpc-worker-loader.js!/Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/happypack/loader.js??ref--4-1!./a.worker.js
+// CONCATENATED MODULE: /Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/workerize-loader/dist/rpc-worker-loader.js!/Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/babel-loader/lib??ref--4-1!./a.worker.js
 /**************************************************
  * Created by nanyuantingfeng on 28/11/2017 10:57.
  **************************************************/

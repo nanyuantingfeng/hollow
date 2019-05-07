@@ -128,7 +128,7 @@ function fb() {
     });
 }
 
-// CONCATENATED MODULE: /Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/workerize-loader/dist/rpc-worker-loader.js!/Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/happypack/loader.js??ref--5-1!./a.worker.ts
+// CONCATENATED MODULE: /Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/workerize-loader/dist/rpc-worker-loader.js!/Users/nanyuantingfeng/Repositories/github/hollow-cli/node_modules/ts-loader??ref--5-1!./a.worker.ts
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "aaaa", function() { return aaaa; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bbbb", function() { return bbbb; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cccc", function() { return cccc; });
