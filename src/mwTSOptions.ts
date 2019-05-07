@@ -25,25 +25,24 @@ export default async function(context: Context, next: Next) {
 
   context.typescriptOptions = context.tsOptions = {
     transpileOnly: true,
-    happyPackMode: true,
     experimentalWatchApi: true,
     compilerOptions: options.compilerOptions
   }
 
   next()
 
-  const { importPluginOptions, useGQL } = context
+  const { importPluginOptions, useGQL = true } = context
 
   context.tsOptions.getCustomTransformers = () => {
     const before: any[] = []
 
+    if (useGQL) {
+      before.push(getTransformer())
+    }
+
     if (importPluginOptions) {
       before.push(...importPluginOptions.map(o => tsImportPluginFactory(o)))
     }
-
-    if (useGQL) {
-    }
-    before.push(getTransformer())
 
     return { before }
   }

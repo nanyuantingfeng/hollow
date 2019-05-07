@@ -6,3 +6,7 @@ import X from './X'
 export { X }
 
 export * from './X'
+
+function ZZZ() {
+  return import('./Y')
+}

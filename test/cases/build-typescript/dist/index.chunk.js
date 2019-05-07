@@ -41,7 +41,7 @@ function getExclamationMarks(numChars) {
     return Array(numChars + 1).join('!');
 }
 var X_LL = (function (_super) {
-    tslib_es6["a" /* __extends */](LL, _super);
+    tslib_es6["b" /* __extends */](LL, _super);
     function LL() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
@@ -60,6 +60,9 @@ var O = react_default.a.createElement(X_LL, { name: 'x' });
 
 
 
+function ZZZ() {
+    return __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "./Y.tsx"));
+}
 
 
 /***/ })

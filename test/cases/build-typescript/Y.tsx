@@ -18,6 +18,6 @@ export default class Y extends React.Component {
   }
 }
 
-export function demo(...args) {
+export function demo(...args: any[]) {
   return [...args, 9990000, 21]
 }
