@@ -1,0 +1,8 @@
+query EEEEEEEE {
+    clusters {
+        id
+        name
+        endpoint
+        secret
+    }
+}

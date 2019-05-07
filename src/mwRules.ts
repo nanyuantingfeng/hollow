@@ -1,11 +1,9 @@
 /**************************************************
  * Created by nanyuantingfeng on 27/10/2017 16:28.
  **************************************************/
-import os from 'os'
 import path from 'path'
 import { WatchIgnorePlugin } from './plugins'
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin'
-import HappyPack from 'happypack'
 import { Context, Next, PackageMap } from './types'
 
 const REG_NODE_MODULES = /node_modules/
@@ -32,41 +30,13 @@ function getThemeMap(packageMap: PackageMap, cwd: string) {
 }
 
 function getLoaderMode(context: Context) {
-  const { enableHappyPack = true, importPluginOptions } = context
+  const { importPluginOptions } = context
 
   if (importPluginOptions && !Array.isArray(importPluginOptions)) {
     throw new Error('context.importOptions must be an array')
   }
 
-  return !importPluginOptions && enableHappyPack ? happypackLoaders(context) : commonLoaders(context)
-}
-
-function happypackLoaders(context: Context) {
-  const { JSX_LOADER, TSX_LOADER } = commonLoaders(context)
-  const THREAD_POOL_CPU_SIZE = os.cpus().length
-  const threadPool = HappyPack.ThreadPool({ size: THREAD_POOL_CPU_SIZE })
-  const { plugins } = context
-
-  plugins.push(
-    new HappyPack({
-      id: 'jsx',
-      threadPool,
-      loaders: JSX_LOADER
-    })
-  )
-
-  plugins.push(
-    new HappyPack({
-      id: 'tsx',
-      threadPool,
-      loaders: TSX_LOADER
-    })
-  )
-
-  return {
-    JSX_LOADER: [{ loader: 'happypack/loader', options: { id: 'jsx' } }],
-    TSX_LOADER: [{ loader: 'happypack/loader', options: { id: 'tsx' } }]
-  }
+  return commonLoaders(context)
 }
 
 function commonLoaders(context: Context) {

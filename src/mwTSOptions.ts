@@ -4,6 +4,7 @@
 import fs from 'fs'
 import path from 'path'
 import tsImportPluginFactory from 'ts-import-plugin'
+import { getTransformer } from 'ts-transform-graphql-tag'
 import { Context, Next } from './types'
 
 export default async function(context: Context, next: Next) {
@@ -31,11 +32,19 @@ export default async function(context: Context, next: Next) {
 
   next()
 
-  const { importPluginOptions } = context
+  const { importPluginOptions, useGQL } = context
 
-  if (importPluginOptions) {
-    context.tsOptions.getCustomTransformers = () => ({
-      before: importPluginOptions.map(o => tsImportPluginFactory(o))
-    })
+  context.tsOptions.getCustomTransformers = () => {
+    const before: any[] = []
+
+    if (importPluginOptions) {
+      before.push(...importPluginOptions.map(o => tsImportPluginFactory(o)))
+    }
+
+    if (useGQL) {
+    }
+    before.push(getTransformer())
+
+    return { before }
   }
 }

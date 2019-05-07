@@ -115,6 +115,10 @@ test('support environment-production', async () => {
 test('support font', async () => {
   await testCase({}, 'build-font')
 })
+
+test('support gql', async () => {
+  await testCase({}, 'build-gql')
+})
 test('support hash-map', async () => {
   await testCase({ hash: true }, 'build-hash-map')
 })

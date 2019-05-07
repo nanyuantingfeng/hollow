@@ -47,6 +47,8 @@ export default async function mwBuild(context: Context, next: Next) {
         '.json5',
         '.worker.js',
         '.worker.jsx',
+        '.gql',
+        '.graphql',
         '.mjs'
       ],
       alias: {
@@ -71,7 +73,7 @@ export default async function mwBuild(context: Context, next: Next) {
     devtool: getBuildSourceMap(devtool, ENV) as Devtool,
 
     module: {
-      strictExportPresence: true,
+      strictExportPresence: false,
       noParse: [/moment$/],
       rules,
       unknownContextCritical
