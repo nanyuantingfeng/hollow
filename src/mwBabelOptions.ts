@@ -40,6 +40,7 @@ export default async function mwBabelOptions(context: Context, next: Next) {
         legacy: true
       }
     ],
+    'react-hot-loader/babel',
     [
       '@babel/plugin-proposal-class-properties',
       {
