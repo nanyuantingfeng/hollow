@@ -50,7 +50,7 @@ export default async function mwDevServer(context: Context, next: Next) {
     contentBase: DIRs.root,
 
     // By default files from `contentBase` will not trigger a page reload.
-    watchContentBase: true,
+    watchContentBase: false,
 
     // Enable gzip compression of generated files.
     compress: true,
