@@ -97,6 +97,9 @@ test('support decorator', async () => {
 test('support dynamic import()', async () => {
   await testCase({ hash: true, compress: false }, 'build-dynamic-import')
 })
+test('support dynamic import()-ts', async () => {
+  await testCase({ hash: true, compress: false }, 'build-dynamic-import-ts')
+})
 test('support dynamic import() sync', async () => {
   await testCase({ hash: true, compress: false }, 'build-dynamic-import-sync')
 })
