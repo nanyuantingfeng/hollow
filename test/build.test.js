@@ -77,18 +77,16 @@ test('support common', async () => {
 test('support css-modules', async () => {
   await testCase({}, 'build-css-modules')
 })
-test('support custom-path', async () => {
-  await testCase({ config: 'webpack.config.path.js' }, 'build-custom-path')
-})
 test('build-custom-config-object', async () => {
   await testCase({}, 'build-custom-config-object')
 })
+test('support custom-path', async () => {
+  await testCase({ config: 'webpack.config.path.js' }, 'build-custom-path')
+})
+
 
 test('support custom-plugins', async () => {
   await testCase({ hash: true }, 'build-custom-plugins')
-})
-test('support custom-rules', async () => {
-  await testCase({ hash: false }, 'build-custom-rules')
 })
 
 test('support decorator', async () => {
@@ -145,6 +143,9 @@ test('support less', async () => {
 test('support lodash', async () => {
   await testCase({ hash: false }, 'build-lodash')
 })
+test('support lodash-ts', async () => {
+  await testCase({ hash: false }, 'build-lodash-ts')
+})
 
 test('support normal', async () => {
   await testCase({ hash: true }, 'build-normal')
@@ -178,7 +179,7 @@ test('should build-no-entry', async () => {
     await testCase({}, 'build-no-entry')
   } catch (e) {
     expect(e.name).toEqual('NoEntry')
-    expect(e.message).toEqual('no webpack entry found')
+    expect(e.message).toEqual('entry is an invalid value')
   }
 })
 

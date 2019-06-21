@@ -4,9 +4,9 @@
 
 
 				var addMethods = __webpack_require__(2)
-				var methods = []
+				var methods = ["aaaa","bbbb","cccc"]
 				module.exports = function() {
-					var w = new Worker(__webpack_require__.p + "fa03aebcfb9945b8ba51.worker.js", { name: "[hash].worker.js" })
+					var w = new Worker(__webpack_require__.p + "5aadde545fd8f15fb40b.worker.js", { name: "[hash].worker.js" })
 					addMethods(w, methods)
 					
 					return w
@@ -23,16 +23,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _a_worker__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_a_worker__WEBPACK_IMPORTED_MODULE_0__);
 
 var worker = new _a_worker__WEBPACK_IMPORTED_MODULE_0___default.a();
-worker.postMessage({
-  a: 1
-});
-
-worker.onmessage = function (event) {};
-
-worker.addEventListener('message', function (e) {
-  console.log(e.data);
-}, false);
-console.log(1);
+worker.aaaa().then(function (f) {});
+worker.bbbb().then(function (f) {});
+worker.cccc().then(function (f) {});
+worker.terminate();
 
 /***/ }),
 /* 2 */

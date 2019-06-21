@@ -2121,6 +2121,9 @@ html {
   -webkit-transition: border-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), padding 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: border-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), padding 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
+.ant-menu-submenu-selected {
+  color: #1890ff;
+}
 .ant-menu-item:active,
 .ant-menu-submenu-title:active {
   background: #e6f7ff;
@@ -2309,7 +2312,6 @@ html {
   background: #fff;
   background: rgba(0, 0, 0, 0.65) \9;
   background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, 0.65)), to(rgba(0, 0, 0, 0.65)));
-  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65));
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65));
   background-image: none \9;
   border-radius: 2px;
@@ -2344,7 +2346,6 @@ html {
 .ant-menu-submenu-vertical-right > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before,
 .ant-menu-submenu-inline > .ant-menu-submenu-title:hover .ant-menu-submenu-arrow::before {
   background: -webkit-gradient(linear, left top, right top, from(#1890ff), to(#1890ff));
-  background: -webkit-linear-gradient(left, #1890ff, #1890ff);
   background: linear-gradient(to right, #1890ff, #1890ff);
 }
 .ant-menu-submenu-inline > .ant-menu-submenu-title .ant-menu-submenu-arrow::before {
@@ -2919,6 +2920,7 @@ html {
   margin: 0;
   padding: 0;
   font-variant: tabular-nums;
+  line-height: 1.5;
   list-style: none;
   -webkit-font-feature-settings: 'tnum';
           font-feature-settings: 'tnum';
@@ -2929,7 +2931,7 @@ html {
   padding: 4px 11px;
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 32px;
   background-color: #fff;
   background-image: none;
   border: 1px solid #d9d9d9;
@@ -2985,15 +2987,18 @@ textarea.ant-input {
   vertical-align: bottom;
   -webkit-transition: all 0.3s, height 0s;
   transition: all 0.3s, height 0s;
+  line-height: 1.5;
 }
 .ant-input-lg {
   height: 40px;
   padding: 6px 11px;
   font-size: 16px;
+  line-height: 40px;
 }
 .ant-input-sm {
   height: 24px;
   padding: 1px 7px;
+  line-height: 24px;
 }
 .ant-input-group {
   -webkit-box-sizing: border-box;
@@ -3132,11 +3137,13 @@ textarea.ant-input {
   height: 40px;
   padding: 6px 11px;
   font-size: 16px;
+  line-height: 40px;
 }
 .ant-input-group-sm .ant-input,
 .ant-input-group-sm > .ant-input-group-addon {
   height: 24px;
   padding: 1px 7px;
+  line-height: 24px;
 }
 .ant-input-group-lg .ant-select-selection--single {
   height: 40px;

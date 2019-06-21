@@ -1,19 +1,16 @@
 .index {
   color: red;
   -webkit-transform: translateX(1);
-      -ms-transform: translateX(1);
           transform: translateX(1);
 }
 .index2 {
   color: red;
   -webkit-transform: translateX(1);
-      -ms-transform: translateX(1);
           transform: translateX(1);
 }
 .index3 {
   color: red;
   -webkit-transform: translateX(1);
-      -ms-transform: translateX(1);
           transform: translateX(1);
 }
 .index3 :global {
