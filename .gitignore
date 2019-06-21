@@ -3,6 +3,5 @@ node_modules/
 .idea/
 .nyc_output/
 coverage/
-dist/
 demo/
 build/

@@ -1,0 +1,10 @@
+last 2 versions
+Firefox >=33
+> 1%
+IE >=10
+iOS >=8
+Android >=4
+chrome >=39
+Edge >=12
+Node >=4
+Safari >=9

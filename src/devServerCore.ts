@@ -6,7 +6,7 @@ import { createDomain, PromiseDefer } from './util'
 import Server, { Configuration } from 'webpack-dev-server'
 import createLogger from 'webpack-dev-server/lib/utils/createLogger'
 import { Context } from './types'
-import Signals = NodeJS.Signals
+type Signals = NodeJS.Signals
 
 function colorInfo(msg: string) {
   return `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`

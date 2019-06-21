@@ -6,8 +6,8 @@ import { checkWebpackConfig, getNodeVersion, getBuildSourceMap } from './util'
 import { Context, Next } from './types'
 import { Configuration } from 'webpack'
 import * as webpack from 'webpack'
-import Devtool = webpack.Options.Devtool
 import merge from 'webpack-merge'
+type Devtool = webpack.Options.Devtool
 
 export default async function mwBuild(context: Context, next: Next) {
   context.output = {}

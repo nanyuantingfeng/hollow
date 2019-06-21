@@ -44,7 +44,7 @@ function commonLoaders(context: Context) {
 
   const JSX_LOADER = [{ loader: 'babel-loader', options: babelOptions } /*, getReplaceLodashLoader()*/]
 
-  const TSX_LOADER = [{ loader: 'ts-loader', options: tsOptions }]
+  const TSX_LOADER = [...JSX_LOADER, { loader: 'ts-loader', options: tsOptions }]
 
   return { JSX_LOADER, TSX_LOADER }
 }
@@ -120,8 +120,9 @@ export default async function mwRules(context: Context, next: Next) {
           loader: 'css-loader',
           options: {
             sourceMap: true,
-            modules: true,
-            localIdentName: '[local]___[hash:base64:5]'
+            modules: {
+              localIdentName: '[local]--[hash:base64:8]'
+            }
           }
         },
         { loader: 'postcss-loader', options: postcssOptions }
@@ -158,8 +159,9 @@ export default async function mwRules(context: Context, next: Next) {
           loader: 'css-loader',
           options: {
             sourceMap: true,
-            modules: true,
-            localIdentName: '[local]___[hash:base64:5]'
+            modules: {
+              localIdentName: '[local]--[hash:base64:8]'
+            }
           }
         },
         { loader: 'postcss-loader', options: postcssOptions },

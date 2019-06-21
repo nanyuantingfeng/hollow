@@ -8,13 +8,7 @@ import { Context, Next } from './types'
 export default async function mwPostCSSOptions(context: Context, next: Next) {
   context.postcssOptions = {
     sourceMap: true,
-    plugins: [
-      flexbugsfixes,
-      autoprefixer({
-        browsers: ['last 2 versions', 'Firefox ESR', '> 1%', 'ie >= 9', 'iOS >= 8', 'Android >= 4'],
-        flexbox: 'no-2009'
-      })
-    ]
+    plugins: [flexbugsfixes, autoprefixer({ flexbox: 'no-2009' })]
   }
 
   next()
