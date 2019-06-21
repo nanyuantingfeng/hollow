@@ -6,23 +6,19 @@
   "author": "nanyuantingfeng",
   "email": "nanyuantingfeng@aliyun.com",
   "main": "./lib/index.js",
-  "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "types": "./lib/index.d.ts",
   "bin": {
     "hollow": "./bin/index"
   },
   "scripts": {
-    "build": "npm run tsc && npm run optimize && npm run copy",
-    "optimize": "npm run babel:lib & npm run babel:esm",
-    "copy": "cp -R assets bin polyfill.js tsconfig.json package.json README.md .npmignore dist",
-    "babel:lib": "BABEL_ENV=lib babel dist/lib --out-dir dist/lib",
-    "babel:esm": "BABEL_ENV=esm babel dist/esm --out-dir dist/esm",
-    "publish2npm": "npm run build && npm publish dist",
+    "build": "npm run tsc && npm run copy",
+    "copy": "cp -R assets bin polyfill.js tsconfig.json package.json README.md .npmignore build-dist",
+    "publish2npm": "npm run build && npm publish build-dist",
     "lint:es": "eslint --ext .jsx,.js src",
     "lint:ts": "tslint -p tsconfig.json",
     "test:watch": "jest -o --watch",
     "test": "jest --coverage",
-    "tsc": "rm -rf dist && tsc -p tsconfig.esm.json && cp -R dist/esm dist/lib"
+    "tsc": "rm -rf build-dist && tsc -p tsconfig.lib.json"
   },
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0"
