@@ -104,7 +104,7 @@ export function getBuildHTMLData(filesMap: FilesMap, env: ENVValue) {
 }
 
 export function getBuildHTML(context: Context) {
-  const { externals = {}, sdks = {}, DLL_FILENAME, ENV, htmlWebpackPluginOptions, compress } = context
+  const { externals = {}, sdks = {}, DLL_FILENAME, ENV, htmlWebpackPluginOptions } = context
 
   let entry = context.entry || context.packageMap.entry || getExampleEntry(context)
 
@@ -119,7 +119,7 @@ export function getBuildHTML(context: Context) {
   const entryNames = Object.keys(entry)
 
   const options = {
-    chunksSortMode: 'none',
+    chunksSortMode: 'dependency',
     template: path.join(__dirname, '../assets/index.hbs'),
     favicon: path.join(__dirname, '../assets/favicon.ico'),
     ...htmlWebpackPluginOptions
@@ -146,25 +146,11 @@ export function getBuildHTML(context: Context) {
       PATHS: scripts,
       scripts,
       entryName: entryName,
+      cdnModule: entryName,
       filename: `${entryName}.html`,
       chunks: [entryName],
-      chunksSortMode: 'dependency',
       inject: true,
       templateParameters: getBuildTemplateParametersWithScripts(scripts),
-      minify: compress
-        ? {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeRedundantAttributes: true,
-            useShortDoctype: true,
-            removeEmptyAttributes: true,
-            removeStyleLinkTypeAttributes: true,
-            keepClosingSlash: true,
-            minifyJS: true,
-            minifyCSS: true,
-            minifyURLs: true
-          }
-        : null,
       ...options
     }
   })
@@ -205,12 +191,13 @@ export function getBuildTemplateParametersWithScripts(scripts: any[]) {
   return (compilation: any, assets: any, options: any) => {
     const entryName = options.entryName
     const stats = compilation.getStats().toJson()
-    const currentAssets = stats.entrypoints[entryName].assets
+    const currentAssets = stats.entrypoints[entryName].assets as string[]
 
-    const js = currentAssets.filter((n: any) => path.extname(n) === '.js')
-    const css = currentAssets.filter((n: any) => path.extname(n) === '.css')
+    const js = currentAssets.filter(n => path.extname(n) === '.js').map(a => fixPublicPath(compilation.options, a))
+    const css = currentAssets.filter(n => path.extname(n) === '.css').map(a => fixPublicPath(compilation.options, a))
+    const scripts2 = scripts.map(a => fixPublicPath(compilation.options, a))
 
-    assets.js = unique(scripts.concat(assets.js).concat(js))
+    assets.js = unique(scripts2.concat(assets.js).concat(js))
     assets.css = unique(assets.css.concat(css))
 
     return {
@@ -222,7 +209,8 @@ export function getBuildTemplateParametersWithScripts(scripts: any[]) {
         files: assets,
         options: options,
         scripts: js,
-        styles: css
+        styles: css,
+        cdnModule: entryName
       }
     }
   }
@@ -259,4 +247,25 @@ export function getExampleEntry(context: Context) {
   })
 
   return entry
+}
+
+export function fixPublicPath(options: any, url: string) {
+  if (/(http|https):\/\/([\w.]+\/?)\S*/.test(url)) {
+    return url
+  }
+
+  const slash = '/'
+  const { output } = options
+
+  if (output.publicPath.slice(-1) !== slash) {
+    output.publicPath += slash
+  }
+
+  let prefix = output.publicPath
+
+  if (prefix.slice(-1) !== slash) {
+    prefix += slash
+  }
+
+  return prefix + url
 }

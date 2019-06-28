@@ -14,6 +14,7 @@ import mwRules from './mwRules'
 import mwENV from './mwENV'
 import mwDLL from './mwDLL'
 import mwPWA from './mwPWA'
+import mwCDN from './mwCDN'
 import { Middleware } from 'koa-compose'
 import { Context } from './types'
 import merge from 'webpack-merge'
@@ -82,6 +83,7 @@ export function mwsBuild(cwd: string, config: Function | string): Middleware<Con
     mwENV,
     mwBuild,
     mwPWA,
+    mwCDN,
     mwMultiEntryHTML,
     mwDLL,
     mwPlugins,
@@ -100,6 +102,7 @@ export function mwsDevServer(cwd: string, config: Function | string): Middleware
     mwENV,
     mwBuild,
     mwPWA,
+    mwCDN,
     mwMultiEntryHTML,
     mwDLL,
     mwPlugins,

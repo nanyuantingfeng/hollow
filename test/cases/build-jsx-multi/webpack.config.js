@@ -12,7 +12,7 @@ module.exports = async function(context, next) {
 
     index1: ['es6-promise.auto.min.js', 'https://g.alicdn.com/xxxxxx/open/1.0.0/dingtalk.js'],
 
-    index2: ['es6-promise.auto.min.js', 'https://g.alicdn.com/xxxxxx/open/1.0.0/dingtalk.js']
+    index2: ['es6-promise.auto.min.js', 'mime.js', 'https://g.alicdn.com/xxxxxx/open/1.0.0/dingtalk.js']
   }
 
   const defines = { UPLOAD_INVOICE_FILE_URL: '"http://127.0.0.1:7367364"' }

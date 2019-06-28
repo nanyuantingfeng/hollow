@@ -30,3 +30,15 @@ declare module 'happypack' {
 
   export = Happypack
 }
+
+declare module 'webpack-cdn-plugin' {
+  import { Plugin } from 'webpack'
+
+  interface WebpackCdnPluginOptions {}
+
+  declare class WebpackCdnPlugin extends Plugin {
+    constructor(options: WebpackCdnPluginOptions)
+  }
+
+  export = WebpackCdnPlugin
+}

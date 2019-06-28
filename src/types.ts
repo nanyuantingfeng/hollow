@@ -41,6 +41,8 @@ export type PackageMap = {
 export type Context = {
   entry: Entry
   packageMap: PackageMap
+  cdnOptions: any
+
   ENV: ENV
   DIRs: {
     root: string // 项目根目录

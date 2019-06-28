@@ -67,6 +67,10 @@ beforeEach(() => {
 test('support autoprefix', async () => {
   await testCase({ compress: true }, 'build-autoprefix')
 })
+test('support cdn', async () => {
+  // process.env.ASSET_PATH = 'https://xxxx://xxxx/xxxx'
+  await testCase({ compress: false }, 'build-cdn')
+})
 
 test('support class-property', async () => {
   await testCase({}, 'build-class-property')
@@ -75,6 +79,7 @@ test('support common', async () => {
   await testCase({}, 'build-common')
 })
 test('support css-modules', async () => {
+  process.env.ASSET_PATH = 'https://xxxx://xxxx/xxxx'
   await testCase({}, 'build-css-modules')
 })
 test('build-custom-config-object', async () => {
@@ -83,7 +88,6 @@ test('build-custom-config-object', async () => {
 test('support custom-path', async () => {
   await testCase({ config: 'webpack.config.path.js' }, 'build-custom-path')
 })
-
 
 test('support custom-plugins', async () => {
   await testCase({ hash: true }, 'build-custom-plugins')
@@ -134,6 +138,7 @@ test('support jsx', async () => {
   await testCase({}, 'build-jsx')
 })
 test('support jsx-multi', async () => {
+  process.env.ASSET_PATH = 'http://s.xxx.c/'
   await testCase({}, 'build-jsx-multi')
 })
 
