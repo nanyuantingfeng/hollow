@@ -1,61 +1,78 @@
 /**************************************************
  * Created by nanyuantingfeng on 11/06/2017 05:43.
  **************************************************/
-import fs from 'fs'
 import path from 'path'
-import glob from 'glob'
-import build from '../src/fnBuild'
-import buildDll from '../src/fnBuildDLL'
 import shell from 'shelljs'
+import webpack from 'webpack'
+import fs from 'fs'
 
-function similarity(a, b) {
-  if (!a || !b || !a.length || !b.length) return 0
-  if (a === b) return 1
-  let d = leven(a.toLowerCase(), b.toLowerCase())
-  let longest = Math.max(a.length, b.length)
-  return (longest - d) / longest
-}
-
-function assert(distDir, _caseName) {
-  const expectDir = path.join(__dirname, 'reference', _caseName)
-  const actualFiles = glob.sync('**/*', { cwd: distDir, nodir: true })
-
-  actualFiles.forEach(file => {
-    const actualFile = fs.readFileSync(path.join(distDir, file), 'utf-8')
-    const expectFile = fs.readFileSync(path.join(expectDir, file), 'utf-8')
-    const sim = similarity(actualFile, expectFile)
-    expect(sim > 0.7).toBeTruthy()
-  })
-}
-
-function testCase(args, _case) {
+async function testCase(args, _case) {
   const cwd = path.join(__dirname, 'cases', _case)
   const outputPath = path.join(cwd, 'dist')
   shell.rm('-rf', outputPath)
   process.chdir(cwd)
-  return build({ cwd, compress: false, ...args })
-  //.then(() => assert(outputPath, _case))
+  const config = require('../webpack.entry.config')
+  const isNeedPatch = getCustomConfig(cwd, config)
+
+  if (isNeedPatch) config.patch()
+  const webpackConfig = config.toConfig()
+
+  return new Promise((resolve, reject) => {
+    webpack(webpackConfig).run((err, stats) => {
+      console.info(stats.toString({ colors: true }))
+      err ? reject(err) : resolve()
+    })
+  })
 }
 
-function assertDll(distDir, _caseName) {
-  const fileName = require(path.join(distDir, 'manifest.json')).name
+function getCustomConfig(cwd, config) {
+  if ('function' === typeof config) {
+    return config
+  }
 
-  const expectDir = path.join(__dirname, 'reference', _caseName)
-  const fileName2 = require(path.join(expectDir, 'manifest.json')).name
+  let paths = []
 
-  const actualFile = fs.readFileSync(path.join(distDir, fileName + '.js'), 'utf-8')
-  const expectFile = fs.readFileSync(path.join(expectDir, fileName2 + '.js'), 'utf-8')
-  const sim = similarity(actualFile, expectFile)
-  expect(sim > 0.7).toBeTruthy()
-}
+  switch (process.env.NODE_ENV) {
+    case 'production':
+      paths.push(...['build', 'production', 'prod'])
+      break
+    case 'development':
+      paths.push(...['development', 'develop', 'dev'])
+      break
+    case 'beta':
+      paths.push(...['beta', 'build', 'production', 'prod', 'development', 'develop', 'dev'])
+      break
+    default:
+      paths.push(process.env.NODE_ENV)
+      break
+  }
 
-function testCaseDll(args, _case) {
-  const cwd = path.join(__dirname, 'cases', _case)
-  const outputPath = path.join(cwd, 'dll')
-  shell.rm('-rf', outputPath)
-  process.chdir(cwd)
-  return buildDll({ cwd, compress: false, config: 'webpack.dll.js', ...args })
-  //.then(() => assertDll(outputPath, _case))
+  paths.push('config')
+  paths = paths.map(name => `webpack.${name}.js`)
+
+  typeof config === 'string' && paths.unshift(config)
+
+  let cc = c => c
+  let i = -1
+  while (++i < paths.length) {
+    let p = paths[i]
+    let pp = path.join(cwd, p)
+    if (fs.existsSync(pp)) {
+      console.info(`${pp}`)
+      cc = require(pp)
+      break
+    }
+  }
+
+  if ('function' === typeof cc) {
+    return cc(config)
+  }
+
+  if ('object' === typeof cc) {
+    return cc
+  }
+
+  return null
 }
 
 beforeEach(() => {
@@ -103,15 +120,13 @@ test('support dynamic import()-ts', async () => {
   await testCase({ hash: true, compress: false }, 'build-dynamic-import-ts')
 })
 test('support dynamic import() sync', async () => {
+  process.env.NODE_ENV = 'development'
   await testCase({ hash: true, compress: false }, 'build-dynamic-import-sync')
 })
 
 test('support environment-development', async () => {
   process.env.NODE_ENV = 'development'
   await testCase({}, 'build-env-development')
-})
-test('support environment-dll', async () => {
-  await testCaseDll({ compress: false }, 'build-env-dll')
 })
 test('support environment-production', async () => {
   await testCase({ compress: true }, 'build-env-production')

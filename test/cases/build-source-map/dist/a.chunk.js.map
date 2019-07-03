@@ -1,1 +1,0 @@
-{"version":3,"file":"a.chunk.js","sources":["webpack:///./index.css","webpack:///./a.js"],"sourcesContent":["// extracted by mini-css-extract-plugin","import './index.css'\n\nconsole.log('a')\n\nfunction AAX () {\n\n}\n\nAAX.prototype.demo = function () {\n\n}\n"],"mappings":";;;;AAAA;;;;;;;ACAA;AAAA;AAAA;AAAA;AAEA;AACA;AACA;AACA;AAGA;;;A","sourceRoot":""}

@@ -1,1 +1,0 @@
-{"version":3,"file":"b.chunk.js","sources":["webpack:///./index.css","webpack:///./b.js"],"sourcesContent":["// extracted by mini-css-extract-plugin","import './index.css';\nconsole.log('b');"],"mappings":";;;;AAAA;;;;;;;;ACAA;AAAA;AAAA;AAAA;AACA;;;A","sourceRoot":""}

@@ -1,21 +1,16 @@
 /***************************************************
  * Created by nanyuantingfeng on 2019-06-28 12:41. *
  ***************************************************/
-const path = require('path')
-
-module.exports = function(context) {
-  const {
-    ENV: { env, isDevelopment }
-  } = context
-
+module.exports = function(config) {
   function prefixReactURL(name) {
+    const env = process.env.NODE_ENV || 'development'
     const envU = env === 'beta' ? 'production' : env
     const useMin = envU === 'production'
     return `${name}.${envU}${useMin ? '.min' : ''}.js`
   }
 
   const modules = {
-    index: [
+    index2: [
       {
         name: 'react',
         var: 'React',
@@ -45,10 +40,7 @@ module.exports = function(context) {
     ]
   }
 
-  context.cdnOptions = {
-    prod: !isDevelopment,
-    modules: modules,
-    publicPath: './',
-    pathToNodeModules: path.resolve('..', '..', '..')
-  }
+  config.patch({ cdn: modules })
+
+  return false
 }

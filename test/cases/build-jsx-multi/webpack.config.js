@@ -2,7 +2,7 @@
  * Created by nanyuantingfeng on 25/08/2017 14:42.
  **************************************************/
 
-module.exports = async function(context, next) {
+module.exports = function(config) {
   const files = {
     mime: { name: 'mime', path: '../../../node_modules/mime/mime.js' }
   }
@@ -17,7 +17,5 @@ module.exports = async function(context, next) {
 
   const defines = { UPLOAD_INVOICE_FILE_URL: '"http://127.0.0.1:7367364"' }
 
-  context.files = files
-  context.sdks = sdks
-  context.defines = defines
+  config.patch({ files, sdks, defines })
 }

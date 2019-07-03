@@ -1,7 +1,6 @@
 /***************************************************
  * Created by nanyuantingfeng on 2019-06-25 18:56. *
  ***************************************************/
-
 const path = require('path')
 const { DefinePlugin } = require('webpack')
 const { cwd, isDevelopment, isBeta, env, packageMap } = require('./const.env')
