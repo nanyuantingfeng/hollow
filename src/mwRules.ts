@@ -54,7 +54,7 @@ export default async function mwRules(context: Context, next: Next) {
 
   next()
 
-  const { cwd, limit = 10240, ENV, packageMap, hash, plugins } = context
+  const { cwd, limit = 10240, ENV, packageMap, hash, plugins, imagePublicPath } = context
   const theme = getThemeMap(packageMap, cwd)
   const { postcssOptions, rules } = context
   const { JSX_LOADER, TSX_LOADER } = getLoaderMode(context)
@@ -228,7 +228,8 @@ export default async function mwRules(context: Context, next: Next) {
           loader: 'url-loader',
           options: {
             limit,
-            name: 'static/media/[name].[hash:8].[ext]'
+            name: 'static/media/[name].[hash:8].[ext]',
+            publicPath: imagePublicPath ? imagePublicPath : undefined
           }
         }
       ]
