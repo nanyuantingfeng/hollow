@@ -54,8 +54,8 @@ export default async function mwBuild(context: Context, next: Next) {
       alias: {
         ['@babel/runtime']: path.dirname(require.resolve('@babel/runtime/package.json')),
         ['react']: path.dirname(require.resolve('react/package.json')),
-        ['react-dom']: path.dirname(require.resolve('@hot-loader/react-dom/package.json')),
-        ['react-hot-loader']: path.dirname(require.resolve('react-hot-loader/package.json')),
+        ['react-dom']: path.dirname(require.resolve('react-dom/package.json')),
+        // ['react-hot-loader']: path.dirname(require.resolve('react-hot-loader/package.json')),
         ['babel-core']: path.dirname(require.resolve('babel-core/package.json')),
         ['tslib']: path.dirname(require.resolve('tslib/package.json')),
         ...alias
