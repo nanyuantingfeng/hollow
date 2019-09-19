@@ -48,9 +48,9 @@ export function getBuildCopyFiles(files: File[]): any {
     .map(key => {
       const file: any = files[key]
       if (typeof file === 'string') {
-        return { from: file }
+        return { from: file, to: key }
       }
-      return { from: file.path, to: file.to }
+      return { from: file.path, to: file.to || key }
     })
 }
 
