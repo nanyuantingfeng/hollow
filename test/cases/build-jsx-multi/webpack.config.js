@@ -8,11 +8,17 @@ module.exports = async function(context, next) {
   }
 
   const sdks = {
-    index0: ['es6-promise.auto.min.js', 'fetch.js'],
+    index0: ['es6-promise.auto.min.js', 'fetch.js', 'a.css', 'e.css', 'index0.css'],
 
-    index1: ['es6-promise.auto.min.js', 'https://g.alicdn.com/xxxxxx/open/1.0.0/dingtalk.js'],
+    index1: [
+      'ssss.css',
+      'e.css',
+      'index1.css',
+      'es6-promise.auto.min.js',
+      'https://g.alicdn.com/xxxxxx/open/1.0.0/dingtalk.js'
+    ],
 
-    index2: ['es6-promise.auto.min.js', 'mime.js', 'https://g.alicdn.com/xxxxxx/open/1.0.0/dingtalk.js']
+    index2: ['index2.css', 'es6-promise.auto.min.js', 'mime.js', 'https://g.alicdn.com/xxxxxx/open/1.0.0/dingtalk.js']
   }
 
   const defines = { UPLOAD_INVOICE_FILE_URL: '"http://127.0.0.1:7367364"' }

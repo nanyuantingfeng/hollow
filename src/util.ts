@@ -119,8 +119,7 @@ export function getBuildHTML(context: Context) {
   const entryNames = Object.keys(entry)
 
   const options = {
-    chunksSortMode: 'dependency',
-    template: path.join(__dirname, '../assets/index.hbs'),
+    template: path.join(__dirname, '../assets/index.ejs'),
     favicon: path.join(__dirname, '../assets/favicon.ico'),
     ...htmlWebpackPluginOptions
   }
@@ -143,14 +142,12 @@ export function getBuildHTML(context: Context) {
     }
 
     return {
-      PATHS: scripts,
-      scripts,
       entryName: entryName,
       cdnModule: entryName,
       filename: `${entryName}.html`,
       chunks: [entryName],
       inject: true,
-      templateParameters: getBuildTemplateParametersWithScripts(scripts),
+      templateParameters: getBuildTemplateParametersWithScripts(scripts, entryName),
       ...options
     }
   })
@@ -187,30 +184,15 @@ export function getBuildSourceMap(devtool: boolean | string = false, ENV: ENV) {
   return devtool
 }
 
-export function getBuildTemplateParametersWithScripts(scripts: any[]) {
+export function getBuildTemplateParametersWithScripts(sdk: any[], entryName: string) {
   return (compilation: any, assets: any, options: any) => {
-    const entryName = options.entryName
-    const stats = compilation.getStats().toJson()
-    const currentAssets = stats.entrypoints[entryName].assets as string[]
-
-    const js = currentAssets.filter(n => path.extname(n) === '.js').map(a => fixPublicPath(compilation.options, a))
-    const css = currentAssets.filter(n => path.extname(n) === '.css').map(a => fixPublicPath(compilation.options, a))
-    const scripts2 = scripts.map(a => fixPublicPath(compilation.options, a))
-
-    assets.js = unique(scripts2.concat(assets.js).concat(js))
-    assets.css = unique(assets.css.concat(css))
-
+    sdk = sdk.map(a => fixPublicPath(compilation.options, a))
+    const js = sdk.filter(n => path.extname(n) === '.js').map(a => fixPublicPath(compilation.options, a))
+    const css = sdk.filter(n => path.extname(n) === '.css').map(a => fixPublicPath(compilation.options, a))
     return {
-      compilation: compilation,
-      webpack: compilation.getStats().toJson(),
-      webpackConfig: compilation.options,
-
-      htmlWebpackPlugin: {
-        files: assets,
-        options: options,
-        scripts: js,
-        styles: css,
-        cdnModule: entryName
+      sdk: {
+        js,
+        css
       }
     }
   }

@@ -9,8 +9,21 @@
     <meta name="format-detection" content="email=no"/>
     <meta name="viewport"
           content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+
+
+    <%
+    for (item of sdk.css) { %><%
+        if (typeof item === 'string' || item instanceof String) { item = { href: item, rel: 'stylesheet' } } %>
+    <link<% for (key in item) { %> <%= key %>="<%= item[key] %>"<% } %> /><%
+    } %>
+
 </head>
 <body>
 <div id="root" ></div>
+<%
+for (item of sdk.js) { %><%
+    if (typeof item === 'string' || item instanceof String) { item = { src: item, type: 'text/javascript' } } %>
+<script<% for (key in item) { %> <%= key %>="<%= item[key] %>"<% } %>></script><%
+} %>
 </body>
 </html>

@@ -61,7 +61,7 @@ export default async function mwBabelOptions(context: Context, next: Next) {
 
   const {
     optimizeDynamicImport = context.ENV.isDevelopment,
-    optimizeLodash = true,
+    optimizeLodash = false,
     useBabelrc = false,
     importPluginOptions
   } = context
