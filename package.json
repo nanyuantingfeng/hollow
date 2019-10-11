@@ -60,7 +60,7 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18",
-    "typescript": "^3"
+    "typescript": "^3.6.4"
   },
   "dependencies": {
     "@babel/cli": "^7.6.3",
@@ -120,8 +120,7 @@
     "terser-webpack-plugin": "^2.1.2",
     "ts-loader": "^6.2.0",
     "ts-transform-graphql-tag": "^0.2.1",
-    "tslib": "^1",
-    "typescript": "^3",
+    "tslib": "^1.10.0",
     "url-loader": "^2.2.0",
     "webpack": "^4.41.0",
     "webpack-bundle-analyzer": "^3.5.2",

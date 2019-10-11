@@ -4,6 +4,5 @@
     "module": "commonjs",
     "outDir": "build-dist/lib",
     "moduleResolution": "node"
-  },
-  "exclude": ["**/__tests__/**", "**/example/**", "**/test/**"]
+  }
 }

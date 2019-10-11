@@ -11,7 +11,6 @@ import path from 'path'
 import { ProgressPlugin, IgnorePlugin, AggressiveSplittingPlugin } from './plugins'
 import { getProgressHandler, getOptions } from './util'
 import { Context, Next } from './types'
-import { fa } from "../test/cases/build-web-worker-ts/b";
 
 export default async function mwPlugins(context: Context, next: Next) {
   context.plugins = [
