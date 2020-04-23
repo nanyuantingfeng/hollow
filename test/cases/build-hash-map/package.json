@@ -1,7 +1,0 @@
-{
-  "name": "build-hash-map",
-  "version": "0.0.1",
-  "entry": {
-    "index": "./index.js"
-  }
-}

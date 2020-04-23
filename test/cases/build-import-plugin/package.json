@@ -1,6 +1,0 @@
-{
-  "name": "demo",
-  "entry": {
-    "index": "./index.tsx"
-  }
-}

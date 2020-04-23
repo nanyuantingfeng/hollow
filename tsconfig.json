@@ -2,19 +2,17 @@
   "compilerOptions": {
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "declaration": true,
     "target": "es5",
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
     "esModuleInterop": true,
-    "strictFunctionTypes": true,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noResolve": false,
     "removeComments": true,
     "strictNullChecks": false,
     "inlineSourceMap": false,
@@ -40,6 +38,5 @@
       "es2018",
       "es2015.iterable"
     ]
-  },
-  "exclude": ["**/test/**", "**/dist/**"]
+  }
 }

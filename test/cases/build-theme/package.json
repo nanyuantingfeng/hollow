@@ -1,6 +1,0 @@
-{
-  "entry": {
-    "index": "./index.js"
-  },
-  "theme": "./theme-config.js"
-}
