@@ -6,7 +6,7 @@ before_install:
 install:
 - npm install
 script:
-- npm run publish2npm
+- npm publish
 branches:
   only:
   - master
