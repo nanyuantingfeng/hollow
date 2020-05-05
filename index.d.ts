@@ -15,7 +15,7 @@ interface IPatchOptions {
   files: Record<string, string | { patch: string; to: string }>
   sdks: Record<string, string[]> & { ['*']?: string[] }
   entry: Record<string, string> | string
-  imports: Array<{ libraryName: string; style: boolean; libraryDirectory: string }>
+  imports: Array<{ libraryName: string; style: boolean; libraryDirectory?: string }>
   pxtorem: { rootValue: number; propWhiteList?: string[] }
   alias: Record<string, string>
 }
